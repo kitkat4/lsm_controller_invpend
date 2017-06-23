@@ -23,7 +23,18 @@ if __name__ == "__main__":
                                               theta_0 = 1.0,
                                               theta_dot_0 = 0.0)
 
+    result1_prev = np.zeros(2000)
+    result2_prev = np.zeros(2000)
+    result1 = np.zeros(2000)
+    result2 = np.zeros(2000)
     
+
+    for time in range(2000):
+
+        controller.simulate(1.0, 1.0, 0.0)
+        result1_prev[time] = controller.tau1
+        result2_prev[time] = controller.tau2
+
     # # before learning
     # for time in range(1000):
 
@@ -35,27 +46,37 @@ if __name__ == "__main__":
         
     # pend.plot()
 
-    # controller.train(theta = 1.0,
-    #                  theta_dot = 0.0,
-    #                  tau1_ref = 0.0,
-    #                  tau2_ref = 40.0,
-    #                  update_num = 10,
-    #                  sim_time = 1000.0,
-    #                  print_message = True)
+    controller.train(theta = 1.0,
+                     theta_dot = 0.0,
+                     tau1_ref = 0.0,
+                     tau2_ref = 40.0,
+                     update_num = 100,
+                     sim_time = 1000.0,
+                     print_message = True)
 
-    result = np.zeros(2000)
+
 
     for time in range(2000):
 
         # theta = pend.theta
         # theta_dot = pend.theta_dot
         controller.simulate(1.0, 1.0, 0.0)
-        result[time] = controller.get_tau()
+        result1[time] = controller.tau1
+        result2[time] = controller.tau2
         # pend.simulate_one_step(controller.get_tau(), 0.001)
 
-    print result.mean()
+    print "mean output before training: ", result1_prev.mean() - result2_prev.mean()
+    print "mean output after  training: ", result1.mean() - result2.mean()
 
-    plt.plot(result, '.')
+    plt.figure()
+    plt.plot(result1_prev, 'b.')
+    plt.plot(result1, 'r.')
+    plt.title("tau1")
+    plt.figure()
+    plt.plot(result2_prev, 'b.')
+    plt.plot(result2, 'r.')
+    plt.title("tau2")
+
     plt.show()
     
     # pend.plot()

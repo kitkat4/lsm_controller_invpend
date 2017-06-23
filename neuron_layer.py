@@ -6,6 +6,8 @@ import nest
 import numpy as np
 import matplotlib.pyplot as plt
 
+import joblib
+
 import random
 import sys
 
@@ -68,17 +70,33 @@ class NeuronLayer:
         
             output_spike_train = self.get_spike_timings(i)
             desired_spike_train = st_ref
-        
-            for ix in range(len(self.presynaptic_neurons[n])):
-                input_spike_train = nest.GetStatus([self.presynaptic_neurons_detector[n][ix]],
-                                                   keys="events")[0]["times"]
-                conn = nest.GetConnections([self.presynaptic_neurons[n][ix]],
-                                           target = [self.neurons[i]])
-                present_weight = nest.GetStatus(conn)[0]["weight"]
-                delta_w =  resume.resume(input_spike_train,
-                                         output_spike_train,
-                                         desired_spike_train)
-                nest.SetStatus(conn, {"weight": present_weight + delta_w})
+
+            size_pre = len(self.presynaptic_neurons[n])
+
+            input_spike_train = []
+            conn = []
+            present_weight = []
+            delta_w = None
+            
+            for ix in range(size_pre):
+                input_spike_train.append(nest.GetStatus([self.presynaptic_neurons_detector[n][ix]],
+                                                        keys="events")[0]["times"])
+                conn.append(nest.GetConnections([self.presynaptic_neurons[n][ix]],
+                                                target = [self.neurons[i]]))
+                present_weight.append(nest.GetStatus(conn[-1])[0]["weight"])
+
+
+            delta_w = joblib.Parallel(n_jobs = -1)(joblib.delayed(resume.resume)(input_spike_train[ix],
+                                                                                 output_spike_train,
+                                                                                 desired_spike_train) for ix in range(size_pre))
+
+                # delta_w =  resume.resume(input_spike_train,
+                #                          output_spike_train,
+                #                          desired_spike_train)
+                
+            for ix in range(size_pre):
+
+                nest.SetStatus(conn[ix], {"weight": present_weight[ix] + delta_w[ix]})
         
 
     def set_input_current(self, current):
