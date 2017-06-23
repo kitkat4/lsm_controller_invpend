@@ -25,7 +25,8 @@ class NeuronLayer:
         self.presynaptic_neurons_detector = {}
 
         self.init_weight_min = 100.0
-        self.init_weight_max = 1000.0
+        # self.init_weight_max = 1000.0
+        self.init_weight_max = 500.0
         self.delay_min = 0.5
         self.delay_max = 4.0
         
@@ -136,4 +137,11 @@ class NeuronLayer:
         
         return 
 
+    def num_of_spikes(self, neuron_ix):
+
+        if neuron_ix not in range(len(self.neurons)):
+            sys.stderr.write("warning: NeuronLayer.plot neuron_ix is out of range.\n")
+            return
+
+        return len(nest.GetStatus(self.detectors)[neuron_ix]["events"]["times"])
     

@@ -10,12 +10,13 @@ import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
 
-    controller = lsm_controller.LsmController(input_neurons_theta_size = 30,
-                                              input_neurons_theta_dot_size = 30,
+    controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
+                                              input_neurons_theta_dot_size = 10,
                                               liquid_neurons_size = 300,
                                               readout_neurons_tau1_size = 5,
                                               readout_neurons_tau2_size = 5,
-                                              thread_num = 12)
+                                              output_layer_weight = 100.0,
+                                              thread_num = 48)
     
     pend = inverted_pendulum.InvertedPendulum(mass = 1.0,
                                               length = 1.0,
@@ -42,9 +43,9 @@ if __name__ == "__main__":
     #                  sim_time = 1000.0,
     #                  print_message = True)
 
-    result = np.zeros(5000)
+    result = np.zeros(2000)
 
-    for time in range(5000):
+    for time in range(2000):
 
         # theta = pend.theta
         # theta_dot = pend.theta_dot
@@ -59,9 +60,13 @@ if __name__ == "__main__":
     
     # pend.plot()
 
-    
-
-
-    
+    # for debugging
+    liq = controller.lsm.liquid_neurons
+    in_theta = controller.lsm.input_layer_theta
+    in_theta_dot = controller.lsm.input_layer_theta_dot
+    readout1 = controller.lsm.readout_layer_tau1
+    readout2 = controller.lsm.readout_layer_tau2
+    output1 = controller.lsm.output_layer_tau1
+    output2 = controller.lsm.output_layer_tau2
     
 

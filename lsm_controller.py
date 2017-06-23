@@ -16,7 +16,7 @@ class LsmController:
                  liquid_neurons_size,
                  readout_neurons_tau1_size,
                  readout_neurons_tau2_size,
-                 output_layer_weight = 500.0,
+                 output_layer_weight = 100.0,
                  filter_size = 3.0,
                  thread_num = 1):
 

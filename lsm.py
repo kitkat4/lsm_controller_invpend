@@ -14,7 +14,7 @@ class Lsm:
                  liquid_neurons_size,
                  readout_neurons_tau1_size,
                  readout_neurons_tau2_size,
-                 output_layer_weight = 500.0):
+                 output_layer_weight):
 
         # create neurons
         self.input_layer_theta = neuron_layer.NeuronLayer(input_neurons_theta_size,
@@ -22,7 +22,7 @@ class Lsm:
         self.input_layer_theta_dot = neuron_layer.NeuronLayer(input_neurons_theta_dot_size,
                                                               tau_m = float(10**100))
         
-        self.liquid_neurons = liquid_neurons.LiquidNeurons(liquid_neurons_size, 0.3, 0.25)
+        self.liquid_neurons = liquid_neurons.LiquidNeurons(liquid_neurons_size, 0.005, 0.25)
         
         self.readout_layer_tau1 = neuron_layer.NeuronLayer(readout_neurons_tau1_size)
         self.readout_layer_tau2 = neuron_layer.NeuronLayer(readout_neurons_tau2_size)
