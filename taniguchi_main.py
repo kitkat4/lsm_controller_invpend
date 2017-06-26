@@ -62,17 +62,24 @@ if __name__ == "__main__":
 
     tau_max = max(pend.torque_data) - min(pend.torque_data)
 
-    for time in range(2000):
-        tau1_ref = (tau_max + pend.torque_data[time]) / 2
-        tau2_ref = (tau_max - pend.torque_data[time]) / 2
+    epoch = 1
 
-        controller.train(theta = pend.theta_data[time],
-                         theta_dot = pend.theta_dot_data[time],
-                         tau1_ref = tau1_ref,
-                         tau2_ref = tau2_ref,
-                         update_num = 1,
-                         sim_time = 1.0,
-                         print_message = True)
+    for i in range(epoch):
+
+        for time in range(2000):
+            tau1_ref = (tau_max + pend.torque_data[time]) / 2
+            tau2_ref = (tau_max - pend.torque_data[time]) / 2
+
+            controller.train(theta = pend.theta_data[time],
+                             theta_dot = pend.theta_dot_data[time],
+                             tau1_ref = tau1_ref,
+                             tau2_ref = tau2_ref,
+                             update_num = 1,
+                             sim_time = 1.0,
+                             print_message = True)
+
+            sys.stdout.write("training: " + str(time+1) + "/" + str(2000) +  "    \r")
+            sys.stdout.flush()
 
 
 
