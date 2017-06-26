@@ -28,10 +28,24 @@ if __name__ == "__main__":
     result1 = np.zeros(2000)
     result2 = np.zeros(2000)
 
+    Kp = 40.0
+    Kd = 9.0
+    theta_goal = 0.0
+    theta_dot_goal = 0.0
+
+    for time in range(5000):
+        theta = pend.theta
+        theta_dot = pend.theta_dot
+        torque = Kp*(theta_goal-theta)+Kd*(theta_dot_goal-theta_dot)
+        pend.simulate_one_step(torque , 0.001)
+
 
     for time in range(2000):
+        theta = pend.theta
+        theta_dot = pend.theta_dot
 
-        controller.simulate(1.0, 1.0, 0.0)
+        controller.simulate(1.0, theta, theta_dot)
+
         result1_prev[time] = controller.tau1
         result2_prev[time] = controller.tau2
 
@@ -46,21 +60,28 @@ if __name__ == "__main__":
 
     # pend.plot()
 
-    controller.train(theta = 1.0,
-                     theta_dot = 0.0,
-                     tau1_ref = 0.0,
-                     tau2_ref = 40.0,
-                     update_num = 100,
-                     sim_time = 1000.0,
-                     print_message = True)
+    tau_max = max(pend.torque_data) - min(pend.torque_data)
+
+    for time in range(2000):
+        tau1_ref = (tau_max + pend.torque_data[time]) / 2
+        tau2_ref = (tau_max - pend.torque_data[time]) / 2
+
+        controller.train(theta = pend.theta_data[time],
+                         theta_dot = pend.theta_dot_data[time],
+                         tau1_ref = tau1_ref,
+                         tau2_ref = tau2_ref,
+                         update_num = 1,
+                         sim_time = 1.0,
+                         print_message = True)
 
 
 
     for time in range(2000):
+        theta = pend.theta
+        theta_dot = pend.theta_dot
 
-        # theta = pend.theta
-        # theta_dot = pend.theta_dot
-        controller.simulate(1.0, 1.0, 0.0)
+        controller.simulate(1.0, theta, theta_dot)
+
         result1[time] = controller.tau1
         result2[time] = controller.tau2
         # pend.simulate_one_step(controller.get_tau(), 0.001)
