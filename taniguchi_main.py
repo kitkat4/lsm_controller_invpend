@@ -63,35 +63,27 @@ if __name__ == "__main__":
     # pend.plot()
 
     tau_max = max(pend.torque_data) - min(pend.torque_data)
+    tau1_ref = []
+    tau2_ref = []
 
-    epoch = 10
+    for time in range(2000):
+        tau1_ref.append((tau_max + pend.torque_data[time]) / 2)
+        tau2_ref.append((tau_max - pend.torque_data[time]) / 2)
 
-    for i in range(epoch):
-
-        for time in range(2000):
-            tau1_ref = (tau_max + pend.torque_data[time]) / 2
-            tau2_ref = (tau_max - pend.torque_data[time]) / 2
-
-            #controller.train(theta = pend.theta_data[time],
-            #                 theta_dot = pend.theta_dot_data[time],
-            #                 tau1_ref = tau1_ref,
-            #                 tau2_ref = tau2_ref,
-            #                 update_num = 1,
-            #                 sim_time = 1.0,
-            #                 print_message = False)
-            controller.train(theta = 1.0,
-                             theta_dot = 0.0,
-                             tau1_ref = 40.0,
-                             tau2_ref = 0.0,
-                             update_num = 1,
-                             sim_time = 1.0,
-                             print_message = False)
-
-            sys.stdout.write("training: " + str(time+1) + "/" + str(2000) +  "    \r")
-            sys.stdout.flush()
-
-        print(str(i+1)+"times..................done")
-
+        #controller.train(theta = pend.theta_data[time],
+        #                 theta_dot = pend.theta_dot_data[time],
+        #                 tau1_ref = tau1_ref,
+        #                 tau2_ref = tau2_ref,
+        #                 update_num = 1,
+        #                 sim_time = 1.0,
+        #                 print_message = False)
+    controller.train(theta = pend.theta_data,
+                     theta_dot = pend.theta_dot_data,
+                     tau1_ref = tau1_ref,
+                     tau2_ref = tau2_ref,
+                     update_num = 1,
+                     sim_time = 1000.0,
+                     print_message = False)
 
     for time in range(2000):
         theta = pend.theta
