@@ -81,9 +81,9 @@ if __name__ == "__main__":
                      theta_dot = pend.theta_dot_data,
                      tau1_ref = tau1_ref,
                      tau2_ref = tau2_ref,
-                     update_num = 1,
-                     sim_time = 1000.0,
-                     print_message = False)
+                     update_num = 5,
+                     sim_time = 10.0,
+                     print_message = True)
 
     for time in range(2000):
         theta = pend.theta

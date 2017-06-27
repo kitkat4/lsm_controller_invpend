@@ -69,12 +69,18 @@ class Lsm:
         for i in range(update_num):
 
             if print_message:
-                sys.stdout.write("training: " + str(i+1) + "/" + str(update_num) +  "    \r")
-                sys.stdout.flush()
+                #sys.stdout.write("training: " + str(i+1) + "/" + str(update_num) +  "    \r")
+                #sys.stdout.flush()
+                print("epoch: " + str(i+1) + "/" + str(update_num) +  "    \r")
 
             nest.ResetNetwork()
 
             for j in range(int(sim_time)):
+
+                if print_message:
+                    sys.stdout.write("training: " + str(j+1) + "/" + str(int(sim_time)) +  "    \r")
+                    sys.stdout.flush()
+
                 self.input_layer_theta.set_input_current(i_theta[j])
                 self.input_layer_theta_dot.set_input_current(i_theta_dot[j])
 
@@ -83,7 +89,7 @@ class Lsm:
                 self.readout_layer_tau1.train(st_tau1_ref[j])
                 self.readout_layer_tau2.train(st_tau2_ref[j])
 
-        if print_message:
-            sys.stdout.write("\n")
+            if print_message:
+                sys.stdout.write("\n" + "\n")
 
         nest.ResetNetwork()
