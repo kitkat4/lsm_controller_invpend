@@ -21,9 +21,9 @@ class Lsm:
                                                            tau_m = float(10**100))
         self.input_layer_theta_dot = neuron_layer.NeuronLayer(input_neurons_theta_dot_size,
                                                               tau_m = float(10**100))
-        
+
         self.liquid_neurons = liquid_neurons.LiquidNeurons(liquid_neurons_size, 0.005, 0.25)
-        
+
         self.readout_layer_tau1 = neuron_layer.NeuronLayer(readout_neurons_tau1_size)
         self.readout_layer_tau2 = neuron_layer.NeuronLayer(readout_neurons_tau2_size)
 
@@ -31,7 +31,7 @@ class Lsm:
                                                           V_th = float(10**100))
         self.output_layer_tau2 = neuron_layer.NeuronLayer(readout_neurons_tau1_size,
                                                           V_th = float(10**100))
-        
+
         # connect layers
         self.input_layer_theta.connect2liquid(self.liquid_neurons, 0.3, 0.25)
         self.input_layer_theta_dot.connect2liquid(self.liquid_neurons, 0.3, 0.25)
@@ -52,7 +52,7 @@ class Lsm:
 
         ret1 = self.output_layer_tau1.get_mean_membrane_voltage(filter_size)
         ret2 = self.output_layer_tau2.get_mean_membrane_voltage(filter_size)
-        
+
         return (ret1, ret2)
 
     # st: spike train (float list).
@@ -69,27 +69,27 @@ class Lsm:
         for i in range(update_num):
 
             if print_message:
-                sys.stdout.write("training: " + str(i+1) + "/" + str(update_num) +  "    \r")
-                sys.stdout.flush()
-                
+                #sys.stdout.write("training: " + str(i+1) + "/" + str(update_num) +  "    \r")
+                #sys.stdout.flush()
+                print("epoch: " + str(i+1) + "/" + str(update_num) +  "    \r")
+
             nest.ResetNetwork()
-            
-            self.input_layer_theta.set_input_current(i_theta)
-            self.input_layer_theta_dot.set_input_current(i_theta_dot)
 
-            nest.Simulate(sim_time)
-        
-            self.readout_layer_tau1.train(st_tau1_ref)
-            self.readout_layer_tau2.train(st_tau2_ref)
+            for j in range(int(sim_time)):
 
-        if print_message:
-            sys.stdout.write("\n")
-            
-        nest.ResetNetwork()        
+                if print_message:
+                    sys.stdout.write("training: " + str(j+1) + "/" + str(int(sim_time)) +  "    \r")
+                    sys.stdout.flush()
 
+                self.input_layer_theta.set_input_current(i_theta[j])
+                self.input_layer_theta_dot.set_input_current(i_theta_dot[j])
 
+                nest.Simulate(1.0)
 
+                self.readout_layer_tau1.train(st_tau1_ref[j])
+                self.readout_layer_tau2.train(st_tau2_ref[j])
 
+            if print_message:
+                sys.stdout.write("\n" + "\n")
 
-
-    
+        nest.ResetNetwork()
