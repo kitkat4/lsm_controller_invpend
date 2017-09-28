@@ -45,15 +45,15 @@ if __name__ == "__main__":
     #     print time
         
     # pend.plot()
-
+    
     controller.train(theta = 1.0,
                      theta_dot = 0.0,
                      tau1_ref = 0.0,
                      tau2_ref = 40.0,
-                     update_num = 100,
+                     # update_num = 100,
+                     update_num = 10,  
                      sim_time = 1000.0,
                      print_message = True)
-
 
 
     for time in range(2000):
@@ -67,6 +67,7 @@ if __name__ == "__main__":
 
     print "mean output before training: ", result1_prev.mean() - result2_prev.mean()
     print "mean output after  training: ", result1.mean() - result2.mean()
+
 
     plt.figure()
     plt.plot(result1_prev, 'b.')

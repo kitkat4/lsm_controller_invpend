@@ -1,0 +1,1384 @@
+connection params:
+  input_layer_theta to liquid:
+    model: static_synapse
+    params:
+    - !!python/unicode 'delay': 3.9000000000000004
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 1
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 19
+      !!python/unicode 'weight': 268.49095809247103
+    - !!python/unicode 'delay': 0.7000000000000001
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 1
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 20
+      !!python/unicode 'weight': 169.60768363472675
+    - !!python/unicode 'delay': 1.8
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 1
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 21
+      !!python/unicode 'weight': 254.6117784232433
+    - !!python/unicode 'delay': 1.0
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 1
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 22
+      !!python/unicode 'weight': 161.09614770456355
+    - !!python/unicode 'delay': 3.6
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 1
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 28
+      !!python/unicode 'weight': 418.6363985524728
+    - !!python/unicode 'delay': 0.9
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 2
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 21
+      !!python/unicode 'weight': 134.8613539655903
+    - !!python/unicode 'delay': 2.2
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 2
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 27
+      !!python/unicode 'weight': -270.4254875150123
+    - !!python/unicode 'delay': 3.2
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 2
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 28
+      !!python/unicode 'weight': -369.75218449592944
+    rule: no rules found
+  input_layer_theta_dot to liquid:
+    model: static_synapse
+    params:
+    - !!python/unicode 'delay': 3.2
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 11
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 19
+      !!python/unicode 'weight': 419.7547248073417
+    - !!python/unicode 'delay': 1.1
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 11
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 21
+      !!python/unicode 'weight': 377.8616976318528
+    - !!python/unicode 'delay': 2.3000000000000003
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 12
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 21
+      !!python/unicode 'weight': 410.18209984516534
+    - !!python/unicode 'delay': 2.4000000000000004
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 12
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 24
+      !!python/unicode 'weight': -414.14725130404634
+    - !!python/unicode 'delay': 3.5
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 12
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 25
+      !!python/unicode 'weight': 348.2392575020355
+    - !!python/unicode 'delay': 3.3000000000000003
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 12
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 27
+      !!python/unicode 'weight': 188.64079913234764
+    - !!python/unicode 'delay': 3.3000000000000003
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 12
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 28
+      !!python/unicode 'weight': -343.3170849303518
+    rule: no rules found
+  liquid to readout_layer_tau1:
+    model: static_synapse
+    params:
+    - !!python/unicode 'delay': 1.0
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 19
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 49
+      !!python/unicode 'weight': 374.7931322243987
+    - !!python/unicode 'delay': 2.7
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 19
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 50
+      !!python/unicode 'weight': -309.73018757927684
+    - !!python/unicode 'delay': 1.5
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 20
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 49
+      !!python/unicode 'weight': -350.6306480690143
+    - !!python/unicode 'delay': 2.5
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 20
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 50
+      !!python/unicode 'weight': -180.36225399330922
+    - !!python/unicode 'delay': 3.6
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 21
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 51
+      !!python/unicode 'weight': 289.06541769156564
+    - !!python/unicode 'delay': 1.3
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 22
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 51
+      !!python/unicode 'weight': 441.5305828166003
+    - !!python/unicode 'delay': 0.9
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 23
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 49
+      !!python/unicode 'weight': -130.5323405171502
+    - !!python/unicode 'delay': 2.4000000000000004
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 24
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 49
+      !!python/unicode 'weight': -265.51429207793615
+    - !!python/unicode 'delay': 2.0
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 24
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 51
+      !!python/unicode 'weight': -206.81655264529053
+    - !!python/unicode 'delay': 2.1
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 25
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 49
+      !!python/unicode 'weight': 319.7377960828914
+    - !!python/unicode 'delay': 3.1
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 26
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 50
+      !!python/unicode 'weight': 350.6428999899663
+    rule: no rules found
+  liquid to readout_layer_tau2:
+    model: static_synapse
+    params:
+    - !!python/unicode 'delay': 3.9000000000000004
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 19
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 59
+      !!python/unicode 'weight': 313.04900142600695
+    - !!python/unicode 'delay': 0.8
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 19
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 60
+      !!python/unicode 'weight': 361.7181568315813
+    - !!python/unicode 'delay': 2.0
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 21
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 58
+      !!python/unicode 'weight': 446.14435545051793
+    - !!python/unicode 'delay': 1.9000000000000001
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 21
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 60
+      !!python/unicode 'weight': 413.2813231167888
+    - !!python/unicode 'delay': 2.0
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 22
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 58
+      !!python/unicode 'weight': -398.4754050281228
+    - !!python/unicode 'delay': 3.4000000000000004
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 26
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 58
+      !!python/unicode 'weight': 467.53837562726943
+    - !!python/unicode 'delay': 2.8000000000000003
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 26
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 59
+      !!python/unicode 'weight': 137.17883130847167
+    - !!python/unicode 'delay': 0.8
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 27
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 59
+      !!python/unicode 'weight': 145.70620300005493
+    - !!python/unicode 'delay': 1.2000000000000002
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 28
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 59
+      !!python/unicode 'weight': 235.34037540055036
+    - !!python/unicode 'delay': 2.7
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 28
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 60
+      !!python/unicode 'weight': 166.50546285428507
+    rule: no rules found
+  readout_layer_tau1 to output_layer_tau1:
+    model: static_synapse
+    params:
+    - !!python/unicode 'delay': 1.0
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 49
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 67
+      !!python/unicode 'weight': 100.0
+    - !!python/unicode 'delay': 1.0
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 50
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 68
+      !!python/unicode 'weight': 100.0
+    - !!python/unicode 'delay': 1.0
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 51
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 69
+      !!python/unicode 'weight': 100.0
+    rule: one_to_one
+  readout_layer_tau2 to output_layer_tau2:
+    model: static_synapse
+    params:
+    - !!python/unicode 'delay': 1.0
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 58
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 76
+      !!python/unicode 'weight': 100.0
+    - !!python/unicode 'delay': 1.0
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 59
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 77
+      !!python/unicode 'weight': 100.0
+    - !!python/unicode 'delay': 1.0
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 60
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 78
+      !!python/unicode 'weight': 100.0
+    rule: one_to_one
+neuron params:
+  input_layer_theta:
+    model: iaf_psc_alpha
+    params:
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 1
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 1
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 1.0e+100
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 2
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 2
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 1.0e+100
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 3
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 3
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 1.0e+100
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    size: 3
+  input_layer_theta_dot:
+    model: iaf_psc_alpha
+    params:
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 10
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 10
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 1.0e+100
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 11
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 11
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 1.0e+100
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 12
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 12
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 1.0e+100
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    size: 3
+  liquid_neurons:
+    model: iaf_psc_alpha
+    params:
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 19
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 19
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 20
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 20
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 21
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 21
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 22
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 22
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 23
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 23
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 24
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 24
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 25
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 25
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 26
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 26
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 27
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 27
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 28
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 28
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    size: 10
+  output_layer_tau1:
+    model: iaf_psc_alpha
+    params:
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': 1.0e+100
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 67
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 67
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': 1.0e+100
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 68
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 68
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': 1.0e+100
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 69
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 69
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    size: 3
+  output_layer_tau2:
+    model: iaf_psc_alpha
+    params:
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': 1.0e+100
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 76
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 76
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': 1.0e+100
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 77
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 77
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': 1.0e+100
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 78
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 78
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    size: 3
+  readout_layer_tau1:
+    model: iaf_psc_alpha
+    params:
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 49
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 49
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 50
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 50
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 51
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 51
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    size: 3
+  readout_layer_tau2:
+    model: iaf_psc_alpha
+    params:
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 58
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 58
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 59
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 59
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    - !!python/unicode 'C_m': 250.0
+      !!python/unicode 'Ca': 0.0
+      !!python/unicode 'E_L': -70.0
+      !!python/unicode 'I_e': 0.0
+      !!python/unicode 'V_m': -70.0
+      !!python/unicode 'V_min': -.inf
+      !!python/unicode 'V_reset': -70.0
+      !!python/unicode 'V_th': -55.0
+      !!python/unicode 'archiver_length': 0
+      !!python/unicode 'beta_Ca': 0.001
+      !!python/unicode 'element_type': neuron
+      !!python/unicode 'frozen': false
+      !!python/unicode 'global_id': 60
+      !!python/unicode 'local': true
+      !!python/unicode 'local_id': 60
+      !!python/unicode 'model': iaf_psc_alpha
+      !!python/unicode 'node_uses_wfr': false
+      !!python/unicode 'parent': 0
+      !!python/unicode 'recordables': !!python/tuple
+      - I_syn_ex
+      - I_syn_in
+      - V_m
+      - weighted_spikes_ex
+      - weighted_spikes_in
+      !!python/unicode 'supports_precise_spikes': false
+      !!python/unicode 'synaptic_elements': {}
+      !!python/unicode 't_ref': 2.0
+      !!python/unicode 't_spike': -1.0
+      !!python/unicode 'tau_Ca': 10000.0
+      !!python/unicode 'tau_m': 10.0
+      !!python/unicode 'tau_minus': 20.0
+      !!python/unicode 'tau_minus_triplet': 110.0
+      !!python/unicode 'tau_syn_ex': 2.0
+      !!python/unicode 'tau_syn_in': 2.0
+      !!python/unicode 'thread': 0
+      !!python/unicode 'thread_local_id': -1
+      !!python/unicode 'vp': 0
+    size: 3

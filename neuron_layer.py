@@ -15,6 +15,7 @@ class NeuronLayer:
 
     def __init__(self, neuron_size, V_th = -55.0, tau_m = 10.0):
 
+
         self.neurons = nest.Create("iaf_psc_alpha", neuron_size,
                                    params = {"V_th": V_th, "tau_m": tau_m})
         self.detectors = nest.Create("spike_detector", neuron_size,
@@ -35,7 +36,11 @@ class NeuronLayer:
         for i in range(neuron_size):
             nest.Connect([self.neurons[i]], [self.detectors[i]])
             nest.Connect([self.meters[i]], [self.neurons[i]])
-            
+
+    # 古いニューロンはどっかいく 消せるなら消したいけど...
+    def replace_neurons(self, neuron_model, neuron_size):
+
+        self.neurons = nest.Create(neruon_model, neuron_size)
 
     def connect2liquid(self,
                        target_liquid_neurons,
@@ -162,4 +167,10 @@ class NeuronLayer:
             return
 
         return len(nest.GetStatus(self.detectors)[neuron_ix]["events"]["times"])
+    
+
+
+        
+        
+        
     

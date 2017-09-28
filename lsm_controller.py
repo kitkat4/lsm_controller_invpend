@@ -80,8 +80,16 @@ class LsmController:
                                                          filter_size = self.filter_size)
 
         self._update_tau(tau1_voltage, tau2_voltage)
-        
 
+    def save(self, file_name):
+        
+        self.lsm.save(file_name)
+
+    def load(self, file_name):
+        
+        self.lsm.load(file_name)
+
+    
     # [-3 [rad], 3 [rad]] -> [100 [Hz], 400 [Hz]]
     def _conv_theta2freq(self, theta):
         
