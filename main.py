@@ -7,6 +7,7 @@ import lsm_controller
 import nest
 import numpy as np
 import matplotlib.pyplot as plt
+import multiprocessing
 
 if __name__ == "__main__":
 
@@ -16,7 +17,7 @@ if __name__ == "__main__":
                                               readout_neurons_tau1_size = 5,
                                               readout_neurons_tau2_size = 5,
                                               output_layer_weight = 100.0,
-                                              thread_num = 48)
+                                              thread_num = multiprocessing.cpu_count())
     
     pend = inverted_pendulum.InvertedPendulum(mass = 1.0,
                                               length = 1.0,
