@@ -11,9 +11,12 @@ class LiquidNeurons:
     def __init__(self,
                  neuron_size,
                  connection_ratio,
-                 inhibitory_connection_ratio):
+                 inhibitory_connection_ratio,
+                 neuron_model = "iaf_psc_alpha"):
 
-        self.neurons = nest.Create("iaf_psc_alpha", neuron_size)
+        self.neuron_model = neuron_model
+
+        self.neurons = nest.Create(self.neuron_model, neuron_size)
 
         self.detectors = nest.Create("spike_detector", neuron_size,
                                      params = {"withgid": True, "withtime": True})
