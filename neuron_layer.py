@@ -13,9 +13,11 @@ import sys
 
 class NeuronLayer:
 
-    def __init__(self, neuron_size, V_th = -55.0, tau_m = 10.0):
+    def __init__(self, neuron_size, V_th = -55.0, tau_m = 10.0, neuron_model = "iaf_psc_alpha"):
 
-        self.neurons = nest.Create("iaf_psc_alpha", neuron_size,
+        self.neuron_model = neuron_model
+
+        self.neurons = nest.Create(self.neuron_model, neuron_size,
                                    params = {"V_th": V_th, "tau_m": tau_m})
         self.detectors = nest.Create("spike_detector", neuron_size,
                                      params = {"withgid": True, "withtime": True})
