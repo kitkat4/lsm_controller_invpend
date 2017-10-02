@@ -47,6 +47,14 @@ class LiquidNeurons:
                     nest.Connect([ns], [nt], {"rule": "one_to_one"},
                                  {"model": "static_synapse", "weight": w, "delay": d})
 
+    # 古いニューロンはどっかいく 消せるなら消したいけど...
+    def replace_neurons(self, neuron_size, neuron_model):
+
+        self.neuron_model = neuron_model
+
+        self.neurons = nest.Create(neruon_model, neuron_size)
+
+                    
     def connect(self,
                 target_neuron_layer,
                 connection_ratio,

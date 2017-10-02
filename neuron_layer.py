@@ -39,7 +39,9 @@ class NeuronLayer:
             nest.Connect([self.meters[i]], [self.neurons[i]])
 
     # 古いニューロンはどっかいく 消せるなら消したいけど...
-    def replace_neurons(self, neuron_model, neuron_size):
+    def replace_neurons(self, neuron_size, neuron_model):
+
+        self.neuron_model = neuron_model
 
         self.neurons = nest.Create(neruon_model, neuron_size)
 

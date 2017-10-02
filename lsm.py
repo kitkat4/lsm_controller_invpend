@@ -107,20 +107,67 @@ class Lsm:
         fout.write(yaml.dump(data, default_flow_style = False))
         fout.close()
 
-    # def load(self, file_name):
+    def load(self, file_name):
 
-    #     fin = open(file_name, 'r')
-    #     data = yaml.load(fin)
-    #     fin.close()
+        fin = open(file_name, 'r')
+        data = yaml.load(fin)
+        fin.close()
 
-    #     if data["neuron params"]["input_layer_theta"]["size"] == len(self.input_layer_theta.neurons) and
+        self._load_neurons(data, "input_layer_theta", self.input_layer_theta)
+        self._load_neurons(data, "input_layer_theta_dot", self.input_layer_theta_dot)
+        self._load_neurons(data, "liquid_neurons", self.liquid_neurons)
+        self._load_neurons(data, "readout_layer_tau1", self.readout_layer_tau1)
+        self._load_neurons(data, "readout_layer_tau2", self.readout_layer_tau2)
+        self._load_neurons(data, "output_layer_tau1", self.output_layer_tau1)
+        self._load_neurons(data, "output_layer_tau2", self.output_layer_tau2)
 
-    # def _load_layer(self, data, name, layer, ):
+        # self._load_connections(data, "input_layer_theta to liquid",
+        #                        self.input_layer_theta, self.liquid_neurons)
+        # self._load_connections(data, "input_layer_theta_dot to liquid",
+        #                        self.input_layer_theta_dot, self.liquid_neurons)
+        # self._load_connections(data, "liquid to readout_layer_tau1",
+        #                        self.liquid_neurons, self.readout_layer_tau1)
+        # self._load_connections(data, "liquid to readout_layer_tau2",
+        #                        self.liquid_neurons, self.readout_layer_tau2)
+        # self._load_connections(data, "readout_layer_tau1 to output_layer_tau1",
+        #                        self.readout_layer_tau1, self.output_layer_tau1)
+        # self._load_connections(data, "readout_layer_tau2 to output_layer_tau2",
+        #                        self.readout_layer_tau2, self.output_layer_tau2)
+        
+        
+    # layer is NeuronLayer type or LiquidNeurons type. 
+    def _load_neurons(self, data, name, layer):
 
-    #     tmp_data = data["neuron params"][name]
+        tmp_data = data["neuron params"][name]
 
-    #     if tmp_data["size"] == len(layer.neurons) and tmp_data["model"] == layer.neurons
+        if tmp_data["size"] != len(layer.neurons) or tmp_data["model"] != layer.neuron_model:
+            layer.replace_neurons(tmp_data["size"], tmp_data["model"])
 
+        # nest.SetStatusで書き換えられないキーを除外
+        for itr in tmp_data["params"]:
+            del itr["model"]
+            del itr["element_type"]
+            del itr["t_spike"]
+            del itr["thread"]
+            del itr["thread_local_id"]
+            del itr["vp"]
+            del itr["local_id"]
+            del itr["local"]
+            del itr["global_id"]
+            del itr["archiver_length"]
+            del itr["node_uses_wfr"]
+            del itr["parent"]
+            del itr["recordables"]
+            del itr["supports_precise_spikes"]
+            
+        nest.SetStatus(layer.neurons, tmp_data["params"])
+
+    # # src_layer and dst_layer are NeuronLayer type or LiquidNeurons type. 
+    # def _load_connections(self, data, name, src_layer, dst_layer):
+
+    #     tmp_data = data["connection params"][name]
+
+        
         
         
     # i_theta, i_theta_dot [pA]
