@@ -257,7 +257,7 @@ class Lsm:
         cols = len(targets)
         tmp_array = np.zeros((rows, cols)) # 各ニューロン間の接続の個数を格納する
         for itr in data_dict[name]["params"]:
-            tmp_array[source_ids.index(itr["source"]), target_ids.index(itr["target"])] += 1
+            tmp_array[itr["source"], itr["target"]] += 1
         if np.allclose(tmp_array, np.ones((rows, cols))):
             data_dict[name]["rule"] = "all_to_all"
         elif rows == cols and np.allclose(tmp_array, np.eye(rows)):
