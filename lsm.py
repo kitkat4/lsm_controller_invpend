@@ -100,6 +100,9 @@ class Lsm:
                                              name = "readout_layer_tau2 to output_layer_tau2",
                                              src_layer = self.readout_layer_tau2,
                                              dst_layer = self.output_layer_tau2)
+        self._append_internal_connection_info_to_save(data_dict = tmp_dict,
+                                                      name = "liquid neurons",
+                                                      liquid = self.liquid_neurons)
         data["connection params"] = tmp_dict
 
 
@@ -231,10 +234,10 @@ class Lsm:
         source_ids.sort()       # 一応
         target_ids.sort()       # 一応
 
+        conns = nest.GetConnections(src_layer.neurons, dst_layer.neurons)
         
         # params
-        data_dict[name]["params"] = list(nest.GetStatus(nest.GetConnections(src_layer.neurons,
-                                                                            dst_layer.neurons)))
+        data_dict[name]["params"] = list(nest.GetStatus(conns))
         
         for itr in data_dict[name]["params"]:
             tmp_str = itr["synapse_model"].name
@@ -245,9 +248,7 @@ class Lsm:
             itr["target"] = target_ids.index(itr["target"])
             
         # model
-        used_models = list(set(nest.GetStatus(nest.GetConnections(src_layer.neurons,
-                                                                  dst_layer.neurons),
-                                              "synapse_model"))) # 普通は要素数1 i.e. 単一のモデルのみ使用
+        used_models = list(set(nest.GetStatus(conns, "synapse_model"))) # 普通は要素数1 i.e. 単一のモデルのみ使用
         data_dict[name]["model"] = used_models[0].name if len(used_models) == 1 else "various models"
         
         # rule
@@ -264,31 +265,33 @@ class Lsm:
             data_dict[name]["rule"] = "no rules found"
 
 
+    def _append_internal_connection_info_to_save(self, data_dict, name, liquid):
+
+        data_dict[name] = {}
+
+        ids = list(liquid.neurons)
+        ids.sort()       # 一応
+
+        conns = nest.GetConnections(liquid.neurons, liquid.neurons)
+        
+        # params
+        data_dict[name]["params"] = list(nest.GetStatus(conns))
+        
+        for itr in data_dict[name]["params"]:
+            tmp_str = itr["synapse_model"].name
+            itr["synapse_model"] = tmp_str# pynestkernel.SLILiteral型をstr型にする
             
-    # def _append_connection_info_to_save(self, data_dict, name, liquid):
-
-    #     ids_set = set()
-    #     data_dict[name]["params"] = list(nest.GetStatus(nest.GetConnections(sources, targets)))
-
-    #     for itr in data_dict[name]["params"]:
-    #         tmp_str = itr["synapse_model"].name
-    #         itr["synapse_model"] = tmp_str# pynestkernel.SLILiteral型をstr型にする
-    #         source_ids_set.add(itr["source"])
-    #         target_ids_set.add(itr["target"])
-
-    #     source_ids = list(source_ids_set)
-    #     target_ids = list(target_ids_set)
-    #     source_ids.sort()       # 全種類のsourcesのidを昇順に並べたもの
-    #     target_ids.sort()       # 全種類のtargetsのidを昇順に並べたもの
-
-    #     for itr in data_dict[name]["params"]: # source, targetのidを各layerでのインデックスに
-    #         itr["source"] = source_ids.index(itr["source"])
-    #         itr["target"] = target_ids.index(itr["target"])
+            # source, targetのidを各layerでのインデックスに
+            itr["source"] = ids.index(itr["source"])
+            itr["target"] = ids.index(itr["target"])
             
-    #     # model
-    #     used_models = list(set(nest.GetStatus(nest.GetConnections(sources, targets),
-    #                                           "synapse_model"))) # 普通は要素数1 i.e. 単一のモデルのみ使用
-    #     data_dict[name]["model"] = used_models[0].name if len(used_models) == 1 else "various models"
+        # model
+        used_models = list(set(nest.GetStatus(conns, "synapse_model"))) # 普通は要素数1 i.e. 単一のモデルのみ使用
+        data_dict[name]["model"] = used_models[0].name if len(used_models) == 1 else "various models"
+
+        # rule
+        data_dict[name]["rule"] = "no rules found"
+
 
         
 

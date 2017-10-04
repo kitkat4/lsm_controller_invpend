@@ -2,305 +2,295 @@ connection params:
   input_layer_theta to liquid:
     model: static_synapse
     params:
-    - !!python/unicode 'delay': 0.8
+    - !!python/unicode 'delay': 1.3
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 0
       !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 4
-      !!python/unicode 'weight': 250.60427325292292
-    - !!python/unicode 'delay': 0.9
+      !!python/unicode 'target': 1
+      !!python/unicode 'weight': 329.94963732605066
+    - !!python/unicode 'delay': 2.6
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 0
       !!python/unicode 'synapse_model': static_synapse
       !!python/unicode 'target': 6
-      !!python/unicode 'weight': -317.2184765581477
-    - !!python/unicode 'delay': 3.1
-      !!python/unicode 'receptor': 0
-      !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 1
-      !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 3
-      !!python/unicode 'weight': 286.3429554603824
-    - !!python/unicode 'delay': 2.3000000000000003
-      !!python/unicode 'receptor': 0
-      !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 1
-      !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 6
-      !!python/unicode 'weight': 370.74767897878417
-    - !!python/unicode 'delay': 0.5
-      !!python/unicode 'receptor': 0
-      !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 1
-      !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 7
-      !!python/unicode 'weight': 190.56310183747735
-    - !!python/unicode 'delay': 3.4000000000000004
-      !!python/unicode 'receptor': 0
-      !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 1
-      !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 9
-      !!python/unicode 'weight': 399.86878747369224
+      !!python/unicode 'weight': 237.52999254726106
     - !!python/unicode 'delay': 3.6
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 2
+      !!python/unicode 'source': 0
       !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 0
-      !!python/unicode 'weight': -197.13954710306717
+      !!python/unicode 'target': 7
+      !!python/unicode 'weight': 142.83964198750908
     - !!python/unicode 'delay': 1.1
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 0
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 9
+      !!python/unicode 'weight': 320.3186875741185
+    - !!python/unicode 'delay': 1.0
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 1
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 4
+      !!python/unicode 'weight': 336.8989662885363
+    - !!python/unicode 'delay': 2.8000000000000003
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 2
       !!python/unicode 'synapse_model': static_synapse
       !!python/unicode 'target': 1
-      !!python/unicode 'weight': 378.05616802827166
-    - !!python/unicode 'delay': 3.4000000000000004
-      !!python/unicode 'receptor': 0
-      !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 2
-      !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 2
-      !!python/unicode 'weight': 209.78473191396523
-    - !!python/unicode 'delay': 3.8000000000000003
+      !!python/unicode 'weight': 194.43254298244455
+    - !!python/unicode 'delay': 2.1
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 2
       !!python/unicode 'synapse_model': static_synapse
       !!python/unicode 'target': 5
-      !!python/unicode 'weight': 101.30505365751796
-    - !!python/unicode 'delay': 1.6
+      !!python/unicode 'weight': -426.0812191781975
+    - !!python/unicode 'delay': 2.9000000000000004
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 2
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 8
+      !!python/unicode 'weight': 456.5795024591296
+    - !!python/unicode 'delay': 2.5
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 2
       !!python/unicode 'synapse_model': static_synapse
       !!python/unicode 'target': 9
-      !!python/unicode 'weight': -352.4390881470348
+      !!python/unicode 'weight': 409.53806960998185
     rule: no rules found
   input_layer_theta_dot to liquid:
     model: static_synapse
     params:
-    - !!python/unicode 'delay': 0.8
+    - !!python/unicode 'delay': 1.1
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 0
       !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 4
-      !!python/unicode 'weight': 354.3862228194385
-    - !!python/unicode 'delay': 0.7000000000000001
+      !!python/unicode 'target': 2
+      !!python/unicode 'weight': 306.29405716436514
+    - !!python/unicode 'delay': 3.1
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 0
       !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 5
-      !!python/unicode 'weight': 341.100900810535
-    - !!python/unicode 'delay': 1.0
+      !!python/unicode 'target': 3
+      !!python/unicode 'weight': 325.86118872956547
+    - !!python/unicode 'delay': 0.6000000000000001
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 0
       !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 6
-      !!python/unicode 'weight': -353.89126921019385
+      !!python/unicode 'target': 7
+      !!python/unicode 'weight': 231.78025629252596
     - !!python/unicode 'delay': 2.2
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 0
       !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 8
-      !!python/unicode 'weight': -120.7186728042501
-    - !!python/unicode 'delay': 0.8
-      !!python/unicode 'receptor': 0
-      !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 0
-      !!python/unicode 'synapse_model': static_synapse
       !!python/unicode 'target': 9
-      !!python/unicode 'weight': 467.530926469557
-    - !!python/unicode 'delay': 3.9000000000000004
+      !!python/unicode 'weight': -490.96355749486474
+    - !!python/unicode 'delay': 0.9
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 1
       !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 0
-      !!python/unicode 'weight': 245.7434516799132
-    - !!python/unicode 'delay': 1.7000000000000002
-      !!python/unicode 'receptor': 0
-      !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 1
-      !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 2
-      !!python/unicode 'weight': 244.6173813150916
-    - !!python/unicode 'delay': 3.8000000000000003
-      !!python/unicode 'receptor': 0
-      !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 1
-      !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 7
-      !!python/unicode 'weight': -466.97148569198896
+      !!python/unicode 'target': 1
+      !!python/unicode 'weight': -467.46990828346526
     - !!python/unicode 'delay': 3.5
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 1
       !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 6
+      !!python/unicode 'weight': 170.99791915273022
+    - !!python/unicode 'delay': 1.2000000000000002
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 1
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 7
+      !!python/unicode 'weight': 142.05454732225107
+    - !!python/unicode 'delay': 0.7000000000000001
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 1
+      !!python/unicode 'synapse_model': static_synapse
       !!python/unicode 'target': 9
-      !!python/unicode 'weight': 133.77308540174687
-    - !!python/unicode 'delay': 2.7
+      !!python/unicode 'weight': 350.3829840794816
+    - !!python/unicode 'delay': 0.9
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 2
       !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 1
-      !!python/unicode 'weight': 171.38341000821305
+      !!python/unicode 'target': 0
+      !!python/unicode 'weight': 459.70988192536714
+    - !!python/unicode 'delay': 3.8000000000000003
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 2
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 3
+      !!python/unicode 'weight': 472.49217487004466
+    - !!python/unicode 'delay': 1.2000000000000002
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 2
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 6
+      !!python/unicode 'weight': 202.13764331760888
+    rule: no rules found
+  liquid neurons:
+    model: static_synapse
+    params:
+    - !!python/unicode 'delay': 2.0
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 5
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 9
+      !!python/unicode 'weight': -494.933831228076
+    - !!python/unicode 'delay': 3.5
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 8
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 9
+      !!python/unicode 'weight': 310.17062568738885
     rule: no rules found
   liquid to readout_layer_tau1:
     model: static_synapse
     params:
-    - !!python/unicode 'delay': 3.2
+    - !!python/unicode 'delay': 0.7000000000000001
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 0
       !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 0
-      !!python/unicode 'weight': 361.5234153976132
-    - !!python/unicode 'delay': 1.3
+      !!python/unicode 'target': 1
+      !!python/unicode 'weight': 161.52489684767843
+    - !!python/unicode 'delay': 2.9000000000000004
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 1
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 1
+      !!python/unicode 'weight': -333.8201852067307
+    - !!python/unicode 'delay': 3.6
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 2
       !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 1
-      !!python/unicode 'weight': -222.09365462219085
-    - !!python/unicode 'delay': 3.9000000000000004
-      !!python/unicode 'receptor': 0
-      !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 5
-      !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 0
-      !!python/unicode 'weight': 166.68378496675865
-    - !!python/unicode 'delay': 2.1
+      !!python/unicode 'target': 2
+      !!python/unicode 'weight': -232.92148401149305
+    - !!python/unicode 'delay': 1.1
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 6
       !!python/unicode 'synapse_model': static_synapse
       !!python/unicode 'target': 0
-      !!python/unicode 'weight': 479.2976020928882
-    - !!python/unicode 'delay': 1.4000000000000001
+      !!python/unicode 'weight': -330.7265473340592
+    - !!python/unicode 'delay': 3.8000000000000003
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 6
       !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 1
-      !!python/unicode 'weight': 292.1813496131789
-    - !!python/unicode 'delay': 0.9
+      !!python/unicode 'target': 2
+      !!python/unicode 'weight': 322.90188375430745
+    - !!python/unicode 'delay': 2.4000000000000004
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 7
       !!python/unicode 'synapse_model': static_synapse
       !!python/unicode 'target': 2
-      !!python/unicode 'weight': 193.47540368570063
-    - !!python/unicode 'delay': 0.7000000000000001
+      !!python/unicode 'weight': -382.1106205033444
+    - !!python/unicode 'delay': 2.4000000000000004
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 8
       !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 0
-      !!python/unicode 'weight': -247.71051410947123
-    - !!python/unicode 'delay': 3.0
+      !!python/unicode 'target': 2
+      !!python/unicode 'weight': -300.11246842009297
+    - !!python/unicode 'delay': 0.9
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 8
+      !!python/unicode 'source': 9
       !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 1
-      !!python/unicode 'weight': 327.85853110603523
+      !!python/unicode 'target': 2
+      !!python/unicode 'weight': 436.66326491641433
     rule: no rules found
   liquid to readout_layer_tau2:
     model: static_synapse
     params:
+    - !!python/unicode 'delay': 3.4000000000000004
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 0
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 0
+      !!python/unicode 'weight': 476.21103787542125
+    - !!python/unicode 'delay': 0.8
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 0
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 2
+      !!python/unicode 'weight': 327.33413463459556
     - !!python/unicode 'delay': 1.2000000000000002
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 0
-      !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 0
-      !!python/unicode 'weight': 277.3875367053693
-    - !!python/unicode 'delay': 3.6
-      !!python/unicode 'receptor': 0
-      !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 0
-      !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 1
-      !!python/unicode 'weight': 179.08047564502678
-    - !!python/unicode 'delay': 2.2
-      !!python/unicode 'receptor': 0
-      !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 0
-      !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 2
-      !!python/unicode 'weight': 252.047820694918
-    - !!python/unicode 'delay': 1.0
-      !!python/unicode 'receptor': 0
-      !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 1
-      !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 0
-      !!python/unicode 'weight': 324.4656509789865
-    - !!python/unicode 'delay': 1.0
-      !!python/unicode 'receptor': 0
-      !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 1
       !!python/unicode 'synapse_model': static_synapse
       !!python/unicode 'target': 2
-      !!python/unicode 'weight': 135.91401026909878
-    - !!python/unicode 'delay': 1.4000000000000001
+      !!python/unicode 'weight': 237.4973420994174
+    - !!python/unicode 'delay': 2.7
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 2
-      !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 1
-      !!python/unicode 'weight': 228.19703346050932
-    - !!python/unicode 'delay': 2.3000000000000003
-      !!python/unicode 'receptor': 0
-      !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 3
+      !!python/unicode 'source': 4
       !!python/unicode 'synapse_model': static_synapse
       !!python/unicode 'target': 0
-      !!python/unicode 'weight': 458.0685437491909
-    - !!python/unicode 'delay': 3.3000000000000003
+      !!python/unicode 'weight': 378.3052129193306
+    - !!python/unicode 'delay': 0.6000000000000001
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 5
       !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 0
-      !!python/unicode 'weight': 416.91941031770057
-    - !!python/unicode 'delay': 1.0
+      !!python/unicode 'target': 1
+      !!python/unicode 'weight': -391.82039570520965
+    - !!python/unicode 'delay': 3.0
+      !!python/unicode 'receptor': 0
+      !!python/unicode 'sizeof': 32
+      !!python/unicode 'source': 6
+      !!python/unicode 'synapse_model': static_synapse
+      !!python/unicode 'target': 1
+      !!python/unicode 'weight': 105.40514867701502
+    - !!python/unicode 'delay': 0.8
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
       !!python/unicode 'source': 7
       !!python/unicode 'synapse_model': static_synapse
       !!python/unicode 'target': 0
-      !!python/unicode 'weight': -359.5684677314497
-    - !!python/unicode 'delay': 2.8000000000000003
+      !!python/unicode 'weight': -251.8722154741102
+    - !!python/unicode 'delay': 3.8000000000000003
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 7
+      !!python/unicode 'source': 8
       !!python/unicode 'synapse_model': static_synapse
       !!python/unicode 'target': 1
-      !!python/unicode 'weight': 261.133509327039
-    - !!python/unicode 'delay': 3.2
+      !!python/unicode 'weight': 298.8961818390836
+    - !!python/unicode 'delay': 2.5
       !!python/unicode 'receptor': 0
       !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 9
+      !!python/unicode 'source': 8
       !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 0
-      !!python/unicode 'weight': -236.93874201679975
-    - !!python/unicode 'delay': 0.7000000000000001
-      !!python/unicode 'receptor': 0
-      !!python/unicode 'sizeof': 32
-      !!python/unicode 'source': 9
-      !!python/unicode 'synapse_model': static_synapse
-      !!python/unicode 'target': 1
-      !!python/unicode 'weight': -182.6176066939072
+      !!python/unicode 'target': 2
+      !!python/unicode 'weight': 228.2076927476453
     rule: no rules found
   readout_layer_tau1 to output_layer_tau1:
     model: static_synapse
