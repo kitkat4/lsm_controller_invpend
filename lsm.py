@@ -78,28 +78,28 @@ class Lsm:
         tmp_dict = {}
         self._append_connection_info_to_save(data_dict = tmp_dict,
                                              name = "input_layer_theta to liquid",
-                                             sources = self.input_layer_theta.neurons,
-                                             targets = self.liquid_neurons.neurons)
+                                             src_layer = self.input_layer_theta,
+                                             dst_layer = self.liquid_neurons)
         self._append_connection_info_to_save(data_dict = tmp_dict,
                                              name = "input_layer_theta_dot to liquid",
-                                             sources = self.input_layer_theta_dot.neurons,
-                                             targets = self.liquid_neurons.neurons)
+                                             src_layer = self.input_layer_theta_dot,
+                                             dst_layer = self.liquid_neurons)
         self._append_connection_info_to_save(data_dict = tmp_dict,
                                              name = "liquid to readout_layer_tau1",
-                                             sources = self.liquid_neurons.neurons,
-                                             targets = self.readout_layer_tau1.neurons)
+                                             src_layer = self.liquid_neurons,
+                                             dst_layer = self.readout_layer_tau1)
         self._append_connection_info_to_save(data_dict = tmp_dict,
                                              name = "liquid to readout_layer_tau2",
-                                             sources = self.liquid_neurons.neurons,
-                                             targets = self.readout_layer_tau2.neurons)
+                                             src_layer = self.liquid_neurons,
+                                             dst_layer = self.readout_layer_tau2)
         self._append_connection_info_to_save(data_dict = tmp_dict,
                                              name = "readout_layer_tau1 to output_layer_tau1",
-                                             sources = self.readout_layer_tau1.neurons,
-                                             targets = self.output_layer_tau1.neurons)
+                                             src_layer = self.readout_layer_tau1,
+                                             dst_layer = self.output_layer_tau1)
         self._append_connection_info_to_save(data_dict = tmp_dict,
                                              name = "readout_layer_tau2 to output_layer_tau2",
-                                             sources = self.readout_layer_tau2.neurons,
-                                             targets = self.output_layer_tau2.neurons)
+                                             src_layer = self.readout_layer_tau2,
+                                             dst_layer = self.output_layer_tau2)
         data["connection params"] = tmp_dict
 
 
@@ -222,39 +222,37 @@ class Lsm:
 
 
 
-    def _append_connection_info_to_save(self, data_dict, name, sources, targets):
+    def _append_connection_info_to_save(self, data_dict, name, src_layer, dst_layer):
 
         data_dict[name] = {}
 
+        source_ids = list(src_layer.neurons)
+        target_ids = list(dst_layer.neurons)
+        source_ids.sort()       # 一応
+        target_ids.sort()       # 一応
+
+        
         # params
-        source_ids_set = set()
-        target_ids_set = set()
-        data_dict[name]["params"] = list(nest.GetStatus(nest.GetConnections(sources, targets)))
+        data_dict[name]["params"] = list(nest.GetStatus(nest.GetConnections(src_layer.neurons,
+                                                                            dst_layer.neurons)))
         
         for itr in data_dict[name]["params"]:
             tmp_str = itr["synapse_model"].name
             itr["synapse_model"] = tmp_str# pynestkernel.SLILiteral型をstr型にする
-            source_ids_set.add(itr["source"])
-            target_ids_set.add(itr["target"])
-
-        source_ids = list(source_ids_set)
-        target_ids = list(target_ids_set)
-        source_ids.sort()       # 全種類のsourcesのidを昇順に並べたもの
-        target_ids.sort()       # 全種類のtargetsのidを昇順に並べたもの
-
-        for itr in data_dict[name]["params"]: # source, targetのidを各layerでのインデックスに
+            
+            # source, targetのidを各layerでのインデックスに
             itr["source"] = source_ids.index(itr["source"])
             itr["target"] = target_ids.index(itr["target"])
             
         # model
-        used_models = list(set(nest.GetStatus(nest.GetConnections(sources, targets),
+        used_models = list(set(nest.GetStatus(nest.GetConnections(src_layer.neurons,
+                                                                  dst_layer.neurons),
                                               "synapse_model"))) # 普通は要素数1 i.e. 単一のモデルのみ使用
         data_dict[name]["model"] = used_models[0].name if len(used_models) == 1 else "various models"
-
         
         # rule
-        rows = len(sources)
-        cols = len(targets)
+        rows = len(source_ids)
+        cols = len(target_ids)
         tmp_array = np.zeros((rows, cols)) # 各ニューロン間の接続の個数を格納する
         for itr in data_dict[name]["params"]:
             tmp_array[itr["source"], itr["target"]] += 1
@@ -264,6 +262,35 @@ class Lsm:
             data_dict[name]["rule"] = "one_to_one"
         else:
             data_dict[name]["rule"] = "no rules found"
+
+
+            
+    # def _append_connection_info_to_save(self, data_dict, name, liquid):
+
+    #     ids_set = set()
+    #     data_dict[name]["params"] = list(nest.GetStatus(nest.GetConnections(sources, targets)))
+
+    #     for itr in data_dict[name]["params"]:
+    #         tmp_str = itr["synapse_model"].name
+    #         itr["synapse_model"] = tmp_str# pynestkernel.SLILiteral型をstr型にする
+    #         source_ids_set.add(itr["source"])
+    #         target_ids_set.add(itr["target"])
+
+    #     source_ids = list(source_ids_set)
+    #     target_ids = list(target_ids_set)
+    #     source_ids.sort()       # 全種類のsourcesのidを昇順に並べたもの
+    #     target_ids.sort()       # 全種類のtargetsのidを昇順に並べたもの
+
+    #     for itr in data_dict[name]["params"]: # source, targetのidを各layerでのインデックスに
+    #         itr["source"] = source_ids.index(itr["source"])
+    #         itr["target"] = target_ids.index(itr["target"])
+            
+    #     # model
+    #     used_models = list(set(nest.GetStatus(nest.GetConnections(sources, targets),
+    #                                           "synapse_model"))) # 普通は要素数1 i.e. 単一のモデルのみ使用
+    #     data_dict[name]["model"] = used_models[0].name if len(used_models) == 1 else "various models"
+
+        
 
     def _append_neuron_info_to_save(self, data_dict, name, neurons):
 
