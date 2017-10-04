@@ -167,7 +167,12 @@ class Lsm:
 
     #     tmp_data = data["connection params"][name]
 
-        
+    #     for itr in tmp_data["params"]:
+    #         source_ix = itr["source"]
+    #         target_ix = itr["target"]
+    #         source_id = src_layer.neurons[source_ix]
+    #         target_id = dst_layer.neurons[target_ix]
+            
         
         
     # i_theta, i_theta_dot [pA]
@@ -222,27 +227,32 @@ class Lsm:
         data_dict[name] = {}
 
         # params
+        source_ids_set = set()
+        target_ids_set = set()
         data_dict[name]["params"] = list(nest.GetStatus(nest.GetConnections(sources, targets)))
-        for itr in data_dict[name]["params"]:# "synapse_model" のpynestkernel.SLILiteral型をstr型にする
-            tmp_str = itr["synapse_model"].name
-            itr["synapse_model"] = tmp_str
-
         
+        for itr in data_dict[name]["params"]:
+            tmp_str = itr["synapse_model"].name
+            itr["synapse_model"] = tmp_str# pynestkernel.SLILiteral型をstr型にする
+            source_ids_set.add(itr["source"])
+            target_ids_set.add(itr["target"])
+
+        source_ids = list(source_ids_set)
+        target_ids = list(target_ids_set)
+        source_ids.sort()       # 全種類のsourcesのidを昇順に並べたもの
+        target_ids.sort()       # 全種類のtargetsのidを昇順に並べたもの
+
+        for itr in data_dict[name]["params"]: # source, targetのidを各layerでのインデックスに
+            itr["source"] = source_ids.index(itr["source"])
+            itr["target"] = target_ids.index(itr["target"])
+            
         # model
         used_models = list(set(nest.GetStatus(nest.GetConnections(sources, targets),
                                               "synapse_model"))) # 普通は要素数1 i.e. 単一のモデルのみ使用
         data_dict[name]["model"] = used_models[0].name if len(used_models) == 1 else "various models"
 
+        
         # rule
-        source_ids_set = set()
-        target_ids_set = set()
-        for itr in data_dict[name]["params"]:
-            source_ids_set.add(itr["source"])
-            target_ids_set.add(itr["target"])
-        source_ids = list(source_ids_set)
-        target_ids = list(target_ids_set)
-        source_ids.sort()       # 全種類のsourcesのidを昇順に並べたもの
-        target_ids.sort()       # 全種類のtargetsのidを昇順に並べたもの
         rows = len(sources)
         cols = len(targets)
         tmp_array = np.zeros((rows, cols)) # 各ニューロン間の接続の個数を格納する
