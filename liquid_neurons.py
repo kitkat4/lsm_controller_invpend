@@ -12,7 +12,11 @@ class LiquidNeurons:
                  neuron_size,
                  connection_ratio,
                  inhibitory_connection_ratio,
-                 neuron_model = "iaf_psc_alpha"):
+                 neuron_model,
+                 weight_min,
+                 weight_max,
+                 delay_min,
+                 delay_max):
 
         self.neuron_model = neuron_model
 
@@ -23,12 +27,6 @@ class LiquidNeurons:
         self.meters = nest.Create("multimeter", neuron_size,
                                   params = {"withtime":True, "record_from":["V_m"]})
 
-
-        self.init_weight_min = 100.0
-        # self.init_weight_max = 1000.0
-        self.init_weight_max = 500.0
-        self.delay_min = 0.5
-        self.delay_max = 4.0
 
         
         for i in range(neuron_size): # connect one-to-one
@@ -41,8 +39,8 @@ class LiquidNeurons:
                     pass
                 elif random.random() < connection_ratio:
                     sign = -1 if random.random() < inhibitory_connection_ratio else 1
-                    w = random.uniform(self.init_weight_min, self.init_weight_max) * sign
-                    d = random.uniform(self.delay_min, self.delay_max)
+                    w = random.uniform(weight_min, weight_max) * sign
+                    d = random.uniform(delay_min, delay_max)
                     
                     nest.Connect([ns], [nt], {"rule": "one_to_one"},
                                  {"model": "static_synapse", "weight": w, "delay": d})
@@ -50,22 +48,39 @@ class LiquidNeurons:
     # 古いニューロンはどっかいく 消せるなら消したいけど...
     def replace_neurons(self, neuron_size, neuron_model):
 
+        if len(self.neurons) > 0:
+            nest.SetStatus(self.neurons, {"frozen": True})
+            nest.SetStatus(self.detectors, {"frozen": True})
+        
         self.neuron_model = neuron_model
 
-        self.neurons = nest.Create(neruon_model, neuron_size)
+        self.neurons = nest.Create(neuron_model, neuron_size)
+        self.detectors = nest.Create("spike_detector", neuron_size,
+                                     params = {"withgid": True, "withtime": True})
+        self.meters = nest.Create("multimeter", neuron_size,
+                                  params = {"withtime":True, "record_from":["V_m"]})
+
+
+        for i in range(neuron_size):
+            nest.Connect([self.neurons[i]], [self.detectors[i]])
+            nest.Connect([self.meters[i]], [self.neurons[i]])
 
                     
     def connect(self,
                 target_neuron_layer,
                 connection_ratio,
-                inhibitory_connection_ratio):
+                inhibitory_connection_ratio,
+                weight_min,
+                weight_max,
+                delay_min,
+                delay_max):
 
         for ns in self.neurons:
             for nt in target_neuron_layer.neurons:
                 if random.random() < connection_ratio:
                     sign = -1 if random.random() < inhibitory_connection_ratio else 1
-                    w = random.uniform(self.init_weight_min, self.init_weight_max) * sign
-                    d = random.uniform(self.delay_min, self.delay_max)
+                    w = random.uniform(weight_min, weight_max) * sign
+                    d = random.uniform(delay_min, delay_max)
                     nest.Connect([ns], [nt], {"rule": "one_to_one"},
                                  {"model": "static_synapse", "weight": w, "delay": d})
 

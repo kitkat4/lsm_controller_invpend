@@ -8,6 +8,7 @@ import numpy as np
 import yaml
 
 import sys
+import copy
 
 class Lsm:
 
@@ -21,11 +22,14 @@ class Lsm:
 
         # create neurons
         self.input_layer_theta = neuron_layer.NeuronLayer(input_neurons_theta_size,
-                                                           tau_m = float(10**100))
+                                                          tau_m = float(10**100))
+
         self.input_layer_theta_dot = neuron_layer.NeuronLayer(input_neurons_theta_dot_size,
                                                               tau_m = float(10**100))
         
-        self.liquid_neurons = liquid_neurons.LiquidNeurons(liquid_neurons_size, 0.005, 0.25)
+        self.liquid_neurons = liquid_neurons.LiquidNeurons(liquid_neurons_size,
+                                                           0.005, 0.25, "iaf_psc_alpha",
+                                                           100.0, 500.0, 0.5, 4.0)
         
         self.readout_layer_tau1 = neuron_layer.NeuronLayer(readout_neurons_tau1_size)
         self.readout_layer_tau2 = neuron_layer.NeuronLayer(readout_neurons_tau2_size)
@@ -36,14 +40,15 @@ class Lsm:
                                                           V_th = float(10**100))
         
         # connect layers
-        self.input_layer_theta.connect2liquid(self.liquid_neurons, 0.3, 0.25)
-        self.input_layer_theta_dot.connect2liquid(self.liquid_neurons, 0.3, 0.25)
-        self.liquid_neurons.connect(self.readout_layer_tau1, 0.3, 0.25)
-        self.liquid_neurons.connect(self.readout_layer_tau2, 0.3, 0.25)
+        self.input_layer_theta.connect2liquid(self.liquid_neurons, 0.3, 0.25, 100.0, 500.0, 0.5, 4.0)
+        self.input_layer_theta_dot.connect2liquid(self.liquid_neurons, 0.3, 0.25, 100.0, 500.0, 0.5, 4.0)
+        self.liquid_neurons.connect(self.readout_layer_tau1, 0.3, 0.25, 100.0, 500.0, 0.5, 4.0)
+        self.liquid_neurons.connect(self.readout_layer_tau2, 0.3, 0.25, 100.0, 500.0, 0.5, 4.0)
         self.readout_layer_tau1.connect2layer_one_to_one(self.output_layer_tau1,
                                                          weight = output_layer_weight)
         self.readout_layer_tau2.connect2layer_one_to_one(self.output_layer_tau2,
                                                          weight = output_layer_weight)
+
 
 
         
@@ -124,27 +129,26 @@ class Lsm:
         self._load_neurons(data, "output_layer_tau1", self.output_layer_tau1)
         self._load_neurons(data, "output_layer_tau2", self.output_layer_tau2)
 
-        # self._load_connections(data, "input_layer_theta to liquid",
-        #                        self.input_layer_theta, self.liquid_neurons)
-        # self._load_connections(data, "input_layer_theta_dot to liquid",
-        #                        self.input_layer_theta_dot, self.liquid_neurons)
-        # self._load_connections(data, "liquid to readout_layer_tau1",
-        #                        self.liquid_neurons, self.readout_layer_tau1)
-        # self._load_connections(data, "liquid to readout_layer_tau2",
-        #                        self.liquid_neurons, self.readout_layer_tau2)
-        # self._load_connections(data, "readout_layer_tau1 to output_layer_tau1",
-        #                        self.readout_layer_tau1, self.output_layer_tau1)
-        # self._load_connections(data, "readout_layer_tau2 to output_layer_tau2",
-        #                        self.readout_layer_tau2, self.output_layer_tau2)
-        
+        self._load_connections(data, "input_layer_theta to liquid",
+                               self.input_layer_theta, self.liquid_neurons)
+        self._load_connections(data, "input_layer_theta_dot to liquid",
+                               self.input_layer_theta_dot, self.liquid_neurons)
+        self._load_connections_to_readout_layer(data, "liquid to readout_layer_tau1",
+                                                self.liquid_neurons, self.readout_layer_tau1)
+        self._load_connections_to_readout_layer(data, "liquid to readout_layer_tau2",
+                                                self.liquid_neurons, self.readout_layer_tau2)
+        self._load_connections(data, "readout_layer_tau1 to output_layer_tau1",
+                               self.readout_layer_tau1, self.output_layer_tau1)
+        self._load_connections(data, "readout_layer_tau2 to output_layer_tau2",
+                               self.readout_layer_tau2, self.output_layer_tau2)
+        self._load_internal_connections(data, "liquid neurons", self.liquid_neurons)        
         
     # layer is NeuronLayer type or LiquidNeurons type. 
     def _load_neurons(self, data, name, layer):
 
         tmp_data = data["neuron params"][name]
 
-        if tmp_data["size"] != len(layer.neurons) or tmp_data["model"] != layer.neuron_model:
-            layer.replace_neurons(tmp_data["size"], tmp_data["model"])
+        layer.replace_neurons(tmp_data["size"], tmp_data["model"])
 
         # nest.SetStatusで書き換えられないキーを除外
         for itr in tmp_data["params"]:
@@ -165,17 +169,56 @@ class Lsm:
             
         nest.SetStatus(layer.neurons, tmp_data["params"])
 
-    # # src_layer and dst_layer are NeuronLayer type or LiquidNeurons type. 
-    # def _load_connections(self, data, name, src_layer, dst_layer):
+    # src_layer and dst_layer are NeuronLayer type or LiquidNeurons type. 
+    def _load_connections(self, data, name, src_layer, dst_layer):
 
-    #     tmp_data = data["connection params"][name]
+        tmp_data = data["connection params"][name]
 
-    #     for itr in tmp_data["params"]:
-    #         source_ix = itr["source"]
-    #         target_ix = itr["target"]
-    #         source_id = src_layer.neurons[source_ix]
-    #         target_id = dst_layer.neurons[target_ix]
-            
+        # 既存の結合はそこにはない前提
+        for itr in tmp_data["params"]:
+            tmp_param = copy.deepcopy(itr)
+            del tmp_param["source"]
+            del tmp_param["target"]
+            del tmp_param["receptor"]
+            tmp_param["model"] = tmp_param.pop("synapse_model") # renaming the key
+            nest.Connect([src_layer.neurons[itr["source"]]],
+                         [dst_layer.neurons[itr["target"]]],
+                         syn_spec = tmp_param)
+
+    # 通常の_load_connectionsに加え, readout layerのpresynaptic_neurons(_detector)の更新も必要
+    def _load_connections_to_readout_layer(self, data, name, liquid, readout):
+
+        self._load_connections(data, name, liquid, readout)
+
+        conns = nest.GetConnections(liquid.neurons, readout.neurons)
+        readout.presynaptic_neurons.clear()
+        readout.presynaptic_neurons_detector.clear()
+        for itr in conns:
+            params = nest.GetStatus([itr])[0]
+            ns = params["source"]
+            nt = params["target"]
+            if nt not in readout.presynaptic_neurons:
+                readout.presynaptic_neurons[nt] = []
+                readout.presynaptic_neurons_detector[nt] = []
+            readout.presynaptic_neurons[nt].append(ns)
+            ns_detector = liquid.detectors[liquid.neurons.index(ns)]
+            readout.presynaptic_neurons_detector[nt].append(ns_detector)
+        
+
+    def _load_internal_connections(self, data, name, liquid):
+
+        tmp_data = data["connection params"][name]
+
+        # 既存の結合はそこにはない前提
+        for itr in tmp_data["params"]:
+            tmp_param = copy.deepcopy(itr)
+            del tmp_param["source"]
+            del tmp_param["target"]
+            del tmp_param["receptor"]
+            tmp_param["model"] = tmp_param.pop("synapse_model") # renaming the key
+            nest.Connect([liquid.neurons[itr["source"]]],
+                         [liquid.neurons[itr["target"]]],
+                         syn_spec = tmp_param)
         
         
     # i_theta, i_theta_dot [pA]
