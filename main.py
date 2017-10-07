@@ -155,7 +155,7 @@ if __name__ == "__main__":
             sys.stdout.flush()
             count += 1
             tau_ref = -40.0 * itr[0] - 9.0 * itr[1]
-            controller.train(theta = itr[0]
+            controller.train(theta = itr[0],
                              theta_dot = itr[1],
                              tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
                              tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
