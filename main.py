@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+
+
 import inverted_pendulum
 import lsm_controller
 
@@ -64,9 +66,19 @@ def calc_rms_error_pd_control(controller, input_list, Kp, Kd, print_message = Fa
 
 if __name__ == "__main__":
 
+    if len(sys.argv) == 3:
+        output_dir = sys.argv[1]
+        experiment_name = sys.argv[2]
+    elif len(sys.argv) == 2:
+        output_dir = sys.argv[1]
+        experiment_name = "experiment"
+    else:
+        print "error: specify output directory as a command line argument."
+        sys.exit()
+    
     controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
                                               input_neurons_theta_dot_size = 10,
-                                              liquid_neurons_size = 100,
+                                              liquid_neurons_size = 1000,
                                               readout_neurons_tau1_size = 5,
                                               readout_neurons_tau2_size = 5,
                                               output_layer_weight = 100.0,
@@ -138,22 +150,23 @@ if __name__ == "__main__":
                      (0.5, 3.0),
                      (0.5, 6.0)]
 
+    
+    
     rms_error = calc_rms_error_pd_control(controller, training_data, 40.0, 9.0, True)
-    print "error before training: ", rms_error
+    print "rms error before training: ", rms_error
     
+    controller.save(output_dir + "/" + experiment_name + "_before.yaml")
     
-
-    controller.save("test2_before.yaml")
-
-    for i in range(10):
+    count2 = 1
+    for i in range(100):
 
         random.shuffle(training_data)
         
-        count = 1        
+        count1 = 1        
         for itr in training_data:
-            sys.stdout.write("training network ... " + str(count) + "/" + str(len(training_data)) + "    \r")
+            sys.stdout.write("training network ... " + str(count1) + "/" + str(len(training_data)) + "    \r")
             sys.stdout.flush()
-            count += 1
+            count1 += 1
             tau_ref = -40.0 * itr[0] - 9.0 * itr[1]
             controller.train(theta = itr[0],
                              theta_dot = itr[1],
@@ -162,13 +175,20 @@ if __name__ == "__main__":
                              update_num = 1,  
                              sim_time = 1000.0,
                              print_message = False)
+
         sys.stdout.write("\n")
         sys.stdout.flush()
+        
+        rms_error = calc_rms_error_pd_control(controller, training_data, 40.0, 9.0, True)
+        print "rms error after " + str(count2) + "th training: ", rms_error
+
+        count2 += 1
+
             
-    controller.save("test2_after.yaml")
+    controller.save(output_dir + "/" + experiment_name + "_after.yaml")
     
     rms_error = calc_rms_error_pd_control(controller, training_data, 40.0, 9.0, True)
-    print "error after training: ", rms_error
+    print "rms error after training: ", rms_error
     
 
     # for time in range(2000):
