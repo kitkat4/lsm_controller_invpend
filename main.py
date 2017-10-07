@@ -11,7 +11,7 @@ import multiprocessing
 
 import random
 import math
-
+import sys
 
 def calc_rms_error(desired_output, actual_output):
 
@@ -28,24 +28,37 @@ def calc_rms_error(desired_output, actual_output):
 
 def output_with_constant_inputs(controller, theta, theta_dot):
 
-    data = np.zeros(2000)
+    data = np.zeros(600)
 
-    for i in range(2000):
+    for i in range(600):
         controller.simulate(1.0, theta, theta_dot)
         data[i] = controller.get_tau()
 
-    return data[500:1999].mean()
+    # plt.plot(data, 'r.')
+    # plt.show()
+    
+    return data[150:599].mean()
 
 
-def calc_rms_error_pd_control(controller, input_list, Kp, Kd):
+def calc_rms_error_pd_control(controller, input_list, Kp, Kd, print_message = False):
 
     actual_output = []
     desired_output = []
 
+    counter = 1
+    input_len = len(input_list)
     for itr in input_list:
+        if print_message:
+            sys.stdout.write("calculating RMS error ... " + str(counter) + "/" + str(input_len) + "    \r")
+            sys.stdout.flush()
         actual_output.append(output_with_constant_inputs(controller, itr[0], itr[1]))
         desired_output.append(-Kp * itr[0] - Kd * itr[1])
+        counter += 1
 
+    if print_message:
+        sys.stdout.write("\n")
+        sys.stdout.flush()
+    
     return calc_rms_error(desired_output, actual_output)
 
 
@@ -53,7 +66,7 @@ if __name__ == "__main__":
 
     controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
                                               input_neurons_theta_dot_size = 10,
-                                              liquid_neurons_size = 300,
+                                              liquid_neurons_size = 100,
                                               readout_neurons_tau1_size = 5,
                                               readout_neurons_tau2_size = 5,
                                               output_layer_weight = 100.0,
@@ -124,60 +137,73 @@ if __name__ == "__main__":
                      (0.5, 0.0),
                      (0.5, 3.0),
                      (0.5, 6.0)]
-    
-    calc_rms_error_pd_control(controller, training_data, 40.0, 9.0)
-    
-    random.shuffle(training_data)
 
-    print training_data
-
-    exit()
+    rms_error = calc_rms_error_pd_control(controller, training_data, 40.0, 9.0, True)
+    print "error before training: ", rms_error
     
-    for itr in training_data:
-    
-        controller.train(theta = 1.0,
-                         theta_dot = 0.0,
-                         tau1_ref = 0.0,
-                         tau2_ref = 40.0,
-                         update_num = 1,  
-                         sim_time = 1000.0,
-                         print_message = False)
-
     
 
-    for time in range(2000):
+    controller.save("test2_before.yaml")
 
-        # theta = pend.theta
-        # theta_dot = pend.theta_dot
-        controller.simulate(1.0, 1.0, 0.0)
-        result1[time] = controller.tau1
-        result2[time] = controller.tau2
-        # pend.simulate_one_step(controller.get_tau(), 0.001)
+    for i in range(10):
 
-    print "mean output before training: ", result1_prev.mean() - result2_prev.mean()
-    print "mean output after  training: ", result1.mean() - result2.mean()
+        random.shuffle(training_data)
+        
+        count = 1        
+        for itr in training_data:
+            sys.stdout.write("training network ... " + str(count) + "/" + str(len(training_data)) + "    \r")
+            sys.stdout.flush()
+            count += 1
+            tau_ref = -40.0 * itr[0] - 9.0 * itr[1]
+            controller.train(theta = itr[0]
+                             theta_dot = itr[1],
+                             tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
+                             tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
+                             update_num = 1,  
+                             sim_time = 1000.0,
+                             print_message = False)
+        sys.stdout.write("\n")
+        sys.stdout.flush()
+            
+    controller.save("test2_after.yaml")
+    
+    rms_error = calc_rms_error_pd_control(controller, training_data, 40.0, 9.0, True)
+    print "error after training: ", rms_error
+    
+
+    # for time in range(2000):
+
+    #     # theta = pend.theta
+    #     # theta_dot = pend.theta_dot
+    #     controller.simulate(1.0, 1.0, 0.0)
+    #     result1[time] = controller.tau1
+    #     result2[time] = controller.tau2
+    #     # pend.simulate_one_step(controller.get_tau(), 0.001)
+
+    # print "mean output before training: ", result1_prev.mean() - result2_prev.mean()
+    # print "mean output after  training: ", result1.mean() - result2.mean()
 
 
-    plt.figure()
-    plt.plot(result1_prev, 'b.')
-    plt.plot(result1, 'r.')
-    plt.title("tau1")
-    plt.figure()
-    plt.plot(result2_prev, 'b.')
-    plt.plot(result2, 'r.')
-    plt.title("tau2")
+    # plt.figure()
+    # plt.plot(result1_prev, 'b.')
+    # plt.plot(result1, 'r.')
+    # plt.title("tau1")
+    # plt.figure()
+    # plt.plot(result2_prev, 'b.')
+    # plt.plot(result2, 'r.')
+    # plt.title("tau2")
 
-    plt.show()
+    # plt.show()
     
     # pend.plot()
 
-    # for debugging
-    liq = controller.lsm.liquid_neurons
-    in_theta = controller.lsm.input_layer_theta
-    in_theta_dot = controller.lsm.input_layer_theta_dot
-    readout1 = controller.lsm.readout_layer_tau1
-    readout2 = controller.lsm.readout_layer_tau2
-    output1 = controller.lsm.output_layer_tau1
-    output2 = controller.lsm.output_layer_tau2
+    # # for debugging
+    # liq = controller.lsm.liquid_neurons
+    # in_theta = controller.lsm.input_layer_theta
+    # in_theta_dot = controller.lsm.input_layer_theta_dot
+    # readout1 = controller.lsm.readout_layer_tau1
+    # readout2 = controller.lsm.readout_layer_tau2
+    # output1 = controller.lsm.output_layer_tau1
+    # output2 = controller.lsm.output_layer_tau2
     
 
