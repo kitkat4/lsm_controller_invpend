@@ -9,6 +9,46 @@ import numpy as np
 import matplotlib.pyplot as plt
 import multiprocessing
 
+import random
+import math
+
+
+def calc_rms_error(desired_output, actual_output):
+
+    if len(desired_output) != len(actual_output):
+        print "error in calc_rms_error: the length of inputs not match!"
+        return None
+
+    size = len(desired_output)
+    tmp_sum = 0
+    for i in range(size):
+        tmp_sum += (desired_output[i] - actual_output[i])**2
+    return math.sqrt(tmp_sum / float(size))
+
+
+def output_with_constant_inputs(controller, theta, theta_dot):
+
+    data = np.zeros(2000)
+
+    for i in range(2000):
+        controller.simulate(1.0, theta, theta_dot)
+        data[i] = controller.get_tau()
+
+    return data[500:1999].mean()
+
+
+def calc_rms_error_pd_control(controller, input_list, Kp, Kd):
+
+    actual_output = []
+    desired_output = []
+
+    for itr in input_list:
+        actual_output.append(output_with_constant_inputs(controller, itr[0], itr[1]))
+        desired_output.append(-Kp * itr[0] - Kd * itr[1])
+
+    return calc_rms_error(desired_output, actual_output)
+
+
 if __name__ == "__main__":
 
     controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
@@ -18,23 +58,25 @@ if __name__ == "__main__":
                                               readout_neurons_tau2_size = 5,
                                               output_layer_weight = 100.0,
                                               thread_num = multiprocessing.cpu_count())
+
+    print "cpu count: ", multiprocessing.cpu_count()
     
     pend = inverted_pendulum.InvertedPendulum(mass = 1.0,
                                               length = 1.0,
                                               theta_0 = 1.0,
                                               theta_dot_0 = 0.0)
 
-    result1_prev = np.zeros(2000)
-    result2_prev = np.zeros(2000)
-    result1 = np.zeros(2000)
-    result2 = np.zeros(2000)
+    # result1_prev = np.zeros(2000)
+    # result2_prev = np.zeros(2000)
+    # result1 = np.zeros(2000)
+    # result2 = np.zeros(2000)
     
 
-    for time in range(2000):
+    # for time in range(2000):
 
-        controller.simulate(1.0, 1.0, 0.0)
-        result1_prev[time] = controller.tau1
-        result2_prev[time] = controller.tau2
+    #     controller.simulate(1.0, 1.0, 0.0)
+    #     result1_prev[time] = controller.tau1
+    #     result2_prev[time] = controller.tau2
 
     # # before learning
     # for time in range(1000):
@@ -46,16 +88,62 @@ if __name__ == "__main__":
     #     print time
         
     # pend.plot()
-    
-    controller.train(theta = 1.0,
-                     theta_dot = 0.0,
-                     tau1_ref = 0.0,
-                     tau2_ref = 40.0,
-                     # update_num = 100,
-                     update_num = 10,  
-                     sim_time = 1000.0,
-                     print_message = True)
 
+    training_data = [(-2.0, 0.0),
+                     (-1.5, -3.0),
+                     (-1.5, 0.0),
+                     (-1.5, 3.0),
+                     (-1.0, -6.0),
+                     (-1.0, -3.0),
+                     (-1.0, 0.0),
+                     (-1.0, 3.0),
+                     (-1.0, 6.0),
+                     (-0.5, -6.0),
+                     (-0.5, -3.0),
+                     (-0.5, 0.0),
+                     (-0.5, 3.0),
+                     (-0.5, 6.0),
+                     (0.0, -9.0),
+                     (0.0, -6.0),
+                     (0.0, -3.0),
+                     (0.0, 0.0),
+                     (0.0, 3.0),
+                     (0.0, 6.0),
+                     (0.0, 9.0),
+                     (2.0, 0.0),
+                     (1.5, -3.0),
+                     (1.5, 0.0),
+                     (1.5, 3.0),
+                     (1.0, -6.0),
+                     (1.0, -3.0),
+                     (1.0, 0.0),
+                     (1.0, 3.0),
+                     (1.0, 6.0),
+                     (0.5, -6.0),
+                     (0.5, -3.0),
+                     (0.5, 0.0),
+                     (0.5, 3.0),
+                     (0.5, 6.0)]
+    
+    calc_rms_error_pd_control(controller, training_data, 40.0, 9.0)
+    
+    random.shuffle(training_data)
+
+    print training_data
+
+    exit()
+    
+    for itr in training_data:
+    
+        controller.train(theta = 1.0,
+                         theta_dot = 0.0,
+                         tau1_ref = 0.0,
+                         tau2_ref = 40.0,
+                         update_num = 1,  
+                         sim_time = 1000.0,
+                         print_message = False)
+
+    
 
     for time in range(2000):
 
