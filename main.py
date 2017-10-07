@@ -150,12 +150,12 @@ if __name__ == "__main__":
                      (0.5, 3.0),
                      (0.5, 6.0)]
 
-    
+    controller.save(output_dir + "/" + experiment_name + "_before.yaml")    
     
     rms_error = calc_rms_error_pd_control(controller, training_data, 40.0, 9.0, True)
     print "rms error before training: ", rms_error
     
-    controller.save(output_dir + "/" + experiment_name + "_before.yaml")
+
     
     count2 = 1
     for i in range(100):
