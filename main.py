@@ -14,6 +14,7 @@ import multiprocessing
 import random
 import math
 import sys
+import time
 
 def calc_rms_error(desired_output, actual_output):
 
@@ -66,6 +67,9 @@ def calc_rms_error_pd_control(controller, input_list, Kp, Kd, print_message = Fa
 
 if __name__ == "__main__":
 
+
+    time_main_start = time.time()
+    
     if len(sys.argv) == 3:
         output_dir = sys.argv[1]
         experiment_name = sys.argv[2]
@@ -75,7 +79,7 @@ if __name__ == "__main__":
     else:
         print "error: specify output directory as a command line argument."
         sys.exit()
-    
+
     controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
                                               input_neurons_theta_dot_size = 10,
                                               liquid_neurons_size = 1000,
@@ -155,8 +159,8 @@ if __name__ == "__main__":
     rms_error = calc_rms_error_pd_control(controller, training_data, 40.0, 9.0, True)
     print "rms error before training: ", rms_error
     
-
-    
+    # training
+    time_training_start = time.time()
     count2 = 1
     for i in range(100):
 
@@ -184,6 +188,7 @@ if __name__ == "__main__":
 
         count2 += 1
 
+    time_training_stop = time.time()
             
     controller.save(output_dir + "/" + experiment_name + "_after.yaml")
     
@@ -227,3 +232,7 @@ if __name__ == "__main__":
     # output2 = controller.lsm.output_layer_tau2
     
 
+    time_main_stop = time.time()
+
+    sys.stdout.write("training took " + str(time_training_stop - time_training_start) + " [s]\n")
+    sys.stdout.write("main took " + str(time_main_stop - time_main_start) + " [s]\n")
