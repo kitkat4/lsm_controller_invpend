@@ -160,6 +160,7 @@ if __name__ == "__main__":
     rms_error = calc_rms_error_pd_control(controller, training_data, 40.0, 9.0, True)
     time_calc_rms_error_pd_control_stop = time.time()
     print "rms error before training: ", rms_error
+
     
     # training
     time_training_start = time.time()
