@@ -82,7 +82,7 @@ if __name__ == "__main__":
 
     controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
                                               input_neurons_theta_dot_size = 10,
-                                              liquid_neurons_size = 1000,
+                                              liquid_neurons_size = 300,
                                               readout_neurons_tau1_size = 5,
                                               readout_neurons_tau2_size = 5,
                                               output_layer_weight = 100.0,
@@ -155,14 +155,16 @@ if __name__ == "__main__":
                      (0.5, 6.0)]
 
     controller.save(output_dir + "/" + experiment_name + "_before.yaml")    
-    
+
+    time_calc_rms_error_pd_control_start = time.time()
     rms_error = calc_rms_error_pd_control(controller, training_data, 40.0, 9.0, True)
+    time_calc_rms_error_pd_control_stop = time.time()
     print "rms error before training: ", rms_error
     
     # training
     time_training_start = time.time()
     count2 = 1
-    for i in range(100):
+    for i in range(10):
 
         random.shuffle(training_data)
         
@@ -176,7 +178,7 @@ if __name__ == "__main__":
                              theta_dot = itr[1],
                              tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
                              tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
-                             update_num = 1,  
+                             update_num = 10,  
                              sim_time = 1000.0,
                              print_message = False)
 
@@ -233,6 +235,6 @@ if __name__ == "__main__":
     
 
     time_main_stop = time.time()
-
+    sys.stdout.write("calling calc_rms_error_pd_control once took " + str(time_calc_rms_error_pd_control_stop - time_calc_rms_error_pd_control_start) + " [s]\n")
     sys.stdout.write("training took " + str(time_training_stop - time_training_start) + " [s]\n")
     sys.stdout.write("main took " + str(time_main_stop - time_main_start) + " [s]\n")
