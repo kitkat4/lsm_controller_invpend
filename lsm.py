@@ -185,26 +185,24 @@ class Lsm:
                          [dst_layer.neurons[itr["target"]]],
                          syn_spec = tmp_param)
 
-    # 通常の_load_connectionsに加え, readout layerのpresynaptic_neurons(_detector)の更新も必要
+    # 通常の_load_connectionsに加え, readout layerのpresynaptic_neuronsの更新も必要
     def _load_connections_to_readout_layer(self, data, name, liquid, readout):
 
         self._load_connections(data, name, liquid, readout)
 
         conns = nest.GetConnections(liquid.neurons, readout.neurons)
         readout.presynaptic_neurons.clear()
-        readout.presynaptic_neurons_detector.clear()
+        readout.connected_liquid = liquid
+
         for itr in conns:
             params = nest.GetStatus([itr])[0]
             ns = params["source"]
             nt = params["target"]
             if nt not in readout.presynaptic_neurons:
                 readout.presynaptic_neurons[nt] = []
-                readout.presynaptic_neurons_detector[nt] = []
             readout.presynaptic_neurons[nt].append(ns)
-            ns_detector = liquid.detectors[liquid.neurons.index(ns)]
-            readout.presynaptic_neurons_detector[nt].append(ns_detector)
-        
 
+            
     def _load_internal_connections(self, data, name, liquid):
 
         tmp_data = data["connection params"][name]
