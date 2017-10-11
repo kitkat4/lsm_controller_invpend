@@ -4,6 +4,7 @@ import nest
 import nest.raster_plot
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 import random
 
@@ -24,14 +25,13 @@ class LiquidNeurons:
         self.neurons = nest.Create(self.neuron_model, neuron_size)
 
         self.detector = nest.Create("spike_detector", params = {"withgid": True, "withtime": True})
-        self.meters = nest.Create("multimeter", neuron_size,
-                                  params = {"withtime":True, "record_from":["V_m"]})
+        self.meter = nest.Create("multimeter", params = {"withtime":True, "record_from":["V_m"]})
 
 
         
         for i in range(neuron_size): # connect one-to-one
             nest.Connect([self.neurons[i]], self.detector) 
-            nest.Connect([self.meters[i]], [self.neurons[i]])
+            nest.Connect(self.meter, [self.neurons[i]])
             
         for ns in self.neurons:
             for nt in self.neurons:
@@ -56,13 +56,12 @@ class LiquidNeurons:
 
         self.neurons = nest.Create(neuron_model, neuron_size)
         self.detector = nest.Create("spike_detector", params = {"withgid": True, "withtime": True})
-        self.meters = nest.Create("multimeter", neuron_size,
-                                  params = {"withtime":True, "record_from":["V_m"]})
+        self.meter = nest.Create("multimeter", params = {"withtime":True, "record_from":["V_m"]})
 
 
         for i in range(neuron_size):
             nest.Connect([self.neurons[i]], self.detector)
-            nest.Connect([self.meters[i]], [self.neurons[i]])
+            nest.Connect(self.meter, [self.neurons[i]])
 
                     
     def connect(self,
@@ -89,6 +88,21 @@ class LiquidNeurons:
                     if nt not in target_neuron_layer.presynaptic_neurons:
                         target_neuron_layer.presynaptic_neurons[nt] = []
                     target_neuron_layer.presynaptic_neurons[nt].append(ns)
+
+    def get_meter_data(self, neuron_ix, key):
+        
+        key_all = nest.GetStatus(self.meter, keys = "events")[0][key]
+        senders_all = nest.GetStatus(self.meter, keys = "events")[0]["senders"]
+
+        return key_all[np.where(senders_all == self.neurons[neuron_ix])]
+
+    def get_detector_data(self, neuron_ix, key):
+        
+        key_all = nest.GetStatus(self.detector, keys = "events")[0][key]
+        senders_all = nest.GetStatus(self.detector, keys = "events")[0]["senders"]
+
+        return key_all[np.where(senders_all == self.neurons[neuron_ix])]
+
                     
 
     # neuron_ix is the index of the self.neurons i.e. [0, len(self.neurons) - 1]
@@ -98,22 +112,13 @@ class LiquidNeurons:
             sys.stderr.write("warning: NeuronLayer.plot neuron_ix is out of range.\n")
             return
         
-        voltages = nest.GetStatus(self.meters, keys = "events")[neuron_ix]["V_m"]
-        times = nest.GetStatus(self.meters, keys = "events")[neuron_ix]["times"]
+        times = self.get_meter_data(neuron_ix, "times")
+        V_m = self.get_meter_data(neuron_ix, "V_m")
         plt.figure()
-        plt.plot(times, voltages)
+        plt.plot(times, V_m)
 
-        senders_all = nest.GetStatus(self.detector, keys = "events")[0]["senders"]
-        times_all = nest.GetStatus(self.detector, keys = "events")[0]["times"]
-
-        senders = []
-        times = []
-        
-        for (itr_senders, itr_times) in zip(senders_all, times_all):
-            if itr_senders == self.neurons[neuron_ix]:
-                senders.append(itr_senders)
-                times.append(itr_times)
-        
+        senders = self.get_detector_data(neuron_ix, "senders")
+        times = self.get_detector_data(neuron_ix, "times")
         plt.figure()
         plt.plot(times, senders, '.')
 
@@ -134,13 +139,7 @@ class LiquidNeurons:
             sys.stderr.write("warning: NeuronLayer.plot neuron_ix is out of range.\n")
             return
 
-        senders = nest.GetStatus(self.detector, keys = "events")[0]["senders"]
-        times = nest.GetStatus(self.detector, keys = "events")[0]["times"]
+        senders = self.get_detector_data(neuron_ix, "senders")
 
-        ret = 0
-        for itr in senders:
-            if itr == self.neurons[neuron_ix]:
-                ret += 1
-
-        return ret
+        return len(senders)
 

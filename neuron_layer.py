@@ -21,8 +21,7 @@ class NeuronLayer:
         self.neurons = nest.Create(self.neuron_model, neuron_size,
                                    params = {"V_th": V_th, "tau_m": tau_m})
         self.detector = nest.Create("spike_detector", params = {"withgid": True, "withtime": True})
-        self.meters = nest.Create("multimeter", neuron_size,
-                                  params = {"withtime":True, "record_from":["V_m"]})
+        self.meter = nest.Create("multimeter", params = {"withtime":True, "record_from":["V_m"]})
 
         # used only in readout layer. 
         self.presynaptic_neurons = {}
@@ -30,7 +29,7 @@ class NeuronLayer:
 
         for i in range(neuron_size):
             nest.Connect([self.neurons[i]], self.detector)
-            nest.Connect([self.meters[i]], [self.neurons[i]])
+            nest.Connect(self.meter, [self.neurons[i]])
 
     # 古いニューロンはどっかいく 消せるなら消したいけど...
     def replace_neurons(self, neuron_size, neuron_model):
@@ -43,13 +42,12 @@ class NeuronLayer:
 
         self.neurons = nest.Create(neuron_model, neuron_size)
         self.detector = nest.Create("spike_detector", params = {"withgid": True, "withtime": True})
-        self.meters = nest.Create("multimeter", neuron_size,
-                                  params = {"withtime":True, "record_from":["V_m"]})
+        self.meter = nest.Create("multimeter", params = {"withtime":True, "record_from":["V_m"]})
 
 
         for i in range(neuron_size):
             nest.Connect([self.neurons[i]], self.detector)
-            nest.Connect([self.meters[i]], [self.neurons[i]])
+            nest.Connect(self.meter, [self.neurons[i]])
 
 
     def connect2liquid(self,
@@ -102,8 +100,6 @@ class NeuronLayer:
             senders_all = nest.GetStatus(self.connected_liquid.detector, keys = "events")[0]["senders"]
 
             for ix in range(size_pre):
-                # input_spike_train.append(nest.GetStatus([self.presynaptic_neurons_detector[n][ix]],
-                #                                         keys="events")[0]["times"])
                 input_spike_train.append(times_all[np.where(senders_all == presynaptic_neurons[n][ix])])
                                           
                 conn.append(nest.GetConnections([self.presynaptic_neurons[n][ix]],
@@ -130,19 +126,31 @@ class NeuronLayer:
 
     def get_spike_timings(self, ix):
 
-        senders_all = nest.GetStatus(self.detector, keys="events")[0]["senders"]
-        times_all = nest.GetStatus(self.detector, keys="events")[0]["times"]
-        return times_all[np.where(senders_all == self.neurons[ix])]
+        return self.get_detector_data(ix, "times")
+
+    def get_meter_data(self, neuron_ix, key):
         
+        key_all = nest.GetStatus(self.meter, keys = "events")[0][key]
+        senders_all = nest.GetStatus(self.meter, keys = "events")[0]["senders"]
+
+        return key_all[np.where(senders_all == self.neurons[neuron_ix])]
+
+    def get_detector_data(self, neuron_ix, key):
+        
+        key_all = nest.GetStatus(self.detector, keys = "events")[0][key]
+        senders_all = nest.GetStatus(self.detector, keys = "events")[0]["senders"]
+
+        return key_all[np.where(senders_all == self.neurons[neuron_ix])]
+
+    
     # filter_size [ms]
     def get_mean_membrane_voltage(self, filter_size):
 
-        meters_data = nest.GetStatus(self.meters, keys = "events")
         result_list = np.zeros(len(self.neurons))
         
         for ix in range(len(self.neurons)):
-            voltages = meters_data[ix]["V_m"]
-            times = meters_data[ix]["times"] # must be sorted
+            voltages = self.get_meter_data(ix, "V_m")
+            times = self.get_meter_data(ix, "times")
 
             if len(times) == 0:
                 result_list[ix] = 0.0
@@ -168,23 +176,13 @@ class NeuronLayer:
             sys.stderr.write("warning: NeuronLayer.plot neuron_ix is out of range.\n")
             return
         
-        voltages = nest.GetStatus(self.meters, keys = "events")[neuron_ix]["V_m"]
-        times = nest.GetStatus(self.meters, keys = "events")[neuron_ix]["times"]
+        V_m = self.get_meter_data(neuron_ix, "V_m")
+        times = self.get_meter_data(neuron_ix, "times")
         plt.figure()
-        plt.plot(times, voltages)
+        plt.plot(times, V_m)
 
-
-        senders_all = nest.GetStatus(self.detector, keys = "events")[0]["senders"]
-        times_all = nest.GetStatus(self.detector, keys = "events")[0]["times"]
-
-        senders = []
-        times = []
-        
-        for (itr_senders, itr_times) in zip(senders_all, times_all):
-            if itr_senders == self.neurons[neuron_ix]:
-                senders.append(itr_senders)
-                times.append(itr_times)
-        
+        senders = self.get_detector_data(neuron_ix, "senders")
+        times = self.get_detector_data(neuron_ix, "times")
         plt.figure()
         plt.plot(times, senders, '.')
 
@@ -206,14 +204,8 @@ class NeuronLayer:
             sys.stderr.write("warning: NeuronLayer.plot neuron_ix is out of range.\n")
             return
 
-        senders = nest.GetStatus(self.detector, keys = "events")[0]["senders"]
-        times = nest.GetStatus(self.detector, keys = "events")[0]["times"]
-
-        ret = 0
-        for itr in senders:
-            if itr == self.neurons[neuron_ix]:
-                ret += 1
-
-        return ret
+        senders = self.get_detector_data(neuron_ix, "senders")
+        
+        return len(senders)
 
     
