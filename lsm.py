@@ -256,8 +256,8 @@ class Lsm:
 
             nest.Simulate(sim_time)
         
-            self.readout_layer_tau1.train(st_tau1_ref)
-            self.readout_layer_tau2.train(st_tau2_ref)
+            self.readout_layer_tau1.train(np.array(st_tau1_ref) + i * sim_time)
+            self.readout_layer_tau2.train(np.array(st_tau2_ref) + i * sim_time)
 
         if print_message:
             sys.stdout.write("\n")

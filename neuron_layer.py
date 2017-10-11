@@ -84,7 +84,7 @@ class NeuronLayer:
         #     sys.exit()
 
         for i, n in enumerate(self.neurons):
-        
+
             output_spike_train = self.get_spike_timings(i)
             desired_spike_train = st_ref
 
@@ -100,12 +100,11 @@ class NeuronLayer:
             senders_all = nest.GetStatus(self.connected_liquid.detector, keys = "events")[0]["senders"]
 
             for ix in range(size_pre):
-                input_spike_train.append(times_all[np.where(senders_all == presynaptic_neurons[n][ix])])
+                input_spike_train.append(times_all[np.where(senders_all == self.presynaptic_neurons[n][ix])])
                                           
                 conn.append(nest.GetConnections([self.presynaptic_neurons[n][ix]],
                                                 target = [self.neurons[i]]))
                 present_weight.append(nest.GetStatus(conn[-1])[0]["weight"])
-
 
             delta_w = joblib.Parallel(n_jobs = -1)(joblib.delayed(resume.resume)(input_spike_train[ix],
                                                                                  output_spike_train,

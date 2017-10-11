@@ -8,6 +8,10 @@ import nest
 import math
 import sys
 
+
+# Don't call nest.Simulate outside this class.
+# Otherwise LsmController.total_sim_time will get wrong and
+# LsmController.train will fail to work properly.
 class LsmController:
 
     def __init__(self,
@@ -26,6 +30,8 @@ class LsmController:
         nest.set_verbosity("M_ERROR") # suppress trivial messages
         sys.stdout.write("Initializing LsmController ... ")
 
+        self.total_sim_time = 0.0
+        
         self.tau1 = 0.0
         self.tau2 = 0.0
 
@@ -65,6 +71,8 @@ class LsmController:
                        sim_time = sim_time,
                        print_message = print_message)
         
+        self.total_sim_time += sim_time * update_num
+        
 
     # sim_time [ms]
     def simulate(self, sim_time, theta, theta_dot):
@@ -78,6 +86,8 @@ class LsmController:
                                                          i_theta,
                                                          i_theta_dot,
                                                          filter_size = self.filter_size)
+        
+        self.total_sim_time += sim_time
 
         self._update_tau(tau1_voltage, tau2_voltage)
 
@@ -127,7 +137,9 @@ class LsmController:
         I = (C_m / tau_m) * (voltage - E_L) # [pA] 
         charge_per_spike = weight * tau_syn * math.e / 1000.0 # [pC]
         freq = I / charge_per_spike
-        return [round(x, 1) for x in np.linspace(1, time_span, freq)]
+        return [round(x, 1) for x in np.linspace(self.total_sim_time + 1.0,
+                                                 self.total_sim_time + time_span,
+                                                 freq)]
 
 
     # [-70 [mv], -50 [mv]] -> [0 [Nm], 100 [Nm]]
