@@ -75,14 +75,13 @@ class NeuronLayer:
                      {"rule": "one_to_one"},
                      {"model": "static_synapse", "weight": weight})
 
-        
+
     # st: spike timings (float list).
     def train(self, st_ref):
 
-        # if len(self.neurons) != 1:
-        #     sys.stderr.write("error: get_spike_timings works only when one neuron is contained.\n")
-        #     sys.exit()
-
+        times_all = nest.GetStatus(self.connected_liquid.detector, keys = "events")[0]["times"]
+        senders_all = nest.GetStatus(self.connected_liquid.detector, keys = "events")[0]["senders"]
+        
         for i, n in enumerate(self.neurons):
 
             output_spike_train = self.get_spike_timings(i)
@@ -95,10 +94,6 @@ class NeuronLayer:
             present_weight = []
             delta_w = None
 
-
-            times_all = nest.GetStatus(self.connected_liquid.detector, keys = "events")[0]["times"]
-            senders_all = nest.GetStatus(self.connected_liquid.detector, keys = "events")[0]["senders"]
-
             for ix in range(size_pre):
                 input_spike_train.append(times_all[np.where(senders_all == self.presynaptic_neurons[n][ix])])
                                           
@@ -110,14 +105,9 @@ class NeuronLayer:
                                                                                  output_spike_train,
                                                                                  desired_spike_train) for ix in range(size_pre))
 
-                # delta_w =  resume.resume(input_spike_train,
-                #                          output_spike_train,
-                #                          desired_spike_train)
-                
             for ix in range(size_pre):
 
                 nest.SetStatus(conn[ix], {"weight": present_weight[ix] + delta_w[ix]})
-        
 
     def set_input_current(self, current):
         

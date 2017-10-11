@@ -74,7 +74,7 @@ class LsmController:
 
     # sim_time [ms]
     # _update_tauで更新されるトルクは最後のfilter_size [ms]の平均となる
-    def simulate(self, sim_time, theta, theta_dot, filter_size = 3.0):
+    def simulate(self, sim_time, theta, theta_dot, filter_size = 1.0):
 
         f_theta = self._conv_theta2freq(theta)
         f_theta_dot = self._conv_theta_dot2freq(theta_dot)

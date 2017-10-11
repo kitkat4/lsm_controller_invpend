@@ -73,8 +73,8 @@ if __name__ == "__main__":
         print "error: specify output directory as a command line argument."
         sys.exit()
 
-    controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
-                                              input_neurons_theta_dot_size = 10,
+    controller = lsm_controller.LsmController(input_neurons_theta_size = 5,
+                                              input_neurons_theta_dot_size = 5,
                                               liquid_neurons_size = 300,
                                               readout_neurons_tau1_size = 5,
                                               readout_neurons_tau2_size = 5,
@@ -88,28 +88,6 @@ if __name__ == "__main__":
                                               theta_0 = 1.0,
                                               theta_dot_0 = 0.0)
 
-    # result1_prev = np.zeros(2000)
-    # result2_prev = np.zeros(2000)
-    # result1 = np.zeros(2000)
-    # result2 = np.zeros(2000)
-    
-
-    # for time in range(2000):
-
-    #     controller.simulate(1.0, 1.0, 0.0)
-    #     result1_prev[time] = controller.tau1
-    #     result2_prev[time] = controller.tau2
-
-    # # before learning
-    # for time in range(1000):
-
-    #     theta = pend.theta
-    #     theta_dot = pend.theta_dot
-    #     controller.simulate(1.0, theta, theta_dot)
-    #     pend.simulate_one_step(controller.get_tau(), 0.001)
-    #     print time
-        
-    # pend.plot()
 
     training_data = [(-2.0, 0.0),
                      (-1.5, -3.0),
@@ -190,15 +168,33 @@ if __name__ == "__main__":
     
     rms_error = calc_rms_error_pd_control(controller, training_data, 40.0, 9.0, True)
     print "rms error after training: ", rms_error
+
+
+    # result1_prev = np.zeros(2000)
+    # result2_prev = np.zeros(2000)
+    # result1 = np.zeros(2000)
+    # result2 = np.zeros(2000)
     
 
-    # for time in range(2000):
+    # for i in range(2000):
+
+    #     controller.simulate(1.0, 1.0, 0.0)
+    #     result1_prev[i] = controller.tau1
+    #     result2_prev[i] = controller.tau2
+    
+
+    # time_training_start = time.time()
+    # controller.train(1.0, 0.0, 40.0, 0.0, 30, 1000.0)
+    # time_training_stop = time.time()
+
+    
+    # for i in range(2000):
 
     #     # theta = pend.theta
     #     # theta_dot = pend.theta_dot
     #     controller.simulate(1.0, 1.0, 0.0)
-    #     result1[time] = controller.tau1
-    #     result2[time] = controller.tau2
+    #     result1[i] = controller.tau1
+    #     result2[i] = controller.tau2
     #     # pend.simulate_one_step(controller.get_tau(), 0.001)
 
     # print "mean output before training: ", result1_prev.mean() - result2_prev.mean()
@@ -216,19 +212,10 @@ if __name__ == "__main__":
 
     # plt.show()
     
-    # pend.plot()
 
-    # # for debugging
-    # liq = controller.lsm.liquid_neurons
-    # in_theta = controller.lsm.input_layer_theta
-    # in_theta_dot = controller.lsm.input_layer_theta_dot
-    # readout1 = controller.lsm.readout_layer_tau1
-    # readout2 = controller.lsm.readout_layer_tau2
-    # output1 = controller.lsm.output_layer_tau1
-    # output2 = controller.lsm.output_layer_tau2
+##########################################
     
-
     time_main_stop = time.time()
-    sys.stdout.write("calling calc_rms_error_pd_control once took " + str(time_calc_rms_error_pd_control_stop - time_calc_rms_error_pd_control_start) + " [s]\n")
+    # sys.stdout.write("calling calc_rms_error_pd_control once took " + str(time_calc_rms_error_pd_control_stop - time_calc_rms_error_pd_control_start) + " [s]\n")
     sys.stdout.write("training took " + str(time_training_stop - time_training_start) + " [s]\n")
     sys.stdout.write("main took " + str(time_main_stop - time_main_start) + " [s]\n")
