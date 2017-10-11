@@ -220,17 +220,20 @@ class Lsm:
         
         
     # i_theta, i_theta_dot [pA]
-    def simulate(self, sim_time, i_theta, i_theta_dot, filter_size):
+    def simulate(self, sim_time, i_theta, i_theta_dot):
 
         self.input_layer_theta.set_input_current(i_theta)
         self.input_layer_theta_dot.set_input_current(i_theta_dot)
 
         nest.Simulate(sim_time)
 
+    def get_mean_membrane_voltage(self, filter_size):
+
         ret1 = self.output_layer_tau1.get_mean_membrane_voltage(filter_size)
         ret2 = self.output_layer_tau2.get_mean_membrane_voltage(filter_size)
         
         return (ret1, ret2)
+    
 
     # st: spike train (float list).
     # The dynamic state of the network will be reset.

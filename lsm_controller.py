@@ -21,7 +21,6 @@ class LsmController:
                  readout_neurons_tau1_size,
                  readout_neurons_tau2_size,
                  output_layer_weight = 100.0,
-                 filter_size = 3.0,
                  thread_num = 1):
 
         # Don't make any nest nodes or connections before this line!
@@ -36,7 +35,6 @@ class LsmController:
         self.tau2 = 0.0
 
         self.output_layer_weight = output_layer_weight
-        self.filter_size = filter_size
         
         self.lsm = lsm.Lsm(input_neurons_theta_size,
                            input_neurons_theta_dot_size,
@@ -75,17 +73,17 @@ class LsmController:
         
 
     # sim_time [ms]
-    def simulate(self, sim_time, theta, theta_dot):
+    # _update_tauで更新されるトルクは最後のfilter_size [ms]の平均となる
+    def simulate(self, sim_time, theta, theta_dot, filter_size = 3.0):
 
         f_theta = self._conv_theta2freq(theta)
         f_theta_dot = self._conv_theta_dot2freq(theta_dot)
         i_theta = self._conv_freq2current(f_theta)
         i_theta_dot = self._conv_freq2current(f_theta_dot)
         
-        (tau1_voltage, tau2_voltage) = self.lsm.simulate(sim_time,
-                                                         i_theta,
-                                                         i_theta_dot,
-                                                         filter_size = self.filter_size)
+        self.lsm.simulate(sim_time, i_theta, i_theta_dot)
+
+        (tau1_voltage, tau2_voltage) = self.lsm.get_mean_membrane_voltage(filter_size)
         
         self.total_sim_time += sim_time
 

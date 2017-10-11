@@ -31,16 +31,9 @@ def calc_rms_error(desired_output, actual_output):
 
 def output_with_constant_inputs(controller, theta, theta_dot):
 
-    data = np.zeros(600)
-
-    for i in range(600):
-        controller.simulate(1.0, theta, theta_dot)
-        data[i] = controller.get_tau()
-
-    # plt.plot(data, 'r.')
-    # plt.show()
+    controller.simulate(600.0, theta, theta_dot, 450.0)
     
-    return data[150:599].mean()
+    return controller.get_tau()
 
 
 def calc_rms_error_pd_control(controller, input_list, Kp, Kd, print_message = False):
