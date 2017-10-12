@@ -20,7 +20,7 @@ class LsmController:
                  liquid_neurons_size,
                  readout_neurons_tau1_size,
                  readout_neurons_tau2_size,
-                 output_layer_weight = 100.0,
+                 output_layer_weight = 200.0,
                  thread_num = 1):
 
         # Don't make any nest nodes or connections before this line!
@@ -108,10 +108,10 @@ class LsmController:
 
         return theta_dot * 15 + 250.0
 
-    # [0 [Nm], 100 [Nm]] -> [-70 [mV], -50 [mV]]  許容する最大トルクはこれでいいのか？
+    # [0 [Nm], 20 [Nm]] -> [-70 [mV], -50 [mV]]
     def _conv_tau2voltage(self, tau):
 
-        return tau * 0.2 - 70.0
+        return tau - 70.0
 
     # returns current[pA]
     def _conv_freq2current(self, freq): # tau_m が十分大きいニューロンを想定
@@ -140,9 +140,9 @@ class LsmController:
                                                  freq)]
 
 
-    # [-70 [mv], -50 [mv]] -> [0 [Nm], 100 [Nm]]
+    # [-70 [mv], -50 [mv]] -> [0 [Nm], 20 [Nm]]
     def _update_tau(self, tau1_voltage, tau2_voltage):
 
-        self.tau1 = tau1_voltage * 5.0 + 350.0
-        self.tau2 = tau2_voltage * 5.0 + 350.0
+        self.tau1 = tau1_voltage + 70.0
+        self.tau2 = tau2_voltage + 70.0
         

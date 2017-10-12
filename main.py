@@ -73,11 +73,11 @@ if __name__ == "__main__":
         print "error: specify output directory as a command line argument."
         sys.exit()
 
-    controller = lsm_controller.LsmController(input_neurons_theta_size = 5,
-                                              input_neurons_theta_dot_size = 5,
+    controller = lsm_controller.LsmController(input_neurons_theta_size = 3,
+                                              input_neurons_theta_dot_size = 3,
                                               liquid_neurons_size = 300,
-                                              readout_neurons_tau1_size = 5,
-                                              readout_neurons_tau2_size = 5,
+                                              readout_neurons_tau1_size = 1,
+                                              readout_neurons_tau2_size = 1,
                                               output_layer_weight = 100.0,
                                               thread_num = multiprocessing.cpu_count())
 
@@ -88,77 +88,44 @@ if __name__ == "__main__":
                                               theta_0 = 1.0,
                                               theta_dot_0 = 0.0)
 
-
-    training_data = [(-2.0, 0.0),
-                     (-1.5, -3.0),
-                     (-1.5, 0.0),
-                     (-1.5, 3.0),
-                     (-1.0, -6.0),
-                     (-1.0, -3.0),
-                     (-1.0, 0.0),
-                     (-1.0, 3.0),
-                     (-1.0, 6.0),
-                     (-0.5, -6.0),
-                     (-0.5, -3.0),
-                     (-0.5, 0.0),
-                     (-0.5, 3.0),
-                     (-0.5, 6.0),
-                     (0.0, -9.0),
-                     (0.0, -6.0),
-                     (0.0, -3.0),
-                     (0.0, 0.0),
-                     (0.0, 3.0),
-                     (0.0, 6.0),
-                     (0.0, 9.0),
-                     (2.0, 0.0),
-                     (1.5, -3.0),
-                     (1.5, 0.0),
-                     (1.5, 3.0),
-                     (1.0, -6.0),
-                     (1.0, -3.0),
-                     (1.0, 0.0),
-                     (1.0, 3.0),
-                     (1.0, 6.0),
-                     (0.5, -6.0),
-                     (0.5, -3.0),
-                     (0.5, 0.0),
-                     (0.5, 3.0),
-                     (0.5, 6.0)]
-
+    max_torque = 20.0
+    min_torque = -20.0
+    Kp = 40.0
+    Kd = 9.0
+    N_x = 5
+    N_y = 5
+    
+    test_data = [(x, y) for x in np.linspace(-max_torque/(2*Kp), -min_torque/(2*Kp), N_x) for y in np.linspace(-max_torque/Kd, -min_torque/Kd, N_y)]
+        
     controller.save(output_dir + "/" + experiment_name + "_before.yaml")    
 
     time_calc_rms_error_pd_control_start = time.time()
-    rms_error = calc_rms_error_pd_control(controller, training_data, 40.0, 9.0, True)
+    rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd)
     time_calc_rms_error_pd_control_stop = time.time()
-    print "rms error before training: ", rms_error
+    print "RMS error before training: ", rms_error
 
     
     # training
     time_training_start = time.time()
     count2 = 1
-    for i in range(10):
+    for i in range(10000):
 
-        random.shuffle(training_data)
-        
-        count1 = 1        
-        for itr in training_data:
-            sys.stdout.write("training network ... " + str(count1) + "/" + str(len(training_data)) + "    \r")
-            sys.stdout.flush()
-            count1 += 1
-            tau_ref = -40.0 * itr[0] - 9.0 * itr[1]
-            controller.train(theta = itr[0],
-                             theta_dot = itr[1],
-                             tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
-                             tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
-                             update_num = 10,  
-                             sim_time = 1000.0,
-                             print_message = False)
+        theta_train = random.random() * (max_torque - min_torque)/(2*Kp) - max_torque / (2*Kp)
+        theta_dot_train = random.random() * (max_torque - min_torque)/(2*Kd) - max_torque / (2*Kd)
+        tau_ref = -Kp * theta_train - Kd * theta_dot_train
+        controller.train(theta = theta_train,
+                         theta_dot = theta_dot_train,
+                         tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
+                         tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
+                         update_num = 1,  
+                         sim_time = 200.0,
+                         print_message = False)
 
-        sys.stdout.write("\n")
-        sys.stdout.flush()
+        sys.stdout.write("train (" + str(theta_train) + ", " + str(theta_dot_train) + ")\n")
         
-        rms_error = calc_rms_error_pd_control(controller, training_data, 40.0, 9.0, True)
-        print "rms error after " + str(count2) + "th training: ", rms_error
+        if count2 % 10 == 0:
+            rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd)
+            print "RMS error after " + str(count2) + "th training: ", rms_error
 
         count2 += 1
 
@@ -166,8 +133,8 @@ if __name__ == "__main__":
             
     controller.save(output_dir + "/" + experiment_name + "_after.yaml")
     
-    rms_error = calc_rms_error_pd_control(controller, training_data, 40.0, 9.0, True)
-    print "rms error after training: ", rms_error
+    rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd)
+    print "RMS error after training: ", rms_error
 
 
     # result1_prev = np.zeros(2000)

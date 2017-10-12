@@ -1,20 +1,16 @@
 from math import *
 
 
-def resume(input_spike_train, output_spike_train, desire_spike_train):
+def resume(double[:] input_spike_train, double[:] output_spike_train, double[:] desire_spike_train):
 
-    a = 0.025
-    A_positive = 4.0 * 10**-10
-    A_negative =  (-1.0) * 0.1 * A_positive
-    tau = 2.0 * 10**-3
+    cdef double a = 0.025
+    cdef double A_positive = 4.0 * 10**-10
+    cdef double A_negative =  (-1.0) * 0.1 * A_positive
+    cdef double tau = 2.0
 
-    def Learning_Window(s):
-        if s >= 0:
-            return A_positive * exp((-1.0)*s / tau)
-        else:
-            return A_negative * exp(s / tau)
+    cdef double delta_w = 0
 
-    delta_w = 0
+    cdef double desire_spike_time, output_spike_time
     
     ## compare desire with input
     for desire_spike_time in desire_spike_train:
@@ -26,7 +22,7 @@ def resume(input_spike_train, output_spike_train, desire_spike_train):
             elif s < -100:
                 break
             else:
-                delta_w += Learning_Window(s*10**-3)# convert [ms] to [s] 
+                delta_w += A_positive * exp((-1.0)*s / tau) if s >= 0 else A_negative * exp(s / tau)
 
     ## compare output with input
     for output_spike_time in output_spike_train:
@@ -38,7 +34,7 @@ def resume(input_spike_train, output_spike_train, desire_spike_train):
             elif s < -100:
                 break
             else:
-                delta_w -= Learning_Window(s*10**-3)# convert [ms] to [s] 
+                delta_w -= A_positive * exp((-1.0)*s / tau) if s >= 0 else A_negative * exp(s / tau)
 
     return delta_w
 
