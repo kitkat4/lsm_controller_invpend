@@ -20,7 +20,7 @@ class LsmController:
                  liquid_neurons_size,
                  readout_neurons_tau1_size,
                  readout_neurons_tau2_size,
-                 output_layer_weight = 200.0,
+                 output_layer_weight = 100.0,
                  thread_num = 1):
 
         # Don't make any nest nodes or connections before this line!

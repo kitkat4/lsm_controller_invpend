@@ -73,8 +73,8 @@ if __name__ == "__main__":
         print "error: specify output directory as a command line argument."
         sys.exit()
 
-    controller = lsm_controller.LsmController(input_neurons_theta_size = 3,
-                                              input_neurons_theta_dot_size = 3,
+    controller = lsm_controller.LsmController(input_neurons_theta_size = 5,
+                                              input_neurons_theta_dot_size = 5,
                                               liquid_neurons_size = 300,
                                               readout_neurons_tau1_size = 1,
                                               readout_neurons_tau2_size = 1,
@@ -82,6 +82,14 @@ if __name__ == "__main__":
                                               thread_num = multiprocessing.cpu_count())
 
     print "cpu count: ", multiprocessing.cpu_count()
+
+    controller.simulate(1000.0, 0.0, 0.0)
+    controller.simulate(1000.0, 1.0, 0.0)
+    controller.simulate(1000.0, 1.0, 5.0)
+    controller.simulate(1000.0, -1.0, 0.0)
+    controller.simulate(1000.0, -1.0, -5.0)
+    controller.lsm.readout_layer_tau1.raster_plot()
+    controller.lsm.readout_layer_tau2.raster_plot()
     
     pend = inverted_pendulum.InvertedPendulum(mass = 1.0,
                                               length = 1.0,
@@ -108,7 +116,7 @@ if __name__ == "__main__":
     # training
     time_training_start = time.time()
     count2 = 1
-    for i in range(10000):
+    for i in range(1000):
 
         theta_train = random.random() * (max_torque - min_torque)/(2*Kp) - max_torque / (2*Kp)
         theta_dot_train = random.random() * (max_torque - min_torque)/(2*Kd) - max_torque / (2*Kd)
@@ -121,7 +129,7 @@ if __name__ == "__main__":
                          sim_time = 200.0,
                          print_message = False)
 
-        sys.stdout.write("train (" + str(theta_train) + ", " + str(theta_dot_train) + ")\n")
+        # sys.stdout.write("train (" + str(theta_train) + ", " + str(theta_dot_train) + ")\n")
         
         if count2 % 10 == 0:
             rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd)

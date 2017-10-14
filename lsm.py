@@ -27,9 +27,14 @@ class Lsm:
         self.input_layer_theta_dot = neuron_layer.NeuronLayer(input_neurons_theta_dot_size,
                                                               tau_m = float(10**100))
         
-        self.liquid_neurons = liquid_neurons.LiquidNeurons(liquid_neurons_size,
-                                                           0.005, 0.25, "iaf_psc_alpha",
-                                                           100.0, 500.0, 0.5, 4.0)
+        self.liquid_neurons = liquid_neurons.LiquidNeurons(neuron_size = liquid_neurons_size,
+                                                           connection_ratio = 0.025,
+                                                           inhibitory_connection_ratio = 0.25,
+                                                           neuron_model = "iaf_psc_alpha",
+                                                           weight_min = 100.0,
+                                                           weight_max = 500.0,
+                                                           delay_min = 0.5,
+                                                           delay_max = 4.0)
         
         self.readout_layer_tau1 = neuron_layer.NeuronLayer(readout_neurons_tau1_size)
         self.readout_layer_tau2 = neuron_layer.NeuronLayer(readout_neurons_tau2_size)
@@ -40,10 +45,34 @@ class Lsm:
                                                           V_th = float(10**100))
         
         # connect layers
-        self.input_layer_theta.connect2liquid(self.liquid_neurons, 0.3, 0.25, 100.0, 500.0, 0.5, 4.0)
-        self.input_layer_theta_dot.connect2liquid(self.liquid_neurons, 0.3, 0.25, 100.0, 500.0, 0.5, 4.0)
-        self.liquid_neurons.connect(self.readout_layer_tau1, 0.3, 0.25, 100.0, 500.0, 0.5, 4.0)
-        self.liquid_neurons.connect(self.readout_layer_tau2, 0.3, 0.25, 100.0, 500.0, 0.5, 4.0)
+        self.input_layer_theta.connect2liquid(target_liquid_neurons = self.liquid_neurons,
+                                              connection_ratio = 0.03,
+                                              inhibitory_connection_ratio = 0.25,
+                                              weight_min = 100.0,
+                                              weight_max = 500.0,
+                                              delay_min = 0.5,
+                                              delay_max = 4.0)
+        self.input_layer_theta_dot.connect2liquid(target_liquid_neurons = self.liquid_neurons,
+                                                  connection_ratio = 0.03,
+                                                  inhibitory_connection_ratio = 0.25,
+                                                  weight_min = 100.0,
+                                                  weight_max = 500.0,
+                                                  delay_min = 0.5,
+                                                  delay_max = 4.0)
+        self.liquid_neurons.connect(target_neuron_layer = self.readout_layer_tau1,
+                                    connection_ratio = 1.0,
+                                    inhibitory_connection_ratio = 0.25,
+                                    weight_min = 100.0,
+                                    weight_max = 500.0,
+                                    delay_min = 0.5,
+                                    delay_max = 4.0)
+        self.liquid_neurons.connect(target_neuron_layer = self.readout_layer_tau2,
+                                    connection_ratio = 1.0,
+                                    inhibitory_connection_ratio = 0.25,
+                                    weight_min = 100.0,
+                                    weight_max = 500.0,
+                                    delay_min = 0.5,
+                                    delay_max = 4.0)
         self.readout_layer_tau1.connect2layer_one_to_one(self.output_layer_tau1,
                                                          weight = output_layer_weight)
         self.readout_layer_tau2.connect2layer_one_to_one(self.output_layer_tau2,

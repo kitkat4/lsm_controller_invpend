@@ -1,9 +1,9 @@
 # coding: utf-8
 
 import resume
+import plot_neurons_activity
 
 import nest
-import nest.raster_plot
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -159,7 +159,7 @@ class NeuronLayer:
         return result_list.mean()
 
     # neuron_ix is the index of the self.neurons i.e. [0, len(self.neurons) - 1]
-    def plot(self, neuron_ix):
+    def plot(self, neuron_ix, markersize = 2.5):
 
         if neuron_ix not in range(len(self.neurons)):
             sys.stderr.write("warning: NeuronLayer.plot neuron_ix is out of range.\n")
@@ -173,16 +173,16 @@ class NeuronLayer:
         senders = self.get_detector_data(neuron_ix, "senders")
         times = self.get_detector_data(neuron_ix, "times")
         plt.figure()
-        plt.plot(times, senders, '.')
+        plt.plot(times, senders, '.', markersize = markersize)
 
         plt.show()
         
         return
 
     
-    def raster_plot(self, title = "title", histogram = True):
+    def raster_plot(self, markersize = 2.5, title = "title", hist = True, **kwargs):
 
-        nest.raster_plot.from_device(self.detector, hist = histogram, title = title)
+        plot_neurons_activity.from_device(self.detector, hist = hist, title = title, markersize = markersize, **kwargs)
         plt.show()
         return
 
