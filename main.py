@@ -88,8 +88,8 @@ if __name__ == "__main__":
     controller.simulate(1000.0, 1.0, 5.0)
     controller.simulate(1000.0, -1.0, 0.0)
     controller.simulate(1000.0, -1.0, -5.0)
-    controller.lsm.readout_layer_tau1.raster_plot()
-    controller.lsm.readout_layer_tau2.raster_plot()
+    controller.lsm.output_layer_tau1.plot(0)
+    controller.lsm.output_layer_tau2.plot(0)
     
     pend = inverted_pendulum.InvertedPendulum(mass = 1.0,
                                               length = 1.0,
@@ -102,8 +102,13 @@ if __name__ == "__main__":
     Kd = 9.0
     N_x = 5
     N_y = 5
+
+    min_theta = -max_torque/(2*Kp)
+    max_theta = -min_torque/(2*Kp)
+    min_theta_dot = -max_torque/(2*Kd)
+    max_theta_dot = -min_torque/(2*Kd)
     
-    test_data = [(x, y) for x in np.linspace(-max_torque/(2*Kp), -min_torque/(2*Kp), N_x) for y in np.linspace(-max_torque/Kd, -min_torque/Kd, N_y)]
+    test_data = [(x, y) for x in np.linspace(min_theta, max_theta, N_x) for y in np.linspace(min_theta_dot, max_theta_dot, N_y)]
         
     controller.save(output_dir + "/" + experiment_name + "_before.yaml")    
 
@@ -112,14 +117,14 @@ if __name__ == "__main__":
     time_calc_rms_error_pd_control_stop = time.time()
     print "RMS error before training: ", rms_error
 
-    
+        
     # training
     time_training_start = time.time()
     count2 = 1
-    for i in range(1000):
+    for i in range(3000):
 
-        theta_train = random.random() * (max_torque - min_torque)/(2*Kp) - max_torque / (2*Kp)
-        theta_dot_train = random.random() * (max_torque - min_torque)/(2*Kd) - max_torque / (2*Kd)
+        theta_train = random.random() * (max_theta - min_theta) + min_theta
+        theta_dot_train = random.random() * (max_theta_dot - min_theta_dot) + min_theta_dot
         tau_ref = -Kp * theta_train - Kd * theta_dot_train
         controller.train(theta = theta_train,
                          theta_dot = theta_dot_train,
