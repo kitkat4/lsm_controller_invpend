@@ -114,7 +114,7 @@ class NeuronLayer:
                 nest.SetStatus(conn[ix], {"weight": present_weight[ix] + delta_w[ix]})
 
                 
-    def train(self, tau_error, learning_ratio, tolerance):
+    def train(self, tau_error, learning_ratio, tolerance, filter_size):
 
         too_bigs = tau_error > tolerance
         too_smalls = tau_error < -tolerance
@@ -126,7 +126,7 @@ class NeuronLayer:
                 tau_error_small_enough = False
                 for pre_n in self.presynaptic_neurons[self.neurons[neuron_ix]]:
                     pre_ix = self.connected_liquid.neurons.index(pre_n)
-                    spike_num = self.connected_liquid.num_of_spikes(pre_ix)
+                    spike_num = self.connected_liquid.num_of_spikes(pre_ix, filter_size)
                     conn = nest.GetConnections(source = [pre_n], target = [self.neurons[neuron_ix]])
                     present_weight = nest.GetStatus(conn)[0]["weight"]
                     nest.SetStatus(conn, {"weight": present_weight - learning_ratio * spike_num})
@@ -135,7 +135,7 @@ class NeuronLayer:
                 tau_error_small_enough = False
                 for pre_n in self.presynaptic_neurons[self.neurons[neuron_ix]]:
                     pre_ix = self.connected_liquid.neurons.index(pre_n)
-                    spike_num = self.connected_liquid.num_of_spikes(pre_ix)
+                    spike_num = self.connected_liquid.num_of_spikes(pre_ix, filter_size)
                     conn = nest.GetConnections(source = [pre_n], target = [self.neurons[neuron_ix]])
                     present_weight = nest.GetStatus(conn)[0]["weight"]
                     nest.SetStatus(conn, {"weight": present_weight + learning_ratio * spike_num})

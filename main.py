@@ -73,11 +73,11 @@ if __name__ == "__main__":
         print "error: specify output directory as a command line argument."
         sys.exit()
 
-    controller = lsm_controller.LsmController(input_neurons_theta_size = 5,
-                                              input_neurons_theta_dot_size = 5,
-                                              liquid_neurons_size = 300,
-                                              readout_neurons_tau1_size = 1,
-                                              readout_neurons_tau2_size = 1,
+    controller = lsm_controller.LsmController(input_neurons_theta_size = 30,
+                                              input_neurons_theta_dot_size = 30,
+                                              liquid_neurons_size = 100,
+                                              readout_neurons_tau1_size = 30,
+                                              readout_neurons_tau2_size = 30,
                                               output_layer_weight = 100.0,
                                               thread_num = multiprocessing.cpu_count())
 
@@ -85,8 +85,8 @@ if __name__ == "__main__":
     min_torque = -20.0
     Kp = 40.0
     Kd = 9.0
-    N_x = 5
-    N_y = 5
+    N_x = 4
+    N_y = 4
 
     
     min_theta = -max_torque/(2*Kp)
@@ -125,8 +125,9 @@ if __name__ == "__main__":
         
     # training
     time_training_start = time.time()
+    time_net_training = 0.0
     count2 = 1
-    for i in range(3000):
+    for i in range(10000):
 
         theta_train = random.random() * (max_theta - min_theta) + min_theta
         theta_dot_train = random.random() * (max_theta_dot - min_theta_dot) + min_theta_dot
@@ -138,25 +139,24 @@ if __name__ == "__main__":
         #                         update_num = 1,  
         #                         sim_time = 200.0,
         #                         print_message = False)
-        learning_finished = controller.train(theta = theta_train,
-                                             theta_dot = theta_dot_train,
-                                             tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
-                                             tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
-                                             learning_ratio = 0.003,
-                                             tau1_tolerance = 0.1,
-                                             tau2_tolerance = 0.1,
-                                             sim_time = 200.0,
-                                             filter_size = 100.0)
+        tmp_time = time.time()
+        controller.train(theta = theta_train,
+                         theta_dot = theta_dot_train,
+                         tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
+                         tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
+                         learning_ratio = 1.0, #0.0003,
+                         tau1_tolerance = 0.1,
+                         tau2_tolerance = 0.1,
+                         sim_time = 200.0,
+                         filter_size = 100.0)
+        time_net_training += time.time() - tmp_time
 
         # sys.stdout.write("train (" + str(theta_train) + ", " + str(theta_dot_train) + ")\n")
         
-        if count2 % 10 == 0:
-            rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd)
-            print "RMS error after " + str(count2) + "th training: ", rms_error
-
-        if learning_finished:
-            sys.stdout.write("learning finished in " + str(count2) + "th training! breaking ...\n")
-            break
+        if count2 % 20 == 0:
+            rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd, True)
+            sys.stdout.write("RMS error after " + str(count2) + "th training: " + str(rms_error) + "\n")
+            sys.stdout.flush()
 
         count2 += 1
         
@@ -216,4 +216,5 @@ if __name__ == "__main__":
     time_main_stop = time.time()
     # sys.stdout.write("calling calc_rms_error_pd_control once took " + str(time_calc_rms_error_pd_control_stop - time_calc_rms_error_pd_control_start) + " [s]\n")
     sys.stdout.write("training took " + str(time_training_stop - time_training_start) + " [s]\n")
+    sys.stdout.write("training took " + str(time_net_training) + " [s] (net)\n")
     sys.stdout.write("main took " + str(time_main_stop - time_main_start) + " [s]\n")

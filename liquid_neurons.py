@@ -135,13 +135,24 @@ class LiquidNeurons:
         plt.show()
         return
 
-    def num_of_spikes(self, neuron_ix):
+    # 最新time_span[ms]でのスパイクの総数
+    # time_span < 0なら記録に残ってるやつ全部
+    def num_of_spikes(self, neuron_ix, time_span = -1.0):
 
         if neuron_ix not in range(len(self.neurons)):
             sys.stderr.write("warning: NeuronLayer.plot neuron_ix is out of range.\n")
             return
 
-        senders = self.get_detector_data(neuron_ix, "senders")
+        
+        
+            
+        times = self.get_detector_data(neuron_ix, "times")
+        if time_span < 0:
+            return len(times)
+        else:
+            if len(times) == 0:
+                return 0
+            last = times[-1]
+            return len(times[np.where(times >= last - time_span)])
 
-        return len(senders)
 

@@ -60,14 +60,14 @@ class Lsm:
                                                   delay_min = 0.5,
                                                   delay_max = 4.0)
         self.liquid_neurons.connect(target_neuron_layer = self.readout_layer_tau1,
-                                    connection_ratio = 1.0,
+                                    connection_ratio = 0.3,
                                     inhibitory_connection_ratio = 0.25,
                                     weight_min = 100.0,
                                     weight_max = 500.0,
                                     delay_min = 0.5,
                                     delay_max = 4.0)
         self.liquid_neurons.connect(target_neuron_layer = self.readout_layer_tau2,
-                                    connection_ratio = 1.0,
+                                    connection_ratio = 0.3,
                                     inhibitory_connection_ratio = 0.25,
                                     weight_min = 100.0,
                                     weight_max = 500.0,
@@ -297,14 +297,16 @@ class Lsm:
         nest.ResetNetwork()        
 
 
-    def train(self, tau1_error, tau2_error, learning_ratio, tau1_tolerance, tau2_tolerance):
+    def train(self, tau1_error, tau2_error, learning_ratio, tau1_tolerance, tau2_tolerance, filter_size):
         
         tau1_error_small_enough = self.readout_layer_tau1.train(tau1_error,
                                                                 learning_ratio,
-                                                                tau1_tolerance)
+                                                                tau1_tolerance,
+                                                                filter_size)
         tau2_error_small_enough = self.readout_layer_tau2.train(tau2_error,
                                                                 learning_ratio,
-                                                                tau2_tolerance)
+                                                                tau2_tolerance,
+                                                                filter_size)
 
         return tau1_error_small_enough and tau2_error_small_enough
 

@@ -89,8 +89,12 @@ class LsmController:
         tau1_error = self.tau1 - tau1_ref
         tau2_error = self.tau2 - tau2_ref
 
-        return self.lsm.train(tau1_error, tau2_error, learning_ratio,
-                              tau1_tolerance, tau2_tolerance)
+        ret = self.lsm.train(tau1_error, tau2_error, learning_ratio,
+                             tau1_tolerance, tau2_tolerance, filter_size)
+    
+        nest.ResetNetwork()
+        
+        return ret
         
 
     # sim_time [ms]
