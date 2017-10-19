@@ -142,7 +142,7 @@ if __name__ == "__main__":
                                              theta_dot = theta_dot_train,
                                              tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
                                              tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
-                                             learning_ratio = 0.01,
+                                             learning_ratio = 0.003,
                                              tau1_tolerance = 0.1,
                                              tau2_tolerance = 0.1,
                                              sim_time = 200.0,
