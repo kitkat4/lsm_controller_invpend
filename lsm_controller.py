@@ -8,6 +8,7 @@ import nest
 import math
 import sys
 
+import multiprocessing
 
 # Don't call nest.Simulate outside this class.
 # Otherwise LsmController.total_sim_time will get wrong and
@@ -21,10 +22,11 @@ class LsmController:
                  readout_neurons_tau1_size,
                  readout_neurons_tau2_size,
                  output_layer_weight = 100.0,
-                 thread_num = 1):
-
+                 thread_num = -1):
+        
+        
         # Don't make any nest nodes or connections before this line!
-        nest.SetKernelStatus({"local_num_threads": thread_num})
+        nest.SetKernelStatus({"local_num_threads": thread_num if thread_num > 0 else multiprocessing.cpu_count()})
         
         nest.set_verbosity("M_ERROR") # suppress trivial messages
         sys.stdout.write("Initializing LsmController ... ")
@@ -113,9 +115,11 @@ class LsmController:
         self.lsm.save(file_name)
 
     def load(self, file_name):
-        
-        self.lsm.load(file_name)
 
+        self.lsm.load(file_name)
+        self.tau1 = np.zeros(len(self.lsm.readout_layer_tau1.neurons))
+        self.tau2 = np.zeros(len(self.lsm.readout_layer_tau2.neurons))
+        
     
     # [-3 [rad], 3 [rad]] -> [100 [Hz], 400 [Hz]]
     def _conv_theta2freq(self, theta):
@@ -164,4 +168,11 @@ class LsmController:
 
         self.tau1 = tau1_voltage + 70.0
         self.tau2 = tau2_voltage + 70.0
+
         
+def load(file_path):
+
+    ret = LsmController(1,1,1,1,1)
+    ret.load(file_path)
+    return ret
+    
