@@ -81,7 +81,23 @@ if __name__ == "__main__":
                                               output_layer_weight = 100.0,
                                               thread_num = multiprocessing.cpu_count())
 
+    max_torque = 20.0
+    min_torque = -20.0
+    Kp = 40.0
+    Kd = 9.0
+    N_x = 5
+    N_y = 5
+
+    
+    min_theta = -max_torque/(2*Kp)
+    max_theta = -min_torque/(2*Kp)
+    min_theta_dot = -max_torque/(2*Kd)
+    max_theta_dot = -min_torque/(2*Kd)
+
     print "cpu count: ", multiprocessing.cpu_count()
+    print "min and max theta:     ", min_theta, max_theta
+    print "min and max theta_dot: ", min_theta_dot, max_theta_dot
+
 
     controller.simulate(1000.0, 0.0, 0.0)
     controller.simulate(1000.0, 1.0, 0.0)
@@ -96,17 +112,6 @@ if __name__ == "__main__":
                                               theta_0 = 1.0,
                                               theta_dot_0 = 0.0)
 
-    max_torque = 20.0
-    min_torque = -20.0
-    Kp = 40.0
-    Kd = 9.0
-    N_x = 5
-    N_y = 5
-
-    min_theta = -max_torque/(2*Kp)
-    max_theta = -min_torque/(2*Kp)
-    min_theta_dot = -max_torque/(2*Kd)
-    max_theta_dot = -min_torque/(2*Kd)
     
     test_data = [(x, y) for x in np.linspace(min_theta, max_theta, N_x) for y in np.linspace(min_theta_dot, max_theta_dot, N_y)]
         
@@ -126,13 +131,22 @@ if __name__ == "__main__":
         theta_train = random.random() * (max_theta - min_theta) + min_theta
         theta_dot_train = random.random() * (max_theta_dot - min_theta_dot) + min_theta_dot
         tau_ref = -Kp * theta_train - Kd * theta_dot_train
-        controller.train(theta = theta_train,
-                         theta_dot = theta_dot_train,
-                         tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
-                         tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
-                         update_num = 1,  
-                         sim_time = 200.0,
-                         print_message = False)
+        # controller.train_resume(theta = theta_train,
+        #                         theta_dot = theta_dot_train,
+        #                         tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
+        #                         tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
+        #                         update_num = 1,  
+        #                         sim_time = 200.0,
+        #                         print_message = False)
+        learning_finished = controller.train(theta = theta_train,
+                                             theta_dot = theta_dot_train,
+                                             tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
+                                             tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
+                                             learning_ratio = 0.01,
+                                             tau1_tolerance = 0.1,
+                                             tau2_tolerance = 0.1,
+                                             sim_time = 200.0,
+                                             filter_size = 100.0)
 
         # sys.stdout.write("train (" + str(theta_train) + ", " + str(theta_dot_train) + ")\n")
         
@@ -140,8 +154,12 @@ if __name__ == "__main__":
             rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd)
             print "RMS error after " + str(count2) + "th training: ", rms_error
 
-        count2 += 1
+        if learning_finished:
+            sys.stdout.write("learning finished in " + str(count2) + "th training! breaking ...\n")
+            break
 
+        count2 += 1
+        
     time_training_stop = time.time()
             
     controller.save(output_dir + "/" + experiment_name + "_after.yaml")

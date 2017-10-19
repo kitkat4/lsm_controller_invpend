@@ -31,8 +31,8 @@ class LsmController:
 
         self.total_sim_time = 0.0
         
-        self.tau1 = 0.0
-        self.tau2 = 0.0
+        self.tau1 = np.zeros(readout_neurons_tau1_size)
+        self.tau2 = np.zeros(readout_neurons_tau2_size)
 
         self.output_layer_weight = output_layer_weight
         
@@ -47,11 +47,12 @@ class LsmController:
 
     def get_tau(self):
         
-        return self.tau1 - self.tau2
+        return self.tau1.mean() - self.tau2.mean()
 
     # theta [rad]
-    def train(self, theta, theta_dot, tau1_ref, tau2_ref,
-              update_num = 100, sim_time = 1000.0, print_message = True):
+    # The dynamic state of the network will be reset.
+    def train_resume(self, theta, theta_dot, tau1_ref, tau2_ref,
+                     update_num = 100, sim_time = 1000.0, print_message = True):
         
         f_theta = self._conv_theta2freq(theta)
         f_theta_dot = self._conv_theta_dot2freq(theta_dot)
@@ -70,6 +71,24 @@ class LsmController:
                        print_message = print_message)
         
         self.total_sim_time += sim_time * update_num
+
+    # theta [rad]       
+    # The dynamic state of the network will be reset.
+    # 出力がtoleranceを超えて外れるreadout neuronへの接続の重みを，
+    # sim_time間にその結合を通ったスパイク数×learning_ratioだけ増減する
+    def train(self, theta, theta_dot, tau1_ref, tau2_ref,
+              learning_ratio, tau1_tolerance, tau2_tolerance,
+              sim_time, filter_size):
+
+        nest.ResetNetwork()
+        
+        self.simulate(sim_time, theta, theta_dot, filter_size)
+        
+        tau1_error = self.tau1 - tau1_ref
+        tau2_error = self.tau2 - tau2_ref
+
+        return self.lsm.train(tau1_error, tau2_error, learning_ratio,
+                              tau1_tolerance, tau2_tolerance)
         
 
     # sim_time [ms]

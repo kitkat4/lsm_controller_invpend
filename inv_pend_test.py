@@ -8,17 +8,19 @@ import time
 
 if __name__ == "__main__":
 
+    # pend = ivtpnd.InvertedPendulum(mass = 60.0,
+    #                                length = 1.7,
+    #                                theta_0 = 0.05)
+    # Kp = 600.0
+    # Kd = 150.0
+
     pend = ivtpnd.InvertedPendulum(mass = 1.0,
                                    length = 1.0,
-                                   theta_0 = 0.5)
-
-
-    # pend.simulate(torque = 0.0,
-    #               timestep = 0.001,
-    #               num_steps = 5000)
-
+                                   theta_0 = 1.0)
     Kp = 40.0
     Kd = 9.0
+
+
     theta_goal = 0.0
     theta_dot_goal = 0.0
 

@@ -266,14 +266,14 @@ class Lsm:
 
     # st: spike train (float list).
     # The dynamic state of the network will be reset.
-    def train(self,
-              i_theta,
-              i_theta_dot,
-              st_tau1_ref,
-              st_tau2_ref,
-              update_num = 100,
-              sim_time = 1000.0,
-              print_message = True):
+    def train_resume(self,
+                     i_theta,
+                     i_theta_dot,
+                     st_tau1_ref,
+                     st_tau2_ref,
+                     update_num = 100,
+                     sim_time = 1000.0,
+                     print_message = True):
 
         for i in range(update_num):
 
@@ -288,14 +288,25 @@ class Lsm:
 
             nest.Simulate(sim_time)
         
-            self.readout_layer_tau1.train(np.array(st_tau1_ref) + i * sim_time)
-            self.readout_layer_tau2.train(np.array(st_tau2_ref) + i * sim_time)
+            self.readout_layer_tau1.train_resume(np.array(st_tau1_ref) + i * sim_time)
+            self.readout_layer_tau2.train_resume(np.array(st_tau2_ref) + i * sim_time)
 
         if print_message:
             sys.stdout.write("\n")
             
         nest.ResetNetwork()        
 
+
+    def train(self, tau1_error, tau2_error, learning_ratio, tau1_tolerance, tau2_tolerance):
+        
+        tau1_error_small_enough = self.readout_layer_tau1.train(tau1_error,
+                                                                learning_ratio,
+                                                                tau1_tolerance)
+        tau2_error_small_enough = self.readout_layer_tau2.train(tau2_error,
+                                                                learning_ratio,
+                                                                tau2_tolerance)
+
+        return tau1_error_small_enough and tau2_error_small_enough
 
 
     def _append_connection_info_to_save(self, data_dict, name, src_layer, dst_layer):

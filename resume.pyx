@@ -1,12 +1,13 @@
 from math import *
 
 
-def resume(double[:] input_spike_train, double[:] output_spike_train, double[:] desire_spike_train):
+def resume(double[:] input_spike_train, double[:] output_spike_train, double[:] desire_spike_train,
+           double a, double A_positive, double A_negative, double tau):
 
-    cdef double a = 0.025
-    cdef double A_positive = 4.0 * 10**-10
-    cdef double A_negative =  (-1.0) * 0.1 * A_positive
-    cdef double tau = 2.0
+    # cdef double a = 0.025
+    # cdef double A_positive = 4.0 * 10**-10
+    # cdef double A_negative =  (-1.0) * 0.1 * A_positive
+    # cdef double tau = 2.0
 
     cdef double delta_w = 0
 
