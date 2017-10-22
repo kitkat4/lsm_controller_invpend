@@ -73,16 +73,18 @@ if __name__ == "__main__":
         print "error: specify output directory as a command line argument."
         sys.exit()
 
-    controller = lsm_controller.LsmController(input_neurons_theta_size = 30,
-                                              input_neurons_theta_dot_size = 30,
-                                              liquid_neurons_size = 100,
-                                              readout_neurons_tau1_size = 30,
-                                              readout_neurons_tau2_size = 30,
+    controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
+                                              input_neurons_theta_dot_size = 10,
+                                              liquid_neurons_size = 300,
+                                              readout_neurons_tau1_size = 10,
+                                              readout_neurons_tau2_size = 10,
                                               output_layer_weight = 100.0,
                                               thread_num = multiprocessing.cpu_count())
 
     max_torque = 20.0
     min_torque = -20.0
+    # max_torque = 10.0
+    # min_torque = -10.0
     Kp = 40.0
     Kd = 9.0
     N_x = 4
@@ -95,6 +97,7 @@ if __name__ == "__main__":
     max_theta_dot = -min_torque/(2*Kd)
 
     print "cpu count: ", multiprocessing.cpu_count()
+    print "Kp and Kd:", Kp, Kd
     print "min and max theta:     ", min_theta, max_theta
     print "min and max theta_dot: ", min_theta_dot, max_theta_dot
 
@@ -104,8 +107,9 @@ if __name__ == "__main__":
     controller.simulate(1000.0, 1.0, 5.0)
     controller.simulate(1000.0, -1.0, 0.0)
     controller.simulate(1000.0, -1.0, -5.0)
-    controller.lsm.output_layer_tau1.plot(0)
-    controller.lsm.output_layer_tau2.plot(0)
+    controller.lsm.readout_layer_tau1.raster_plot()
+    controller.lsm.readout_layer_tau2.raster_plot()
+    controller.lsm.liquid_neurons.raster_plot()
     
     pend = inverted_pendulum.InvertedPendulum(mass = 1.0,
                                               length = 1.0,
@@ -144,9 +148,9 @@ if __name__ == "__main__":
                          theta_dot = theta_dot_train,
                          tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
                          tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
-                         learning_ratio = 1.0, #0.0003,
-                         tau1_tolerance = 0.1,
-                         tau2_tolerance = 0.1,
+                         learning_ratio = 0.03, #0.0003,
+                         tau1_tolerance = 0.3,
+                         tau2_tolerance = 0.3,
                          sim_time = 200.0,
                          filter_size = 100.0)
         time_net_training += time.time() - tmp_time
@@ -157,6 +161,9 @@ if __name__ == "__main__":
             rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd, True)
             sys.stdout.write("RMS error after " + str(count2) + "th training: " + str(rms_error) + "\n")
             sys.stdout.flush()
+
+        if count2 % 1000 == 0:
+            controller.save(output_dir + "/" + experiment_name + "_after_" + str(count2) + "th_training.yaml")
 
         count2 += 1
         

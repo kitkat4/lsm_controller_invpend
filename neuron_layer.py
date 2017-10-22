@@ -116,31 +116,28 @@ class NeuronLayer:
                 
     def train(self, tau_error, learning_ratio, tolerance, filter_size):
 
-        too_bigs = tau_error > tolerance
-        too_smalls = tau_error < -tolerance
-
-        tau_error_small_enough = True
+        # print tau_error
         
         for neuron_ix in range(len(self.neurons)):
-            if too_bigs[neuron_ix]:
-                tau_error_small_enough = False
+            if tau_error[neuron_ix] > tolerance: # too big
                 for pre_n in self.presynaptic_neurons[self.neurons[neuron_ix]]:
                     pre_ix = self.connected_liquid.neurons.index(pre_n)
                     spike_num = self.connected_liquid.num_of_spikes(pre_ix, filter_size)
                     conn = nest.GetConnections(source = [pre_n], target = [self.neurons[neuron_ix]])
                     present_weight = nest.GetStatus(conn)[0]["weight"]
-                    nest.SetStatus(conn, {"weight": present_weight - learning_ratio * spike_num})
+                    new_weight = present_weight - learning_ratio * abs(tau_error[neuron_ix]) * spike_num
+                    nest.SetStatus(conn, {"weight": new_weight})
+                    # sys.stdout.write(str(present_weight) + " -> " + str(new_weight) + " (" + str(new_weight - present_weight) + ")\n")
                     
-            elif too_smalls[neuron_ix]:
-                tau_error_small_enough = False
+            elif tau_error[neuron_ix] < -tolerance: # too small
                 for pre_n in self.presynaptic_neurons[self.neurons[neuron_ix]]:
                     pre_ix = self.connected_liquid.neurons.index(pre_n)
                     spike_num = self.connected_liquid.num_of_spikes(pre_ix, filter_size)
                     conn = nest.GetConnections(source = [pre_n], target = [self.neurons[neuron_ix]])
                     present_weight = nest.GetStatus(conn)[0]["weight"]
-                    nest.SetStatus(conn, {"weight": present_weight + learning_ratio * spike_num})
-
-        return tau_error_small_enough
+                    new_weight = present_weight + learning_ratio * abs(tau_error[neuron_ix]) * spike_num
+                    nest.SetStatus(conn, {"weight": new_weight})
+                    # sys.stdout.write(str(present_weight) + " -> " + str(new_weight) + " (" + str(new_weight - present_weight) + ")\n")
                     
 
     def set_input_current(self, current):

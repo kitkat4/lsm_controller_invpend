@@ -299,17 +299,16 @@ class Lsm:
 
     def train(self, tau1_error, tau2_error, learning_ratio, tau1_tolerance, tau2_tolerance, filter_size):
         
-        tau1_error_small_enough = self.readout_layer_tau1.train(tau1_error,
-                                                                learning_ratio,
-                                                                tau1_tolerance,
-                                                                filter_size)
-        tau2_error_small_enough = self.readout_layer_tau2.train(tau2_error,
-                                                                learning_ratio,
-                                                                tau2_tolerance,
-                                                                filter_size)
+        self.readout_layer_tau1.train(tau1_error,
+                                      learning_ratio,
+                                      tau1_tolerance,
+                                      filter_size)
+        self.readout_layer_tau2.train(tau2_error,
+                                      learning_ratio,
+                                      tau2_tolerance,
+                                      filter_size)
 
-        return tau1_error_small_enough and tau2_error_small_enough
-
+        
 
     def _append_connection_info_to_save(self, data_dict, name, src_layer, dst_layer):
 

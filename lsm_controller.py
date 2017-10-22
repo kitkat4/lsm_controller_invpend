@@ -89,12 +89,12 @@ class LsmController:
         tau1_error = self.tau1 - tau1_ref
         tau2_error = self.tau2 - tau2_ref
 
-        ret = self.lsm.train(tau1_error, tau2_error, learning_ratio,
-                             tau1_tolerance, tau2_tolerance, filter_size)
+        self.lsm.train(tau1_error, tau2_error, learning_ratio,
+                       tau1_tolerance, tau2_tolerance, filter_size)
     
         nest.ResetNetwork()
         
-        return ret
+        return (tau1_error.mean(), tau2_error.mean())
         
 
     # sim_time [ms]
@@ -135,10 +135,10 @@ class LsmController:
 
         return theta_dot * 15 + 250.0
 
-    # [0 [Nm], 20 [Nm]] -> [-70 [mV], -50 [mV]]
+    # [0 [Nm], 20 [Nm]] -> [-70 [mV], -60 [mV]]
     def _conv_tau2voltage(self, tau):
 
-        return tau - 70.0
+        return tau / 2.0 - 70.0
 
     # returns current[pA]
     def _conv_freq2current(self, freq): # tau_m が十分大きいニューロンを想定
@@ -167,11 +167,11 @@ class LsmController:
                                                  freq)]
 
 
-    # [-70 [mv], -50 [mv]] -> [0 [Nm], 20 [Nm]]
+    # [-70 [mv], -60 [mv]] -> [0 [Nm], 20 [Nm]]
     def _update_tau(self, tau1_voltage, tau2_voltage):
 
-        self.tau1 = tau1_voltage + 70.0
-        self.tau2 = tau2_voltage + 70.0
+        self.tau1 = (tau1_voltage + 70.0) * 2.0
+        self.tau2 = (tau2_voltage + 70.0) * 2.0
 
         
 def load(file_path):
