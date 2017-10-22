@@ -136,6 +136,7 @@ if __name__ == "__main__":
     count2 = 1
     for i in range(20000):
 
+        
         theta_train = random.random() * (max_theta - min_theta) + min_theta
         theta_dot_train = random.random() * (max_theta_dot - min_theta_dot) + min_theta_dot
         tau_ref = -Kp * theta_train - Kd * theta_dot_train
