@@ -27,6 +27,8 @@ class NeuronLayer:
         self.presynaptic_neurons = [[] for n in self.neurons] # list of list
         self.connected_liquid = None
 
+        self.previous_delta_w = {}
+
         for i in range(neuron_size):
             nest.Connect([self.neurons[i]], self.detector)
             nest.Connect(self.meter, [self.neurons[i]])
@@ -115,31 +117,27 @@ class NeuronLayer:
                 nest.SetStatus(conn[ix], {"weight": present_weight[ix] + delta_w[ix]})
 
                 
-    def train(self, tau_error, learning_ratio, tolerance, filter_size):
+    def train(self, tau_error, learning_ratio, momentum_learning_ratio, tolerance, filter_size):
 
         # print tau_error
+
+        delta_w = {}
         
         for neuron_ix in range(len(self.neurons)):
-            if tau_error[neuron_ix] > tolerance: # too big
+            if tau_error[neuron_ix] > tolerance or tau_error[neuron_ix] < -tolerance:
                 for pre_ix in self.presynaptic_neurons[neuron_ix]:
                     spike_num = self.connected_liquid.num_of_spikes(pre_ix, filter_size)
                     pre_n = self.connected_liquid.neurons[pre_ix]
                     conn = nest.GetConnections(source = [pre_n], target = [self.neurons[neuron_ix]])
                     present_weight = nest.GetStatus(conn)[0]["weight"]
-                    new_weight = present_weight - learning_ratio * abs(tau_error[neuron_ix]) * spike_num * 1000.0 / filter_size
+                    tmp_delta_w1 = (learning_ratio * abs(tau_error[neuron_ix]) * spike_num * 1000.0 / filter_size) * (-1 if tau_error[neuron_ix] > tolerance else 1)
+                    tmp_delta_w2 = momentum_learning_ratio * (self.previous_delta_w[(neuron_ix, pre_ix)] if (neuron_ix, pre_ix) in self.previous_delta_w else 0)
+                    new_weight = present_weight + tmp_delta_w1 + tmp_delta_w2
                     nest.SetStatus(conn, {"weight": new_weight})
+                    delta_w[(neuron_ix, pre_ix)] = new_weight - present_weight
                     # sys.stdout.write(str(present_weight) + " -> " + str(new_weight) + " (" + str(new_weight - present_weight) + ")\n")
-                    
-            elif tau_error[neuron_ix] < -tolerance: # too small
-                for pre_ix in self.presynaptic_neurons[neuron_ix]:
-                    spike_num = self.connected_liquid.num_of_spikes(pre_ix, filter_size)
-                    pre_n = self.connected_liquid.neurons[pre_ix]
-                    conn = nest.GetConnections(source = [pre_n], target = [self.neurons[neuron_ix]])
-                    present_weight = nest.GetStatus(conn)[0]["weight"]
-                    new_weight = present_weight + learning_ratio * abs(tau_error[neuron_ix]) * spike_num * 1000.0 / filter_size
-                    nest.SetStatus(conn, {"weight": new_weight})
-                    # sys.stdout.write(str(present_weight) + " -> " + str(new_weight) + " (" + str(new_weight - present_weight) + ")\n")
-                    
+
+        self.previous_delta_w = delta_w
 
     def set_input_current(self, current):
         

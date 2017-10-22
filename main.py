@@ -87,8 +87,8 @@ if __name__ == "__main__":
     # min_torque = -10.0
     Kp = 40.0
     Kd = 9.0
-    N_x = 4
-    N_y = 4
+    N_x = 5
+    N_y = 5
 
     
     min_theta = -max_torque/(2*Kp)
@@ -101,6 +101,7 @@ if __name__ == "__main__":
     print "min and max theta:     ", min_theta, max_theta
     print "min and max theta_dot: ", min_theta_dot, max_theta_dot
 
+    controller.load("../tmp/experiment_after_2000th_training.yaml")
 
     controller.simulate(1000.0, 0.0, 0.0)
     controller.simulate(1000.0, 1.0, 0.0)
@@ -133,7 +134,7 @@ if __name__ == "__main__":
     time_training_start = time.time()
     time_net_training = 0.0
     count2 = 1
-    for i in range(10000):
+    for i in range(20000):
 
         theta_train = random.random() * (max_theta - min_theta) + min_theta
         theta_dot_train = random.random() * (max_theta_dot - min_theta_dot) + min_theta_dot
@@ -146,11 +147,13 @@ if __name__ == "__main__":
         #                         sim_time = 200.0,
         #                         print_message = False)
         tmp_time = time.time()
+        lr = 0.001
         controller.train(theta = theta_train,
                          theta_dot = theta_dot_train,
                          tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
                          tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
-                         learning_ratio = 0.001, #0.0003,
+                         learning_ratio = lr,
+                         momentum_learning_ratio = lr * 0.9,
                          tau1_tolerance = 0.3,
                          tau2_tolerance = 0.3,
                          sim_time = 70.0,
@@ -159,7 +162,7 @@ if __name__ == "__main__":
 
         # sys.stdout.write("train (" + str(theta_train) + ", " + str(theta_dot_train) + ")\n")
         
-        if count2 % 20 == 0:
+        if count2 % 100 == 0:
             rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd, True)
             sys.stdout.write("RMS error after " + str(count2) + "th training: " + str(rms_error) + "\n")
             sys.stdout.flush()
