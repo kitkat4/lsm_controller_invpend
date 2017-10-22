@@ -101,7 +101,6 @@ if __name__ == "__main__":
     print "min and max theta:     ", min_theta, max_theta
     print "min and max theta_dot: ", min_theta_dot, max_theta_dot
 
-    controller.load("../tmp/experiment_after_2000th_training.yaml")
 
     controller.simulate(1000.0, 0.0, 0.0)
     controller.simulate(1000.0, 1.0, 0.0)
