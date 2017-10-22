@@ -77,7 +77,7 @@ class LsmController:
     # theta [rad]       
     # The dynamic state of the network will be reset.
     # 出力がtoleranceを超えて外れるreadout neuronへの接続の重みを，
-    # sim_time間にその結合を通ったスパイク数×learning_ratioだけ増減する
+    # sim_time間のその結合の平均周波数×learning_ratioだけ増減する
     def train(self, theta, theta_dot, tau1_ref, tau2_ref,
               learning_ratio, tau1_tolerance, tau2_tolerance,
               sim_time, filter_size):

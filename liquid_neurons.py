@@ -87,9 +87,10 @@ class LiquidNeurons:
                                  {"model": "static_synapse", "weight": w, "delay": d})
                     
                     # populate target_neuron_layer.presynaptic_neurons
-                    if nt not in target_neuron_layer.presynaptic_neurons:
-                        target_neuron_layer.presynaptic_neurons[nt] = []
-                    target_neuron_layer.presynaptic_neurons[nt].append(ns)
+                    s_ix = self.neurons.index(ns)
+                    t_ix = target_neuron_layer.neurons.index(nt)
+                    if s_ix not in target_neuron_layer.presynaptic_neurons[t_ix]:
+                        target_neuron_layer.presynaptic_neurons[t_ix].append(s_ix)
 
     def get_meter_data(self, neuron_ix, key):
         

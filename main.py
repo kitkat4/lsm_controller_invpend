@@ -75,9 +75,9 @@ if __name__ == "__main__":
 
     controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
                                               input_neurons_theta_dot_size = 10,
-                                              liquid_neurons_size = 300,
-                                              readout_neurons_tau1_size = 10,
-                                              readout_neurons_tau2_size = 10,
+                                              liquid_neurons_size = 100,
+                                              readout_neurons_tau1_size = 1,
+                                              readout_neurons_tau2_size = 1,
                                               output_layer_weight = 100.0,
                                               thread_num = multiprocessing.cpu_count())
 
@@ -107,6 +107,8 @@ if __name__ == "__main__":
     controller.simulate(1000.0, 1.0, 5.0)
     controller.simulate(1000.0, -1.0, 0.0)
     controller.simulate(1000.0, -1.0, -5.0)
+    controller.lsm.output_layer_tau1.plot(0)
+    controller.lsm.output_layer_tau2.plot(0)
     controller.lsm.readout_layer_tau1.raster_plot()
     controller.lsm.readout_layer_tau2.raster_plot()
     controller.lsm.liquid_neurons.raster_plot()
@@ -148,11 +150,11 @@ if __name__ == "__main__":
                          theta_dot = theta_dot_train,
                          tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
                          tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
-                         learning_ratio = 0.03, #0.0003,
+                         learning_ratio = 0.001, #0.0003,
                          tau1_tolerance = 0.3,
                          tau2_tolerance = 0.3,
-                         sim_time = 200.0,
-                         filter_size = 100.0)
+                         sim_time = 70.0,
+                         filter_size = 20.0)
         time_net_training += time.time() - tmp_time
 
         # sys.stdout.write("train (" + str(theta_train) + ", " + str(theta_dot_train) + ")\n")

@@ -220,16 +220,17 @@ class Lsm:
         self._load_connections(data, name, liquid, readout)
 
         conns = nest.GetConnections(liquid.neurons, readout.neurons)
-        readout.presynaptic_neurons.clear()
+        readout.presynaptic_neurons = [[] for n in readout.neurons]
         readout.connected_liquid = liquid
 
         for itr in conns:
             params = nest.GetStatus([itr])[0]
             ns = params["source"]
             nt = params["target"]
-            if nt not in readout.presynaptic_neurons:
-                readout.presynaptic_neurons[nt] = []
-            readout.presynaptic_neurons[nt].append(ns)
+            s_ix = liquid.neurons.index(ns)
+            t_ix = readout.neurons.index(nt)
+            if s_ix not in readout.presynaptic_neurons[t_ix]:
+                readout.presynaptic_neurons[t_ix].append(s_ix)
 
             
     def _load_internal_connections(self, data, name, liquid):
