@@ -90,12 +90,12 @@ if __name__ == "__main__":
         if not exclude_liquid:
             controller.lsm.liquid_neurons.raster_plot(hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_liquid_" + string + suffix)
         
-    controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
-                                              input_neurons_theta_dot_size = 10,
+    controller = lsm_controller.LsmController(input_neurons_theta_size = 30,
+                                              input_neurons_theta_dot_size = 30,
                                               liquid_neurons_size = 100,
                                               readout_neurons_tau1_size = 1,
                                               readout_neurons_tau2_size = 1,
-                                              output_layer_weight = 100.0,
+                                              output_layer_weight = 200.0,
                                               thread_num = multiprocessing.cpu_count())
 
 
@@ -105,8 +105,8 @@ if __name__ == "__main__":
     # min_torque = -10.0
     Kp = 40.0
     Kd = 9.0
-    N_x = 3
-    N_y = 3
+    N_x = 5
+    N_y = 5
 
     
     min_theta = -max_torque/(2*Kp)
@@ -135,7 +135,7 @@ if __name__ == "__main__":
     time_calc_rms_error_pd_control_start = time.time()
     rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd)
     time_calc_rms_error_pd_control_stop = time.time()
-    print "RMS error after 0th training training: ", rms_error
+    print "RMS error after 0th training: ", rms_error
 
         
     # training
@@ -156,7 +156,7 @@ if __name__ == "__main__":
         #                         sim_time = 200.0,
         #                         print_message = False)
         tmp_time = time.time()
-        lr = 0.01 if count2 < 2000 else 0.001
+        lr = 0.01 if count2 < 4000 else 0.001
         controller.train(theta = theta_train,
                          theta_dot = theta_dot_train,
                          tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
