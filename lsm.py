@@ -28,7 +28,7 @@ class Lsm:
                                                               tau_m = float(10**100))
         
         self.liquid_neurons = liquid_neurons.LiquidNeurons(neuron_size = liquid_neurons_size,
-                                                           connection_ratio = 0.10,
+                                                           connection_ratio = 0.06,
                                                            inhibitory_connection_ratio = 0.25,
                                                            neuron_model = "iaf_psc_alpha",
                                                            weight_min = 100.0,

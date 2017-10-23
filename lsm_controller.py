@@ -135,10 +135,10 @@ class LsmController:
 
         return theta_dot * 15 + 250.0
 
-    # [0 [Nm], 20 [Nm]] -> [-70 [mV], -60 [mV]]
+    # [0 [Nm], 20 [Nm]] -> [-68 [mV], -60 [mV]]
     def _conv_tau2voltage(self, tau):
 
-        return tau / 2.0 - 70.0
+        return tau * (8.0 / 20.0) - 68.0
 
     # returns current[pA]
     def _conv_freq2current(self, freq): # tau_m が十分大きいニューロンを想定
@@ -149,29 +149,47 @@ class LsmController:
         t_ref = 2.0             # [ms]
         return C_m * (V_th - E_L) * freq / (1000.0 - t_ref * freq)
 
-    
-    def _conv_tau2spike_train(self, tau, time_span):
+    def _conv_freq2voltage(self, freq):
 
-        voltage = self._conv_tau2voltage(tau)
         weight = self.output_layer_weight
         tau_syn = 2.0
         C_m = 250.0
         tau_m = 10.0
         E_L = -70.0
 
+        charge_per_spike = weight * tau_syn * math.e / 1000.0 # [pC]
+        return freq * charge_per_spike * tau_m / C_m + E_L
+
+    def _conv_voltage2freq(self, voltage):
+
+        weight = self.output_layer_weight
+        tau_syn = 2.0
+        C_m = 250.0
+        tau_m = 10.0
+        E_L = -70.0
+        
         I = (C_m / tau_m) * (voltage - E_L) # [pA] 
         charge_per_spike = weight * tau_syn * math.e / 1000.0 # [pC]
-        freq = I / charge_per_spike
+
+        return I / charge_per_spike
+
+        
+    def _conv_tau2spike_train(self, tau, time_span):
+
+        voltage = self._conv_tau2voltage(tau)
+
+        freq = self._conv_voltage2freq(voltage)
+        
         return [round(x, 1) for x in np.linspace(self.total_sim_time + 1.0,
                                                  self.total_sim_time + time_span,
                                                  freq)]
 
 
-    # [-70 [mv], -60 [mv]] -> [0 [Nm], 20 [Nm]]
+    # [-68 [mv], -60 [mv]] -> [0 [Nm], 20 [Nm]]
     def _update_tau(self, tau1_voltage, tau2_voltage):
 
-        self.tau1 = (tau1_voltage + 70.0) * 2.0
-        self.tau2 = (tau2_voltage + 70.0) * 2.0
+        self.tau1 = (tau1_voltage + 68.0) * (20.0 / 8.0)
+        self.tau2 = (tau2_voltage + 68.0) * (20.0 / 8.0)
 
         
 def load(file_path):

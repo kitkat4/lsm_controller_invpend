@@ -144,7 +144,7 @@ class LiquidNeurons:
         return 
 
             
-    def raster_plot(self, markersize = 2.5, title = "title", hist = True, hist_binwidth = 5.0,
+    def raster_plot(self, markersize = 0.8, title = "title", hist = True, hist_binwidth = 5.0,
                     file_name = None, **kwargs):
         
         plot_neurons_activity.from_device(self.detector, hist = hist, title = title, markersize = markersize, hist_binwidth = hist_binwidth, **kwargs)

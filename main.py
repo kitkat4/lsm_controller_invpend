@@ -92,10 +92,10 @@ if __name__ == "__main__":
         
     controller = lsm_controller.LsmController(input_neurons_theta_size = 30,
                                               input_neurons_theta_dot_size = 30,
-                                              liquid_neurons_size = 100,
+                                              liquid_neurons_size = 150,
                                               readout_neurons_tau1_size = 1,
                                               readout_neurons_tau2_size = 1,
-                                              output_layer_weight = 200.0,
+                                              output_layer_weight = 100.0,
                                               thread_num = multiprocessing.cpu_count())
 
 
@@ -128,7 +128,7 @@ if __name__ == "__main__":
                                               theta_dot_0 = 0.0)
 
     
-    test_data = [(x, y) for x in np.linspace(min_theta, max_theta, N_x) for y in np.linspace(min_theta_dot, max_theta_dot, N_y)]
+    test_data = [(x, y) for x in np.linspace(min_theta + (max_theta - min_theta)/(N_x + 1), max_theta - (max_theta - min_theta)/(N_x + 1), N_x) for y in np.linspace(min_theta_dot + (max_theta_dot - min_theta_dot)/(N_y + 1), max_theta_dot - (max_theta_dot - min_theta_dot)/(N_y + 1), N_y)]
         
     controller.save(output_dir + "/" + experiment_name + "_after_0th_training.yaml")
 
@@ -142,7 +142,7 @@ if __name__ == "__main__":
     time_training_start = time.time()
     time_net_training = 0.0
     count2 = 1
-    for i in range(20000):
+    for i in range(10000):
 
         
         theta_train = random.random() * (max_theta - min_theta) + min_theta
@@ -156,7 +156,7 @@ if __name__ == "__main__":
         #                         sim_time = 200.0,
         #                         print_message = False)
         tmp_time = time.time()
-        lr = 0.01 if count2 < 4000 else 0.001
+        lr = 0.01 if count2 < 3000 else 0.001
         controller.train(theta = theta_train,
                          theta_dot = theta_dot_train,
                          tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
