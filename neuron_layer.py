@@ -189,31 +189,51 @@ class NeuronLayer:
         return result_list
 
     # neuron_ix is the index of the self.neurons i.e. [0, len(self.neurons) - 1]
-    def plot(self, neuron_ix, markersize = 2.5):
+    def plot_spikes(self, neuron_ix, file_name = None, markersize = 2.5):
 
         if neuron_ix not in range(len(self.neurons)):
             sys.stderr.write("warning: NeuronLayer.plot neuron_ix is out of range.\n")
             return
+        
+        senders = self.get_detector_data(neuron_ix, "senders")
+        times = self.get_detector_data(neuron_ix, "times")
+        plt.figure()
+        plt.plot(times, senders, '.', markersize = markersize)
+
+        if file_name is not None:
+            plt.savefig(file_name)
+            plt.close()
+        else:
+            plt.show()
+        
+        return
+
+    def plot_V_m(self, neuron_ix, file_name = None):
         
         V_m = self.get_meter_data(neuron_ix, "V_m")
         times = self.get_meter_data(neuron_ix, "times")
         plt.figure()
         plt.plot(times, V_m)
 
-        senders = self.get_detector_data(neuron_ix, "senders")
-        times = self.get_detector_data(neuron_ix, "times")
-        plt.figure()
-        plt.plot(times, senders, '.', markersize = markersize)
+        if file_name is not None:
+            plt.savefig(file_name)
+            plt.close()
+        else:
+            plt.show()
 
-        plt.show()
-        
-        return
+        return 
 
     
-    def raster_plot(self, markersize = 2.5, title = "title", hist = True, **kwargs):
+    def raster_plot(self, markersize = 2.5, title = "title", hist = True, hist_binwidth = 5.0,
+                    file_name = None, **kwargs):
 
-        plot_neurons_activity.from_device(self.detector, hist = hist, title = title, markersize = markersize, **kwargs)
-        plt.show()
+        plot_neurons_activity.from_device(self.detector, hist = hist, title = title, markersize = markersize, hist_binwidth = hist_binwidth, **kwargs)
+        if file_name is not None:
+            plt.savefig(file_name)
+            plt.close()
+        else:
+            plt.show()
+            
         return
 
     

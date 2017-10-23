@@ -60,14 +60,14 @@ class Lsm:
                                                   delay_min = 0.5,
                                                   delay_max = 4.0)
         self.liquid_neurons.connect(target_neuron_layer = self.readout_layer_tau1,
-                                    connection_ratio = 0.3,
+                                    connection_ratio = 1.0,
                                     inhibitory_connection_ratio = 0.25,
                                     weight_min = 100.0,
                                     weight_max = 500.0,
                                     delay_min = 0.5,
                                     delay_max = 4.0)
         self.liquid_neurons.connect(target_neuron_layer = self.readout_layer_tau2,
-                                    connection_ratio = 0.3,
+                                    connection_ratio = 1.0,
                                     inhibitory_connection_ratio = 0.25,
                                     weight_min = 100.0,
                                     weight_max = 500.0,
