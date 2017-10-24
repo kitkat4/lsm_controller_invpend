@@ -92,10 +92,10 @@ if __name__ == "__main__":
         
     controller = lsm_controller.LsmController(input_neurons_theta_size = 30,
                                               input_neurons_theta_dot_size = 30,
-                                              liquid_neurons_size = 1000,
+                                              liquid_neurons_size = 500,
                                               readout_neurons_tau1_size = 1,
                                               readout_neurons_tau2_size = 1,
-                                              output_layer_weight = 150.0,
+                                              output_layer_weight = 300.0,
                                               thread_num = multiprocessing.cpu_count())
 
 

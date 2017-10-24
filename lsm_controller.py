@@ -125,15 +125,15 @@ class LsmController:
         self.tau2 = np.zeros(len(self.lsm.readout_layer_tau2.neurons))
         
     
-    # [-3 [rad], 3 [rad]] -> [100 [Hz], 400 [Hz]]
+    # [-0.5 [rad], 0.5 [rad]] -> [100 [Hz], 400 [Hz]]
     def _conv_theta2freq(self, theta):
         
-        return theta * 50.0 + 250.0
+        return theta * 300.0 + 250.0
 
-    # [-10 [rad/s], 10 [rad/s]] -> [100 [Hz], 400 [Hz]]
+    # [-3 [rad/s], 3 [rad/s]] -> [100 [Hz], 400 [Hz]]
     def _conv_theta_dot2freq(self, theta_dot):
 
-        return theta_dot * 15 + 250.0
+        return theta_dot * 50.0 + 250.0
 
     # [0 [Nm], 20 [Nm]] -> [-68 [mV], -60 [mV]]
     def _conv_tau2voltage(self, tau):
