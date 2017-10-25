@@ -90,8 +90,8 @@ if __name__ == "__main__":
         if not exclude_liquid:
             controller.lsm.liquid_neurons.raster_plot(markersize = 0.1,hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_liquid_" + string + suffix)
         
-    controller = lsm_controller.LsmController(input_neurons_theta_size = 30,
-                                              input_neurons_theta_dot_size = 30,
+    controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
+                                              input_neurons_theta_dot_size = 10,
                                               liquid_neurons_size = 50,
                                               readout_neurons_tau1_size = 1,
                                               readout_neurons_tau2_size = 1,

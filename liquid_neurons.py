@@ -114,9 +114,14 @@ class LiquidNeurons:
         if neuron_ix not in range(len(self.neurons)):
             sys.stderr.write("warning: NeuronLayer.plot neuron_ix is out of range.\n")
             return
-        
         senders = self.get_detector_data(neuron_ix, "senders")
         times = self.get_detector_data(neuron_ix, "times")
+
+        if len(times) == 0:
+            sys.stderr.write("warning: no events recorded!\n")
+            return 
+        
+        
         plt.figure()
         plt.plot(times, senders, '.', markersize = markersize)
 

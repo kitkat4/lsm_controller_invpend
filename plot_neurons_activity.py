@@ -9,7 +9,7 @@
 import nest
 import numpy
 import matplotlib.pyplot as plt
-
+import sys
 
 def extract_events(data, time=None, sel=None):
     """Extract all events within a given time interval.
@@ -166,7 +166,9 @@ def from_device(detec, plot_lid=False, **kwargs):
         ts, gids = _from_memory(detec)
 
         if not len(ts):
-            raise nest.NESTError("No events recorded!")
+            sys.stderr.write("warning: no events recorded!\n")
+            return None
+            # raise nest.NESTError("No events recorded!")
 
         if plot_lid:
             gids = [nest.GetLID([x]) for x in gids]
