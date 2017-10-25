@@ -43,6 +43,7 @@ class Lsm:
                                                           V_th = float(10**100))
         self.output_layer_tau2 = neuron_layer.NeuronLayer(readout_neurons_tau1_size,
                                                           V_th = float(10**100))
+
         
         # connect layers
         self.input_layer_theta.connect2liquid(target_liquid_neurons = self.liquid_neurons,
