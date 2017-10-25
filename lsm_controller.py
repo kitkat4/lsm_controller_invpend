@@ -55,17 +55,24 @@ class LsmController:
     # The dynamic state of the network will be reset.
     def train_resume(self, theta, theta_dot, tau1_ref, tau2_ref,
                      update_num = 100, sim_time = 1000.0, print_message = True):
+
+        f_theta1 = self._conv_theta2freq(theta) if theta >= 0 else 0
+        f_theta2 = self._conv_theta2freq(-theta) if theta < 0 else 0        
+        f_theta_dot1 = self._conv_theta_dot2freq(theta_dot) if theta_dot >= 0 else 0
+        f_theta_dot2 = self._conv_theta_dot2freq(-theta_dot) if theta_dot < 0 else 0
+        i_theta1 = self._conv_freq2current(f_theta1)
+        i_theta2 = self._conv_freq2current(f_theta2)
+        i_theta_dot1 = self._conv_freq2current(f_theta_dot1)
+        i_theta_dot2 = self._conv_freq2current(f_theta_dot2)
         
-        f_theta = self._conv_theta2freq(theta)
-        f_theta_dot = self._conv_theta_dot2freq(theta_dot)
-        i_theta = self._conv_freq2current(f_theta)
-        i_theta_dot = self._conv_freq2current(f_theta_dot)
 
         st_tau1_ref = self._conv_tau2spike_train(tau1_ref, sim_time)
         st_tau2_ref = self._conv_tau2spike_train(tau2_ref, sim_time)
 
-        self.lsm.train(i_theta,
-                       i_theta_dot,
+        self.lsm.train(i_theta1,
+                       i_theta2,
+                       i_theta_dot1,
+                       i_theta_dot2,
                        st_tau1_ref,
                        st_tau2_ref,
                        update_num = update_num,
@@ -101,12 +108,16 @@ class LsmController:
     # _update_tauで更新されるトルクは最後のfilter_size [ms]の平均となる
     def simulate(self, sim_time, theta, theta_dot, filter_size = 1.0):
 
-        f_theta = self._conv_theta2freq(theta)
-        f_theta_dot = self._conv_theta_dot2freq(theta_dot)
-        i_theta = self._conv_freq2current(f_theta)
-        i_theta_dot = self._conv_freq2current(f_theta_dot)
+        f_theta1 = self._conv_theta2freq(theta) if theta >= 0 else 0
+        f_theta2 = self._conv_theta2freq(-theta) if theta < 0 else 0        
+        f_theta_dot1 = self._conv_theta_dot2freq(theta_dot) if theta_dot >= 0 else 0
+        f_theta_dot2 = self._conv_theta_dot2freq(-theta_dot) if theta_dot < 0 else 0
+        i_theta1 = self._conv_freq2current(f_theta1)
+        i_theta2 = self._conv_freq2current(f_theta2)
+        i_theta_dot1 = self._conv_freq2current(f_theta_dot1)
+        i_theta_dot2 = self._conv_freq2current(f_theta_dot2)
         
-        self.lsm.simulate(sim_time, i_theta, i_theta_dot)
+        self.lsm.simulate(sim_time, i_theta1, i_theta2, i_theta_dot1, i_theta_dot2)
 
         (tau1_voltage, tau2_voltage) = self.lsm.get_mean_membrane_voltage(filter_size)
         
@@ -125,15 +136,15 @@ class LsmController:
         self.tau2 = np.zeros(len(self.lsm.readout_layer_tau2.neurons))
         
     
-    # [-0.5 [rad], 0.5 [rad]] -> [0 [Hz], 400 [Hz]]
+    # [0 [rad], 0.5 [rad]] -> [0 [Hz], 400 [Hz]]
     def _conv_theta2freq(self, theta):
         
-        return theta * 400.0 + 200.0
+        return theta * 800.0 
 
-    # [-3 [rad/s], 3 [rad/s]] -> [0 [Hz], 400 [Hz]]
+    # [0 [rad/s], 3 [rad/s]] -> [0 [Hz], 400 [Hz]]
     def _conv_theta_dot2freq(self, theta_dot):
 
-        return theta_dot * (400.0 / 6.0) + 200.0
+        return theta_dot * (400.0 / 3.0)
 
     # [0 [Nm], 20 [Nm]] -> [-65 [mV], -55 [mV]]
     def _conv_tau2voltage(self, tau):

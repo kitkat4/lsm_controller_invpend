@@ -21,14 +21,18 @@ class Lsm:
                  output_layer_weight):
 
         # create neurons
-        self.input_layer_theta = neuron_layer.NeuronLayer(input_neurons_theta_size,
-                                                          tau_m = float(10**100))
+        self.input_layer_theta1 = neuron_layer.NeuronLayer(input_neurons_theta_size,
+                                                           tau_m = float(10**100))
+        self.input_layer_theta2 = neuron_layer.NeuronLayer(input_neurons_theta_size,
+                                                           tau_m = float(10**100))
 
-        self.input_layer_theta_dot = neuron_layer.NeuronLayer(input_neurons_theta_dot_size,
-                                                              tau_m = float(10**100))
+        self.input_layer_theta_dot1 = neuron_layer.NeuronLayer(input_neurons_theta_dot_size,
+                                                               tau_m = float(10**100))
+        self.input_layer_theta_dot2 = neuron_layer.NeuronLayer(input_neurons_theta_dot_size,
+                                                               tau_m = float(10**100))
         
         self.liquid_neurons = liquid_neurons.LiquidNeurons(neuron_size = liquid_neurons_size,
-                                                           connection_ratio = 0.15,
+                                                           connection_ratio = 0.05,
                                                            inhibitory_connection_ratio = 0.3,
                                                            neuron_model = "iaf_psc_alpha",
                                                            weight_min = 50.0,
@@ -46,20 +50,34 @@ class Lsm:
 
         
         # connect layers
-        self.input_layer_theta.connect2liquid(target_liquid_neurons = self.liquid_neurons,
-                                              connection_ratio = 0.04,
-                                              inhibitory_connection_ratio = 0.3,
-                                              weight_min = 50.0,
-                                              weight_max = 800.0,
-                                              delay_min = 0.5,
-                                              delay_max = 4.0)
-        self.input_layer_theta_dot.connect2liquid(target_liquid_neurons = self.liquid_neurons,
-                                                  connection_ratio = 0.04,
-                                                  inhibitory_connection_ratio = 0.3,
-                                                  weight_min = 50.0,
-                                                  weight_max = 800.0,
-                                                  delay_min = 0.5,
-                                                  delay_max = 4.0)
+        self.input_layer_theta1.connect2liquid(target_liquid_neurons = self.liquid_neurons,
+                                               connection_ratio = 0.3,
+                                               inhibitory_connection_ratio = 0.3,
+                                               weight_min = 50.0,
+                                               weight_max = 150.0,
+                                               delay_min = 0.5,
+                                               delay_max = 4.0)
+        self.input_layer_theta2.connect2liquid(target_liquid_neurons = self.liquid_neurons,
+                                               connection_ratio = 0.3,
+                                               inhibitory_connection_ratio = 0.3,
+                                               weight_min = 50.0,
+                                               weight_max = 150.0,
+                                               delay_min = 0.5,
+                                               delay_max = 4.0)
+        self.input_layer_theta_dot1.connect2liquid(target_liquid_neurons = self.liquid_neurons,
+                                                   connection_ratio = 0.3,
+                                                   inhibitory_connection_ratio = 0.3,
+                                                   weight_min = 50.0,
+                                                   weight_max = 150.0,
+                                                   delay_min = 0.5,
+                                                   delay_max = 4.0)
+        self.input_layer_theta_dot2.connect2liquid(target_liquid_neurons = self.liquid_neurons,
+                                                   connection_ratio = 0.3,
+                                                   inhibitory_connection_ratio = 0.3,
+                                                   weight_min = 50.0,
+                                                   weight_max = 150.0,
+                                                   delay_min = 0.5,
+                                                   delay_max = 4.0)
         self.liquid_neurons.connect(target_neuron_layer = self.readout_layer_tau1,
                                     connection_ratio = 1.0,
                                     inhibitory_connection_ratio = 0.3,
@@ -88,11 +106,17 @@ class Lsm:
 
         tmp_dict = {}
         self._append_neuron_info_to_save(data_dict = tmp_dict,
-                                         name = "input_layer_theta",
-                                         neurons = self.input_layer_theta.neurons)
+                                         name = "input_layer_theta1",
+                                         neurons = self.input_layer_theta1.neurons)
         self._append_neuron_info_to_save(data_dict = tmp_dict,
-                                         name = "input_layer_theta_dot",
-                                         neurons = self.input_layer_theta_dot.neurons)
+                                         name = "input_layer_theta2",
+                                         neurons = self.input_layer_theta2.neurons)
+        self._append_neuron_info_to_save(data_dict = tmp_dict,
+                                         name = "input_layer_theta_dot1",
+                                         neurons = self.input_layer_theta_dot1.neurons)
+        self._append_neuron_info_to_save(data_dict = tmp_dict,
+                                         name = "input_layer_theta_dot2",
+                                         neurons = self.input_layer_theta_dot2.neurons)
         self._append_neuron_info_to_save(data_dict = tmp_dict,
                                          name = "liquid_neurons",
                                          neurons = self.liquid_neurons.neurons)
@@ -112,12 +136,20 @@ class Lsm:
 
         tmp_dict = {}
         self._append_connection_info_to_save(data_dict = tmp_dict,
-                                             name = "input_layer_theta to liquid",
-                                             src_layer = self.input_layer_theta,
+                                             name = "input_layer_theta1 to liquid",
+                                             src_layer = self.input_layer_theta1,
                                              dst_layer = self.liquid_neurons)
         self._append_connection_info_to_save(data_dict = tmp_dict,
-                                             name = "input_layer_theta_dot to liquid",
-                                             src_layer = self.input_layer_theta_dot,
+                                             name = "input_layer_theta2 to liquid",
+                                             src_layer = self.input_layer_theta2,
+                                             dst_layer = self.liquid_neurons)
+        self._append_connection_info_to_save(data_dict = tmp_dict,
+                                             name = "input_layer_theta_dot1 to liquid",
+                                             src_layer = self.input_layer_theta_dot1,
+                                             dst_layer = self.liquid_neurons)
+        self._append_connection_info_to_save(data_dict = tmp_dict,
+                                             name = "input_layer_theta_dot2 to liquid",
+                                             src_layer = self.input_layer_theta_dot2,
                                              dst_layer = self.liquid_neurons)
         self._append_connection_info_to_save(data_dict = tmp_dict,
                                              name = "liquid to readout_layer_tau1",
@@ -151,18 +183,24 @@ class Lsm:
         data = yaml.load(fin)
         fin.close()
 
-        self._load_neurons(data, "input_layer_theta", self.input_layer_theta)
-        self._load_neurons(data, "input_layer_theta_dot", self.input_layer_theta_dot)
+        self._load_neurons(data, "input_layer_theta1", self.input_layer_theta1)
+        self._load_neurons(data, "input_layer_theta2", self.input_layer_theta2)
+        self._load_neurons(data, "input_layer_theta_dot1", self.input_layer_theta_dot1)
+        self._load_neurons(data, "input_layer_theta_dot2", self.input_layer_theta_dot2)
         self._load_neurons(data, "liquid_neurons", self.liquid_neurons)
         self._load_neurons(data, "readout_layer_tau1", self.readout_layer_tau1)
         self._load_neurons(data, "readout_layer_tau2", self.readout_layer_tau2)
         self._load_neurons(data, "output_layer_tau1", self.output_layer_tau1)
         self._load_neurons(data, "output_layer_tau2", self.output_layer_tau2)
 
-        self._load_connections(data, "input_layer_theta to liquid",
-                               self.input_layer_theta, self.liquid_neurons)
-        self._load_connections(data, "input_layer_theta_dot to liquid",
-                               self.input_layer_theta_dot, self.liquid_neurons)
+        self._load_connections(data, "input_layer_theta1 to liquid",
+                               self.input_layer_theta1, self.liquid_neurons)
+        self._load_connections(data, "input_layer_theta2 to liquid",
+                               self.input_layer_theta2, self.liquid_neurons)
+        self._load_connections(data, "input_layer_theta_dot1 to liquid",
+                               self.input_layer_theta_dot1, self.liquid_neurons)
+        self._load_connections(data, "input_layer_theta_dot2 to liquid",
+                               self.input_layer_theta_dot2, self.liquid_neurons)
         self._load_connections_to_readout_layer(data, "liquid to readout_layer_tau1",
                                                 self.liquid_neurons, self.readout_layer_tau1)
         self._load_connections_to_readout_layer(data, "liquid to readout_layer_tau2",
@@ -251,10 +289,12 @@ class Lsm:
         
         
     # i_theta, i_theta_dot [pA]
-    def simulate(self, sim_time, i_theta, i_theta_dot):
+    def simulate(self, sim_time, i_theta1, i_theta2, i_theta_dot1, i_theta_dot2):
 
-        self.input_layer_theta.set_input_current(i_theta)
-        self.input_layer_theta_dot.set_input_current(i_theta_dot)
+        self.input_layer_theta1.set_input_current(i_theta1)
+        self.input_layer_theta2.set_input_current(i_theta2)
+        self.input_layer_theta_dot1.set_input_current(i_theta_dot1)
+        self.input_layer_theta_dot2.set_input_current(i_theta_dot2)
 
         nest.Simulate(sim_time)
 
@@ -269,8 +309,10 @@ class Lsm:
     # st: spike train (float list).
     # The dynamic state of the network will be reset.
     def train_resume(self,
-                     i_theta,
-                     i_theta_dot,
+                     i_theta1,
+                     i_theta2,
+                     i_theta_dot1,
+                     i_theta_dot2,
                      st_tau1_ref,
                      st_tau2_ref,
                      update_num = 100,
@@ -285,8 +327,10 @@ class Lsm:
                 
             nest.ResetNetwork()
             
-            self.input_layer_theta.set_input_current(i_theta)
-            self.input_layer_theta_dot.set_input_current(i_theta_dot)
+            self.input_layer_theta1.set_input_current(i_theta1)
+            self.input_layer_theta2.set_input_current(i_theta2)
+            self.input_layer_theta_dot1.set_input_current(i_theta_dot1)
+            self.input_layer_theta_dot2.set_input_current(i_theta_dot2)
 
             nest.Simulate(sim_time)
         
