@@ -95,7 +95,7 @@ if __name__ == "__main__":
                                               liquid_neurons_size = 50,
                                               readout_neurons_tau1_size = 1,
                                               readout_neurons_tau2_size = 1,
-                                              output_layer_weight = 500.0,
+                                              output_layer_weight = 600.0,
                                               thread_num = multiprocessing.cpu_count())
 
 
