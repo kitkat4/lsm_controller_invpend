@@ -91,12 +91,14 @@ if __name__ == "__main__":
         
         if not readout_and_output_only:
             controller.lsm.liquid_neurons.raster_plot(markersize = 0.1,hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_liquid_" + string + suffix)
-            controller.lsm.input_layer_theta.raster_plot(hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_in_theta_" + string + suffix)
-            controller.lsm.input_layer_theta_dot.raster_plot(hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_in_theta_dot_" + string + suffix)
+            controller.lsm.input_layer_theta1.raster_plot(hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_in_theta1_" + string + suffix)
+            controller.lsm.input_layer_theta2.raster_plot(hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_in_theta2_" + string + suffix)
+            controller.lsm.input_layer_theta_dot1.raster_plot(hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_in_theta_dot1_" + string + suffix)
+            controller.lsm.input_layer_theta_dot2.raster_plot(hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_in_theta_dot2_" + string + suffix)
         
     controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
                                               input_neurons_theta_dot_size = 10,
-                                              liquid_neurons_size = 500,
+                                              liquid_neurons_size = 300,
                                               readout_neurons_tau1_size = 1,
                                               readout_neurons_tau2_size = 1,
                                               output_layer_weight = 600.0,
@@ -147,7 +149,7 @@ if __name__ == "__main__":
     time_training_start = time.time()
     time_net_training = 0.0
     count2 = 1
-    for i in range(3000):
+    for i in range(20000):
 
         
         theta_train = random.random() * (max_theta - min_theta) + min_theta
@@ -161,7 +163,7 @@ if __name__ == "__main__":
         #                         sim_time = 200.0,
         #                         print_message = False)
         tmp_time = time.time()
-        lr = 0.01 #if count2 < 600 else 0.001
+        lr = 0.01 if count2 < 2000 else 0.001
         controller.train(theta = theta_train,
                          theta_dot = theta_dot_train,
                          tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
