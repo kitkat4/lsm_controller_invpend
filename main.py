@@ -102,6 +102,7 @@ if __name__ == "__main__":
                                               output_layer_weight = 600.0,
                                               thread_num = multiprocessing.cpu_count())
 
+    
 
     max_torque = 20.0
     min_torque = -20.0
