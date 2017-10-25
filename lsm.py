@@ -47,7 +47,7 @@ class Lsm:
         
         # connect layers
         self.input_layer_theta.connect2liquid(target_liquid_neurons = self.liquid_neurons,
-                                              connection_ratio = 0.15,
+                                              connection_ratio = 0.10,
                                               inhibitory_connection_ratio = 0.3,
                                               weight_min = 50.0,
                                               weight_max = 500.0,
