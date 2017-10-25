@@ -50,14 +50,14 @@ class Lsm:
                                               connection_ratio = 0.15,
                                               inhibitory_connection_ratio = 0.3,
                                               weight_min = 50.0,
-                                              weight_max = 300.0,
+                                              weight_max = 500.0,
                                               delay_min = 0.5,
                                               delay_max = 4.0)
         self.input_layer_theta_dot.connect2liquid(target_liquid_neurons = self.liquid_neurons,
                                                   connection_ratio = 0.15,
                                                   inhibitory_connection_ratio = 0.3,
                                                   weight_min = 50.0,
-                                                  weight_max = 300.0,
+                                                  weight_max = 500.0,
                                                   delay_min = 0.5,
                                                   delay_max = 4.0)
         self.liquid_neurons.connect(target_neuron_layer = self.readout_layer_tau1,
