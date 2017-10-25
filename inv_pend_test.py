@@ -34,8 +34,8 @@ if __name__ == "__main__":
         theta_dot = pend.theta_dot
         controller.simulate(1.0, theta, theta_dot, 50.0) # こっちは単位が[ms]
         torque = controller.get_tau()
-        if t == 2500:
-            controller.lsm.output_layer_tau1.plot_V_m(0)
+        # if t == 2500:
+        #     controller.lsm.output_layer_tau1.plot_V_m(0)
         # torque = Kp*(theta_goal-theta)+Kd*(theta_dot_goal-theta_dot)
         
         pend.simulate_one_step(torque , 0.001)
