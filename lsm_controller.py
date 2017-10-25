@@ -135,10 +135,10 @@ class LsmController:
 
         return theta_dot * 50.0 + 250.0
 
-    # [0 [Nm], 20 [Nm]] -> [-68 [mV], -60 [mV]]
+    # [0 [Nm], 20 [Nm]] -> [-65 [mV], -55 [mV]]
     def _conv_tau2voltage(self, tau):
 
-        return tau * (8.0 / 20.0) - 68.0
+        return tau * (10.0 / 20.0) - 65.0
 
     # returns current[pA]
     def _conv_freq2current(self, freq): # tau_m が十分大きいニューロンを想定
@@ -185,11 +185,11 @@ class LsmController:
                                                  freq)]
 
 
-    # [-68 [mv], -60 [mv]] -> [0 [Nm], 20 [Nm]]
+    # [-65 [mv], -55 [mv]] -> [0 [Nm], 20 [Nm]]
     def _update_tau(self, tau1_voltage, tau2_voltage):
 
-        self.tau1 = (tau1_voltage + 68.0) * (20.0 / 8.0)
-        self.tau2 = (tau2_voltage + 68.0) * (20.0 / 8.0)
+        self.tau1 = np.clip((tau1_voltage + 65.0) * (20.0 / 10.0), 0.0, None)
+        self.tau2 = np.clip((tau2_voltage + 65.0) * (20.0 / 10.0), 0.0, None)
 
         
 def load(file_path):

@@ -92,10 +92,10 @@ if __name__ == "__main__":
         
     controller = lsm_controller.LsmController(input_neurons_theta_size = 30,
                                               input_neurons_theta_dot_size = 30,
-                                              liquid_neurons_size = 100,
+                                              liquid_neurons_size = 50,
                                               readout_neurons_tau1_size = 1,
                                               readout_neurons_tau2_size = 1,
-                                              output_layer_weight = 300.0,
+                                              output_layer_weight = 500.0,
                                               thread_num = multiprocessing.cpu_count())
 
 
@@ -162,7 +162,7 @@ if __name__ == "__main__":
                          tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
                          tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
                          learning_ratio = lr,
-                         momentum_learning_ratio = lr * 0.9,
+                         momentum_learning_ratio = lr * 0.0,
                          tau1_tolerance = 0.3,
                          tau2_tolerance = 0.3,
                          sim_time = 70.0,
@@ -170,13 +170,17 @@ if __name__ == "__main__":
         time_net_training += time.time() - tmp_time
 
         # sys.stdout.write("train (" + str(theta_train) + ", " + str(theta_dot_train) + ")\n")
+
+        if count2 % 20 == 0:
+
+            controller.save(output_dir + "/" + experiment_name + "_after_" + str(count2) + "th_training.yaml")
         
         if count2 % 200 == 0:
             rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd, True)
             sys.stdout.write("RMS error after " + str(count2) + "th training: " + str(rms_error) + "\n")
             sys.stdout.flush()
             sys.stdout.write("training took " + str(time_net_training) + " [s] (net)\n")
-            controller.save(output_dir + "/" + experiment_name + "_after_" + str(count2) + "th_training.yaml")
+            # controller.save(output_dir + "/" + experiment_name + "_after_" + str(count2) + "th_training.yaml")
             save_figs("after_" + str(count2) + "th_training")
             
 
