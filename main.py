@@ -75,7 +75,7 @@ if __name__ == "__main__":
         print "error: specify output directory as a command line argument."
         sys.exit()
 
-    def save_figs(string, suffix = ".eps", exclude_liquid = True):
+    def save_figs(string, suffix = ".eps", readout_and_output_only = True):
         
         nest.ResetNetwork()
         controller.simulate(1000.0, 0.0, 0.0)
@@ -83,12 +83,16 @@ if __name__ == "__main__":
         controller.simulate(1000.0, 0.3, 1.0)
         controller.simulate(1000.0, -0.3, 0.0)
         controller.simulate(1000.0, -0.3, -1.0)
+        
         controller.lsm.output_layer_tau1.plot_V_m(0, file_name = output_dir + "/" + experiment_name  + "_out_tau1_V_m_" + string + suffix)
         controller.lsm.output_layer_tau2.plot_V_m(0, file_name = output_dir + "/" + experiment_name  + "_out_tau2_V_m_" + string + suffix)
         controller.lsm.readout_layer_tau1.raster_plot(hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_read_tau1_" + string + suffix)
         controller.lsm.readout_layer_tau2.raster_plot(hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_read_tau2_" + string + suffix)
-        if not exclude_liquid:
+        
+        if not readout_and_output_only:
             controller.lsm.liquid_neurons.raster_plot(markersize = 0.1,hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_liquid_" + string + suffix)
+            controller.lsm.input_layer_theta.raster_plot(hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_in_theta_" + string + suffix)
+            controller.lsm.input_layer_theta_dot.raster_plot(hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_in_theta_dot_" + string + suffix)
         
     controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
                                               input_neurons_theta_dot_size = 10,
@@ -119,7 +123,7 @@ if __name__ == "__main__":
     print "min and max theta:     ", min_theta, max_theta
     print "min and max theta_dot: ", min_theta_dot, max_theta_dot
 
-    save_figs("after_0th_training", exclude_liquid = False)
+    save_figs("after_0th_training", readout_and_output_only = False)
     
 
     pend = inverted_pendulum.InvertedPendulum(mass = 1.0,
@@ -156,7 +160,7 @@ if __name__ == "__main__":
         #                         sim_time = 200.0,
         #                         print_message = False)
         tmp_time = time.time()
-        lr = 0.01 if count2 < 600 else 0.001
+        lr = 0.01 #if count2 < 600 else 0.001
         controller.train(theta = theta_train,
                          theta_dot = theta_dot_train,
                          tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
