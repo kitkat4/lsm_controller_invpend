@@ -78,30 +78,31 @@ if __name__ == "__main__":
     def save_figs(string, suffix = ".eps", readout_and_output_only = True):
         
         nest.ResetNetwork()
-        controller.simulate(1000.0, 0.0, 0.0)
-        controller.simulate(1000.0, 0.3, 0.0)
-        controller.simulate(1000.0, 0.3, 1.0)
-        controller.simulate(1000.0, -0.3, 0.0)
-        controller.simulate(1000.0, -0.3, -1.0)
+        controller.simulate(400.0, 0.0, 0.0)
+        controller.simulate(400.0, 0.3, 0.0)
+        controller.simulate(400.0, 0.3, 1.0)
+        controller.simulate(400.0, -0.3, 0.0)
+        controller.simulate(400.0, -0.3, -1.0)
+        controller.simulate(400.0, 0.0, 0.0)
         
         controller.lsm.output_layer_tau1.plot_V_m(0, file_name = output_dir + "/" + experiment_name  + "_out_tau1_V_m_" + string + suffix)
         controller.lsm.output_layer_tau2.plot_V_m(0, file_name = output_dir + "/" + experiment_name  + "_out_tau2_V_m_" + string + suffix)
-        controller.lsm.readout_layer_tau1.raster_plot(hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_read_tau1_" + string + suffix)
-        controller.lsm.readout_layer_tau2.raster_plot(hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_read_tau2_" + string + suffix)
+        controller.lsm.readout_layer_tau1.raster_plot(marker = '|', hist_binwidth = 50.0, file_name = output_dir + "/" + experiment_name + "_read_tau1_" + string + suffix)
+        controller.lsm.readout_layer_tau2.raster_plot(marker = '|', hist_binwidth = 50.0, file_name = output_dir + "/" + experiment_name + "_read_tau2_" + string + suffix)
         
         if not readout_and_output_only:
-            controller.lsm.liquid_neurons.raster_plot(markersize = 0.1,hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_liquid_" + string + suffix)
-            controller.lsm.input_layer_theta1.raster_plot(hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_in_theta1_" + string + suffix)
-            controller.lsm.input_layer_theta2.raster_plot(hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_in_theta2_" + string + suffix)
-            controller.lsm.input_layer_theta_dot1.raster_plot(hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_in_theta_dot1_" + string + suffix)
-            controller.lsm.input_layer_theta_dot2.raster_plot(hist_binwidth = 200.0, file_name = output_dir + "/" + experiment_name + "_in_theta_dot2_" + string + suffix)
+            controller.lsm.liquid_neurons.raster_plot(marker = '|', hist_binwidth = 50.0, file_name = output_dir + "/" + experiment_name + "_liquid_" + string + suffix)
+            controller.lsm.input_layer_theta1.raster_plot(marker = '|', hist_binwidth = 50.0, file_name = output_dir + "/" + experiment_name + "_in_theta1_" + string + suffix)
+            controller.lsm.input_layer_theta2.raster_plot(marker = '|', hist_binwidth = 50.0, file_name = output_dir + "/" + experiment_name + "_in_theta2_" + string + suffix)
+            controller.lsm.input_layer_theta_dot1.raster_plot(marker = '|', hist_binwidth = 50.0, file_name = output_dir + "/" + experiment_name + "_in_theta_dot1_" + string + suffix)
+            controller.lsm.input_layer_theta_dot2.raster_plot(marker = '|', hist_binwidth = 50.0, file_name = output_dir + "/" + experiment_name + "_in_theta_dot2_" + string + suffix)
         
     controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
                                               input_neurons_theta_dot_size = 10,
-                                              liquid_neurons_size = 100,
+                                              liquid_neurons_size = 50,
                                               readout_neurons_tau1_size = 1,
                                               readout_neurons_tau2_size = 1,
-                                              output_layer_weight = 600.0,
+                                              output_layer_weight = 300.0,
                                               thread_num = multiprocessing.cpu_count())
 
     
@@ -149,7 +150,7 @@ if __name__ == "__main__":
     time_training_start = time.time()
     time_net_training = 0.0
     count2 = 1
-    for i in range(4000):
+    for i in range(20000):
 
         
         theta_train = random.random() * (max_theta - min_theta) + min_theta
@@ -163,7 +164,7 @@ if __name__ == "__main__":
         #                         sim_time = 200.0,
         #                         print_message = False)
         tmp_time = time.time()
-        lr = 0.01 if count2 < 2000 else 0.001
+        lr = 0.1 if count2 <= 1000 else 0.01#0.01 #if count2 < 5000 else 0.001
         controller.train(theta = theta_train,
                          theta_dot = theta_dot_train,
                          tau1_ref = tau_ref if tau_ref >= 0 else 0.0,

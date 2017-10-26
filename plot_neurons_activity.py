@@ -198,7 +198,7 @@ def _from_memory(detec):
 
 
 def _make_plot(ts, ts1, gids, neurons, hist=True, hist_binwidth=5.0,
-               grayscale=False, title=None, xlabel=None, markersize = 2.5):
+               grayscale=False, title=None, xlabel=None, markersize = 2.5, marker = '.'):
     """Generic plotting routine.
 
     Constructs a raster plot along with an optional histogram (common part in
@@ -228,10 +228,10 @@ def _make_plot(ts, ts1, gids, neurons, hist=True, hist_binwidth=5.0,
     plt.figure()
 
     if grayscale:
-        color_marker = ".k"
+        color_marker = marker + "k"
         color_bar = "gray"
     else:
-        color_marker = "."
+        color_marker = marker
         color_bar = "blue"
 
     color_edge = "black"
