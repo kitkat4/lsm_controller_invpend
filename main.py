@@ -98,7 +98,7 @@ if __name__ == "__main__":
         
     controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
                                               input_neurons_theta_dot_size = 10,
-                                              liquid_neurons_size = 300,
+                                              liquid_neurons_size = 100,
                                               readout_neurons_tau1_size = 1,
                                               readout_neurons_tau2_size = 1,
                                               output_layer_weight = 600.0,
@@ -149,7 +149,7 @@ if __name__ == "__main__":
     time_training_start = time.time()
     time_net_training = 0.0
     count2 = 1
-    for i in range(20000):
+    for i in range(4000):
 
         
         theta_train = random.random() * (max_theta - min_theta) + min_theta
