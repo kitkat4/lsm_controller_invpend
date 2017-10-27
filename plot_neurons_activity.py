@@ -198,7 +198,7 @@ def _from_memory(detec):
 
 
 def _make_plot(ts, ts1, gids, neurons, hist=True, hist_binwidth=5.0,
-               grayscale=False, title=None, xlabel=None, markersize = 2.5, marker = '.'):
+               grayscale=False, title=None, xlabel=None, markersize = 0.5, marker = '_'):
     """Generic plotting routine.
 
     Constructs a raster plot along with an optional histogram (common part in

@@ -1,0 +1,452 @@
+[33mcommit 76b96c25159a2786089c737544ac2aa8bc95cec0[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Thu Oct 26 18:32:20 2017 +0900
+
+    test29
+
+[33mcommit e7f60a723f60f2f77a06c3960198aedede10fc9f[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Thu Oct 26 18:32:13 2017 +0900
+
+    test28
+
+[33mcommit 1b27f36ba23d9542271936466a7f35c09d0b8a2c[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Thu Oct 26 01:30:35 2017 +0900
+
+    test27
+
+[33mcommit edc718c63e4c7967aa0a42611ecf38605888a876[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Thu Oct 26 01:23:55 2017 +0900
+
+    input_theta, input_theta_dotをそれぞれ正負を担当する２つに分けた
+
+[33mcommit 7f1464433a6ed8425952832a226e5205bd991b6d[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Thu Oct 26 00:41:39 2017 +0900
+
+    test26 やっぱこっち
+
+[33mcommit 61da21dc2e2e6f1a4e9fb043172ba7b06b1369b5[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Thu Oct 26 00:10:55 2017 +0900
+
+    test26
+
+[33mcommit 5d5ce8e6e6af6b719090d2742296f23c554d6005[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Thu Oct 26 00:10:32 2017 +0900
+
+    test25
+
+[33mcommit a8372d9e9d24edc600648de5fe033cb1767c1ad9[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Wed Oct 25 23:50:20 2017 +0900
+
+    test24
+
+[33mcommit 93cb89ec93732f258b1125b8c94b4e95fc7b7cc4[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Wed Oct 25 22:26:20 2017 +0900
+
+    test23
+
+[33mcommit efaf4e22b941ea204ff3211a2eac724d5d5efa81[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Wed Oct 25 21:55:37 2017 +0900
+
+    test22
+
+[33mcommit a1342de93ded07e8d9677afdb3c0881c78e19629[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Wed Oct 25 21:38:48 2017 +0900
+
+    test21
+
+[33mcommit 47600bcc6eb49eb8a603d46449f36bacaef79147[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Wed Oct 25 21:10:43 2017 +0900
+
+    test20
+
+[33mcommit 9b4732b62e240cfab961ce485068f9b1f6c81638[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Wed Oct 25 20:44:50 2017 +0900
+
+    test19
+
+[33mcommit fc43391d88193329af553010234a4aa4143167bd[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Wed Oct 25 19:56:33 2017 +0900
+
+    test18
+    
+    ・負のトルクが出力されるバグを修正
+    ・ニューロンの数を減らした
+    ・パラメータ調整
+
+[33mcommit d29a5d8f132d6d81d00456c9fbc6cee4632176d7[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Wed Oct 25 01:56:55 2017 +0900
+
+    test16
+    
+    ニューロン減らしてみたけどうまくいかないっぽい
+
+[33mcommit af76a5e07e3c6ea47d4c8bfbe3bb3199f6b48ccc[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Wed Oct 25 00:42:08 2017 +0900
+
+    test15
+    
+    input layerの入力値の変域を狭くしたらだいぶ惜しいところまで行った
+
+[33mcommit dac636d1dadc123ab8007adc4534a323493f6e01[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Tue Oct 24 12:56:27 2017 +0900
+
+    test14
+
+[33mcommit 1c0414f6e4da16dae8660f052bae8ffd87c97615[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Tue Oct 24 12:53:48 2017 +0900
+
+    test13
+
+[33mcommit 279d437fe36c7395212c324b8bebdf61598d69cb[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Mon Oct 23 20:39:29 2017 +0900
+
+    test12
+
+[33mcommit 46b610a1a2b79db33e2476d62309a1c5ebe985f8[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Mon Oct 23 17:46:28 2017 +0900
+
+    test11
+
+[33mcommit 44302cf66b71f91a87d90db34716d221fb48a211[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Mon Oct 23 14:58:58 2017 +0900
+
+    plotまわりを強化
+
+[33mcommit c76d66f2d15c892a254df7c1e296489dbf1b3a8e[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Sun Oct 22 21:37:05 2017 +0900
+
+    test9 やっぱこっち
+
+[33mcommit 70c72354ab2496c9260db20d83bb8ee2bf271de8[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Sun Oct 22 21:35:37 2017 +0900
+
+    test9
+
+[33mcommit 0b11117d9f5d9f5bca027dfa9fe1fc2d3659d795[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Sun Oct 22 21:34:57 2017 +0900
+
+    モメンタム追加
+
+[33mcommit f4855ad098715c1f2caab1831a0e0e22f592ac07[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Sun Oct 22 20:39:32 2017 +0900
+
+    ・NeuronLayer.presynaptic_neuronsの型を変更（インデックス->インデックスのリストに）
+    ・NeuronLayer.trainでスパイク数の代わりに平均周波数を利用するように変更
+
+[33mcommit 1ceca7087aa580af4e9a25df8224aa6caf8a19ed[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Sun Oct 22 18:24:42 2017 +0900
+
+    test8
+
+[33mcommit 88226cd696d1c304d0be32730265aa2d62648272[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Fri Oct 20 02:15:27 2017 +0900
+
+    bugfix
+
+[33mcommit ad7e4bdc462aa0bd284b41c49cab2b32c998c34c[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Fri Oct 20 00:41:39 2017 +0900
+
+    ・lsm_controller.load実装
+    ・thread_numのデフォルト引数を-1に変更
+    ・LsmController.load時にtauのサイズを更新するように変更
+
+[33mcommit 8eb91fc08a252a8305a6d4daed6891dd7038364c[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Thu Oct 19 23:41:46 2017 +0900
+
+    test7
+
+[33mcommit b4d077d226eeef4607c016557062a1939d33b334[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Thu Oct 19 17:51:45 2017 +0900
+
+    ・train をtrain_resumeにリネーム
+    ・あたらしいアルゴリズムでtrainを実装
+    ・一部変数をfloatからnp.array型に変更
+
+[33mcommit 4c11ba708bef246dd673d2d0820e7f1e43a2e629[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Mon Oct 16 23:40:42 2017 +0900
+
+    bugfix for generating test data
+
+[33mcommit 334dd255b88b574b727579586f389da9c68051fb[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Sat Oct 14 21:13:41 2017 +0900
+
+    plot_neurons_activity.py追加
+
+[33mcommit f4a53bedc091efead1023fed393b41f794637db0[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Thu Oct 12 22:43:57 2017 +0900
+
+    test4
+    
+    ・いろんなパラメータ調整
+
+[33mcommit 5e4a86718bed59a8f82064f56ac6f729487d8b6b[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Wed Oct 11 23:21:26 2017 +0900
+
+    test3
+
+[33mcommit fa25cb10a531c0a3245f9da42e510dc0248bb7ca[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Wed Oct 11 21:02:28 2017 +0900
+
+    LsmControllerのfilter_sizeをコンストラクタではなく各simulate()ごとに引数で設定するように変更
+
+[33mcommit 7c7f1bbf23dc33d25cbfc8bceec4f626236a768b[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Wed Oct 11 20:10:24 2017 +0900
+
+    HOTFIX for LsmController.train()
+
+[33mcommit b7cf06bfb822941eca5d4487304628cabc6c8308[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Wed Oct 11 14:54:17 2017 +0900
+
+    ・neuron_layer, liquid_neuronsのmetersを各々単一のmeterに統合
+    ・neuron_layer, liquid_neuronsにget_meter_dataメソッドとget_detector_dataメソッドを追加
+
+[33mcommit 3b5426a6ee6574642127392d6625dff616794769[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Wed Oct 11 00:18:02 2017 +0900
+
+    ・neuron_layer, liquid_neuronsにraster_plotを追加
+    ・neuron_layer, liquid_neuronsのdetectorsを各々ひとつのdetectorに変更
+    ・neuron_layerのpresynaptic_neurons_detectorsをconnected_liquidに変更
+
+[33mcommit eb1c3638b79f66181d963bc86e94e453b5da467d[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Mon Oct 9 22:35:10 2017 +0900
+
+    test2
+
+[33mcommit 511cb30a4ed89f393d0d5f797f7adde7935c44ff[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Mon Oct 9 22:32:20 2017 +0900
+
+    時間計測追加２
+
+[33mcommit 704c6b725260c10d3ce96064dcc97ed712e3d18a[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Mon Oct 9 22:22:24 2017 +0900
+
+    時間計測追加
+
+[33mcommit 56be7816e0eec7838f8aa3265e5ad5ad2b5b95f0[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Sat Oct 7 20:36:29 2017 +0900
+
+    やっぱこっち
+
+[33mcommit a20a12b6d1759197fb8049566b896cbe4513f505[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Sat Oct 7 20:33:46 2017 +0900
+
+    コマンドライン引数を取るように変更
+
+[33mcommit 217fcde773eaac1d07b958b34ded5d469112f083[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Sat Oct 7 19:51:15 2017 +0900
+
+    やっぱこっち
+
+[33mcommit 0c122a99079aa78d8833cdc82980adb7edb1d823[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Sat Oct 7 19:50:20 2017 +0900
+
+    ちょっとした動作テスト用
+
+[33mcommit 32c66e5b0fcc2c6159cc447a502ee0eec325d7fe[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Sat Oct 7 17:50:57 2017 +0900
+
+    tmp
+
+[33mcommit 4fbdfeea731cebab54278fa613c9f7f8c13c439e[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Thu Oct 5 07:45:16 2017 +0900
+
+    ・load実装(動作の信頼性はまだ疑問 もう少し使ってみないと）
+    ・NeuronLayer, LiquidNeuronsの__init__やconnectの引数を一部修正
+
+[33mcommit bd57f2e1365c4dc7624258cc60683ba921cc3672[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Thu Oct 5 06:18:36 2017 +0900
+
+    save bugfix
+
+[33mcommit 3113c97fc65bf1c8c59802cb476b1bd7cde53b6c[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Thu Oct 5 05:46:06 2017 +0900
+
+    save bugfix
+
+[33mcommit a8cbb1a02a3dfbc822354d3cefd4daf2ce71478c[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Thu Oct 5 05:23:58 2017 +0900
+
+    やっぱこっち
+
+[33mcommit b21643d85d97a3d718320ceaa43aecb3fde57fe4[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Thu Oct 5 05:16:42 2017 +0900
+
+    connection params のsource, targetのidを各layerでのインデックスに
+
+[33mcommit 93fc12a5631e8257508d308c97667563471c5e17[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Tue Oct 3 02:22:14 2017 +0900
+
+    _load_neuronsメソッドを追加(load未完)
+
+[33mcommit 6f42b64ac0517950fed5bb3a15802ba78379e589[m
+Merge: 1a33394 9224570
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Mon Oct 2 16:57:34 2017 +0900
+
+    Merge branch 'master' into kitajima_status_save_and_load
+
+[33mcommit 922457024ba4091ee40dad152a7a4a2fc4a318ac[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Mon Oct 2 16:55:26 2017 +0900
+
+    NeuronLayer, LiquidNeuronsクラスにneuron_modelメンバとそれを指定するコンストラクタの引数を追加
+
+[33mcommit 1a33394465a1bac6e73d4f15eaf4c62b6c145abe[m
+Merge: 22e6ed2 ded1897
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Sun Oct 1 17:38:47 2017 +0900
+
+    Merge branch 'master' into kitajima_status_save_and_load
+
+[33mcommit ded189700ace83c122735d8c6c0b2721331c3e53[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Sun Oct 1 17:38:18 2017 +0900
+
+    論理プロセッサ数を自動取得するようmain.pyを改変
+
+[33mcommit 22e6ed29968532c9f0232b6d80f07d35ad42055a[m
+Merge: f623302 d8373c8
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Sun Oct 1 17:33:33 2017 +0900
+
+    Merge branch 'master' into kitajima_status_save_and_load
+
+[33mcommit d8373c8ce6567f88f05eba55cf89a521ecb613da[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Sun Oct 1 17:29:50 2017 +0900
+
+    applied .gitignore
+
+[33mcommit f6233021e08a7094f0c15ef2fac9f89be4851359[m
+Merge: f0b71dc bc21f5b
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Sun Oct 1 17:20:37 2017 +0900
+
+    Merge branch 'master' into kitajima_status_save_and_load
+
+[33mcommit bc21f5b060540732560421dfa96cf631b49e9b40[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Sun Oct 1 17:19:12 2017 +0900
+
+    added .gitignore
+
+[33mcommit f0b71dc84764b3df62a739b7a9b8e3458f00156a[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Thu Sep 28 19:07:35 2017 +0900
+
+    Lsmの状態を保存する関数saveを追加（loadはまだ）
+
+[33mcommit 20218bd2c2cbfb4c45bb9401a3c8b8e1b7694405[m
+Merge: 2a832ce e1267ec
+Author: shungo11260 <shungotaniguchi1120@gmail.com>
+Date:   Mon Jun 26 19:47:25 2017 +0900
+
+    Merge pull request #6 from KitKat4/taniguchi/test
+    
+    PD制御の可視化
+
+[33mcommit e1267ecc98c0c5cfda293238aaf97bc0e520965d[m
+Author: shungo11260 <shungotaniguchi1120@gmail.com>
+Date:   Mon Jun 26 19:45:31 2017 +0900
+
+    PD制御の可視化
+
+[33mcommit 2a832ce6301c869821752d2873b7e8d1ab699c59[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Fri Jun 23 17:30:17 2017 +0900
+
+    trainをjoblibで並列化（クソザコナメクジ）
+
+[33mcommit be59fab6e93dd264bb0dd66eafe4b7411f5ca7a6[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Fri Jun 23 15:45:53 2017 +0900
+
+    ・NeuronLayer, LiquidNeuronsにnum_of_spikesメソッドを追加
+    ・LiquidNeuronsにmultimeterを追加
+    ・一部パラメータ変更
+    ・その他軽微な変更
+
+[33mcommit 1a104c98f6b64f54a36888cff10b5b23bfc24325[m
+Merge: 379f65b 9547da1
+Author: shungo11260 <shungotaniguchi1120@gmail.com>
+Date:   Fri Jun 23 00:43:37 2017 +0900
+
+    Merge pull request #1 from KitKat4/taniguchi/master
+    
+    元に戻しました
+
+[33mcommit 9547da1139c471d96a411e4219ee636b6891a8d2[m
+Author: shungo11260 <shungotaniguchi1120@gmail.com>
+Date:   Fri Jun 23 00:42:11 2017 +0900
+
+    元に戻しました
+
+[33mcommit 379f65b3dfc4a75bdd0badbdff86492a57de99a9[m
+Merge: dd7891b e29f7ca
+Author: shungo11260 <shungotaniguchi1120@gmail.com>
+Date:   Fri Jun 23 00:32:17 2017 +0900
+
+    Merge branch 'master' of https://github.com/KitKat4/lsm_controller_invpend
+
+[33mcommit dd7891bcced1566a9de94dbca2480fde9d4af4f9[m
+Author: shungo11260 <shungotaniguchi1120@gmail.com>
+Date:   Fri Jun 23 00:18:15 2017 +0900
+
+    first commit
+
+[33mcommit e29f7ca8151cd1e8fadb383fd7f99c479b4c53ef[m
+Author: Katsumasa Kitajima <k.k4.bky@gmail.com>
+Date:   Thu Jun 22 05:20:18 2017 +0900
+
+    initial commit
