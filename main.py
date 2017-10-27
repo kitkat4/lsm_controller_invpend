@@ -150,7 +150,7 @@ if __name__ == "__main__":
     time_training_start = time.time()
     time_net_training = 0.0
     count2 = 1
-    for i in range(30000):
+    for i in range(50000):
 
         
         theta_train = random.random() * (max_theta - min_theta) + min_theta
@@ -164,7 +164,7 @@ if __name__ == "__main__":
         #                         sim_time = 200.0,
         #                         print_message = False)
         tmp_time = time.time()
-        lr = 0.01 #if count2 <= 1000 else 0.01#0.01 #if count2 < 5000 else 0.001
+        lr = 0.01 if count2 <= 25000 else 0.001#0.01 #if count2 < 5000 else 0.001
         controller.train(theta = theta_train,
                          theta_dot = theta_dot_train,
                          tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
