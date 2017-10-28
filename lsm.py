@@ -32,9 +32,9 @@ class Lsm:
                                                                tau_m = float(10**100))
         
         self.liquid_neurons = liquid_neurons.LiquidNeurons(neuron_size = liquid_neurons_size,
-                                                           inhibitory_connection_ratio = 0.3,
                                                            neuron_model = "iaf_psc_alpha")
         self.liquid_neurons.connect_random(connection_ratio = 0.1,
+                                           inhibitory_connection_ratio = 0.3,
                                            weight_min = 50.0,
                                            weight_max = 150.0,
                                            delay_min = 0.5,

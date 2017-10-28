@@ -14,7 +14,6 @@ class LiquidNeurons:
     
     def __init__(self,
                  neuron_size,
-                 inhibitory_connection_ratio,
                  neuron_model):
 
         self.neuron_model = neuron_model
@@ -51,6 +50,7 @@ class LiquidNeurons:
 
     def connect_random(self,
                        connection_ratio,
+                       inhibitory_connection_ratio,
                        weight_min,
                        weight_max,
                        delay_min,
