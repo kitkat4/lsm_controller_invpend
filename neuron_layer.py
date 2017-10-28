@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import joblib
 
 import random
+import math
 import sys
 
 class NeuronLayer:
@@ -69,6 +70,32 @@ class NeuronLayer:
                     d = random.uniform(delay_min, delay_max)
                     nest.Connect([ns], [nt], {"rule": "one_to_one"},
                                  {"model": "static_synapse", "weight": w, "delay": d})
+
+    # connect at the probability of a * exp(-(z_coordinate_of_liquid_neuron - c) / b)
+    def connect2liquid_prob_z(self,
+                              target_liquid_neurons,
+                              a,
+                              b,
+                              c,
+                              inhibitory_connection_ratio,
+                              weight_min,
+                              weight_max,
+                              delay_min,
+                              delay_max):
+
+        for ns in self.neurons:
+            for nt in target_liquid_neurons.neurons:
+
+                nt_pos = target_liquid_neurons.position[target_liquid_neurons.neurons.index(nt)]
+                
+                if random.random() < a * math.exp(-(nt_pos[2] - c) / b):
+                    sign = -1 if random.random() < inhibitory_connection_ratio else 1
+                    w = random.uniform(weight_min, weight_max) * sign
+                    d = random.uniform(delay_min, delay_max)
+                    nest.Connect([ns], [nt], {"rule": "one_to_one"},
+                                 {"model": "static_synapse", "weight": w, "delay": d})
+        
+                
 
     # connect one_to_one with an uniform weight
     def connect2layer_one_to_one(self, target_neuron_layer, weight):
