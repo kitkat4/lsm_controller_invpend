@@ -79,20 +79,20 @@ class Lsm:
                                                    weight_max = 1500.0,
                                                    delay_min = 0.5,
                                                    delay_max = 4.0)
-        self.liquid_neurons.connect(target_neuron_layer = self.readout_layer_tau1,
-                                    connection_ratio = 0.3,
-                                    inhibitory_connection_ratio = 0.25,
-                                    weight_min = 50.0,
-                                    weight_max = 150.0,
-                                    delay_min = 0.5,
-                                    delay_max = 4.0)
-        self.liquid_neurons.connect(target_neuron_layer = self.readout_layer_tau2,
-                                    connection_ratio = 0.3,
-                                    inhibitory_connection_ratio = 0.25,
-                                    weight_min = 50.0,
-                                    weight_max = 150.0,
-                                    delay_min = 0.5,
-                                    delay_max = 4.0)
+        self.liquid_neurons.connect2neuron_layer(target_neuron_layer = self.readout_layer_tau1,
+                                                 connection_ratio = 0.3,
+                                                 inhibitory_connection_ratio = 0.25,
+                                                 weight_min = 50.0,
+                                                 weight_max = 150.0,
+                                                 delay_min = 0.5,
+                                                 delay_max = 4.0)
+        self.liquid_neurons.connect2neuron_layer(target_neuron_layer = self.readout_layer_tau2,
+                                                 connection_ratio = 0.3,
+                                                 inhibitory_connection_ratio = 0.25,
+                                                 weight_min = 50.0,
+                                                 weight_max = 150.0,
+                                                 delay_min = 0.5,
+                                                 delay_max = 4.0)
         self.readout_layer_tau1.connect2layer_one_to_one(self.output_layer_tau1,
                                                          weight = output_layer_weight)
         self.readout_layer_tau2.connect2layer_one_to_one(self.output_layer_tau2,
