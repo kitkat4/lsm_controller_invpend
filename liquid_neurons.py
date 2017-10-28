@@ -54,6 +54,7 @@ class LiquidNeurons:
         self.detector = nest.Create("spike_detector", params = {"withgid": True, "withtime": True})
         self.meter = nest.Create("multimeter", params = {"withtime":True, "record_from":["V_m"]})
 
+        self.position = [None for n in self.neurons]
 
         for i in range(neuron_size):
             nest.Connect([self.neurons[i]], self.detector)
@@ -81,7 +82,7 @@ class LiquidNeurons:
 
 
     # connect neurons at the probability of a * exp(-distance / b)
-    def connect_exp_prob_dist(self, a, b,
+    def connect_prob_exp_dist(self, a, b,
                               inhibitory_connection_ratio,
                               weight_min,
                               weight_max,
@@ -133,12 +134,11 @@ class LiquidNeurons:
                         target_neuron_layer.presynaptic_neurons[t_ix].append(s_ix)
 
 
-    # connect at the prob of a * exp(-(z_coordinate_of_source_neuron - c) / b)
-    def connect2neuron_layer_prob_z(self,
+    # connect at the prob of a * exp(-(z_distance / b)
+    def connect2neuron_layer_prob_exp_z(self,
                                     target_neuron_layer,
                                     a,
                                     b,
-                                    c,
                                     inhibitory_connection_ratio,
                                     weight_min,
                                     weight_max,
@@ -151,8 +151,10 @@ class LiquidNeurons:
             for nt in target_neuron_layer.neurons:
 
                 ns_pos = self.position[self.neurons.index(ns)]
+                nt_pos = target_neuron_layer.position[target_neuron_layer.neurons.index(nt)]
+                dist = abs(ns_pos[2] - nt_pos[2])
                 
-                if random.random() < a * math.exp(-(ns_pos[2] - c) / b):
+                if random.random() < a * math.exp(- dist/ b):
                     sign = -1 if random.random() < inhibitory_connection_ratio else 1
                     w = random.uniform(weight_min, weight_max) * sign
                     d = random.uniform(delay_min, delay_max)

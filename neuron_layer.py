@@ -15,12 +15,23 @@ import sys
 
 class NeuronLayer:
 
-    def __init__(self, neuron_size, V_th = -55.0, tau_m = 10.0, neuron_model = "iaf_psc_alpha"):
+    def __init__(self, neuron_size, V_th = -55.0, tau_m = 10.0, neuron_model = "iaf_psc_alpha",
+                 x_min = 0.0,
+                 x_max = 0.0,
+                 y_min = 0.0,
+                 y_max = 0.0,
+                 z_min = 0.0,
+                 z_max = 0.0):
 
         self.neuron_model = neuron_model
 
         self.neurons = nest.Create(self.neuron_model, neuron_size,
                                    params = {"V_th": V_th, "tau_m": tau_m})
+
+        self.position = [(random.random() * (x_max - x_min) + x_min,
+                          random.random() * (y_max - y_min) + y_min,
+                          random.random() * (z_max - z_min) + z_min) for gid in self.neurons]
+        
         self.detector = nest.Create("spike_detector", params = {"withgid": True, "withtime": True})
         self.meter = nest.Create("multimeter", params = {"withtime":True, "record_from":["V_m"]})
 
@@ -47,6 +58,7 @@ class NeuronLayer:
         self.detector = nest.Create("spike_detector", params = {"withgid": True, "withtime": True})
         self.meter = nest.Create("multimeter", params = {"withtime":True, "record_from":["V_m"]})
 
+        self.position = [None for n in self.neurons]
 
         for i in range(neuron_size):
             nest.Connect([self.neurons[i]], self.detector)
@@ -71,24 +83,51 @@ class NeuronLayer:
                     nest.Connect([ns], [nt], {"rule": "one_to_one"},
                                  {"model": "static_synapse", "weight": w, "delay": d})
 
-    # connect at the probability of a * exp(-(z_coordinate_of_liquid_neuron - c) / b)
-    def connect2liquid_prob_z(self,
-                              target_liquid_neurons,
-                              a,
-                              b,
-                              c,
-                              inhibitory_connection_ratio,
-                              weight_min,
-                              weight_max,
-                              delay_min,
-                              delay_max):
+    # connect at the probability of a * exp(-z_distance / b)
+    def connect2liquid_prob_exp_z(self,
+                                  target_liquid_neurons,
+                                  a,
+                                  b,
+                                  inhibitory_connection_ratio,
+                                  weight_min,
+                                  weight_max,
+                                  delay_min,
+                                  delay_max):
 
         for ns in self.neurons:
             for nt in target_liquid_neurons.neurons:
 
+                ns_pos = self.position[self.neurons.index(ns)]
                 nt_pos = target_liquid_neurons.position[target_liquid_neurons.neurons.index(nt)]
+                dist = abs(ns_pos[2] - nt_pos[2])
                 
-                if random.random() < a * math.exp(-(nt_pos[2] - c) / b):
+                if random.random() < a * math.exp(-dist / b):
+                    sign = -1 if random.random() < inhibitory_connection_ratio else 1
+                    w = random.uniform(weight_min, weight_max) * sign
+                    d = random.uniform(delay_min, delay_max)
+                    nest.Connect([ns], [nt], {"rule": "one_to_one"},
+                                 {"model": "static_synapse", "weight": w, "delay": d})
+
+
+    # connect neurons at the probability of a * exp(-distance / b)
+    def connect2liquid_prob_exp_dist(self,
+                                     target_liquid_neurons,
+                                     a,
+                                     b,
+                                     inhibitory_connection_ratio,
+                                     weight_min,
+                                     weight_max,
+                                     delay_min,
+                                     delay_max):
+
+        for ns in self.neurons:
+            for nt in target_liquid_neurons.neurons:
+
+                ns_pos = self.position[self.neurons.index(ns)]
+                nt_pos = target_liquid_neurons.position[target_liquid_neurons.neurons.index(nt)]
+                dist = math.sqrt((ns_pos[0] - nt_pos[0])**2 + (ns_pos[1] - nt_pos[1])**2 + (ns_pos[2] - nt_pos[2])**2)
+                
+                if random.random() < a * math.exp(-dist / b):
                     sign = -1 if random.random() < inhibitory_connection_ratio else 1
                     w = random.uniform(weight_min, weight_max) * sign
                     d = random.uniform(delay_min, delay_max)
