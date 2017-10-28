@@ -15,6 +15,8 @@ import random
 import math
 import sys
 import time
+import os
+
 
 def calc_rms_error(desired_output, actual_output):
 
@@ -161,6 +163,8 @@ if __name__ == "__main__":
         print "error: specify output directory as a command line argument."
         sys.exit()
 
+    # sys.stdout.write("copying scripts from " + os.path.dirname(__file__) + " to " + output_dir)
+    # os.system("cp " + os.path.dirname(__file__) + "/* " + output_dir)
         
     controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
                                               input_neurons_theta_dot_size = 10,

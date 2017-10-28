@@ -110,8 +110,8 @@ class LsmController:
 
         f_theta1 = self._conv_theta2freq(theta if theta >= 0 else 0.0)
         f_theta2 = self._conv_theta2freq(-theta if theta < 0 else 0.0)
-        f_theta_dot1 = self._conv_theta_dot2freq(theta_dot) if theta_dot >= 0 else 0
-        f_theta_dot2 = self._conv_theta_dot2freq(-theta_dot) if theta_dot < 0 else 0
+        f_theta_dot1 = self._conv_theta_dot2freq(theta_dot if theta_dot >= 0 else 0.0)
+        f_theta_dot2 = self._conv_theta_dot2freq(-theta_dot if theta_dot < 0 else 0.0)
         i_theta1 = self._conv_freq2current(f_theta1)
         i_theta2 = self._conv_freq2current(f_theta2)
         i_theta_dot1 = self._conv_freq2current(f_theta_dot1)
