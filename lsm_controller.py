@@ -108,8 +108,8 @@ class LsmController:
     # _update_tauで更新されるトルクは最後のfilter_size [ms]の平均となる
     def simulate(self, sim_time, theta, theta_dot, filter_size = 1.0):
 
-        f_theta1 = self._conv_theta2freq(theta) if theta >= 0 else 0
-        f_theta2 = self._conv_theta2freq(-theta) if theta < 0 else 0        
+        f_theta1 = self._conv_theta2freq(theta if theta >= 0 else 0.0)
+        f_theta2 = self._conv_theta2freq(-theta if theta < 0 else 0.0)
         f_theta_dot1 = self._conv_theta_dot2freq(theta_dot) if theta_dot >= 0 else 0
         f_theta_dot2 = self._conv_theta_dot2freq(-theta_dot) if theta_dot < 0 else 0
         i_theta1 = self._conv_freq2current(f_theta1)
@@ -136,15 +136,15 @@ class LsmController:
         self.tau2 = np.zeros(len(self.lsm.readout_layer_tau2.neurons))
         
     
-    # [0 [rad], 0.5 [rad]] -> [0 [Hz], 400 [Hz]]
+    # [0 [rad], 0.5 [rad]] -> [50 [Hz], 400 [Hz]]
     def _conv_theta2freq(self, theta):
         
-        return theta * 800.0 
+        return theta * 700.0 + 50.0
 
-    # [0 [rad/s], 3 [rad/s]] -> [0 [Hz], 400 [Hz]]
+    # [0 [rad/s], 3 [rad/s]] -> [50 [Hz], 400 [Hz]]
     def _conv_theta_dot2freq(self, theta_dot):
 
-        return theta_dot * (400.0 / 3.0)
+        return theta_dot * (350.0 / 3.0) + 50.0
 
     # [0 [Nm], 20 [Nm]] -> [-65 [mV], -55 [mV]]
     def _conv_tau2voltage(self, tau):

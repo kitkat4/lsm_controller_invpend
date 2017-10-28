@@ -109,7 +109,7 @@ class LiquidNeurons:
                     
 
     # neuron_ix is the index of the self.neurons i.e. [0, len(self.neurons) - 1]
-    def plot_spikes(self, neuron_ix, file_name = None, markersize = 0.5, marker = '_', grid = False):
+    def plot_spikes(self, neuron_ix, xticks = None, yticks = None, file_name = None, markersize = 0.5, marker = '_', grid = False):
 
         if neuron_ix not in range(len(self.neurons)):
             sys.stderr.write("warning: NeuronLayer.plot neuron_ix is out of range.\n")
@@ -125,6 +125,14 @@ class LiquidNeurons:
         plt.figure()
         plt.plot(times, senders, marker, markersize = markersize)
 
+        plt.xlabel("time [ms]")
+        plt.ylabel("neuron ID")
+
+        if xticks is not None:
+            plt.xticks(xticks)
+        if yticks is not None:
+            plt.yticks(yticks)
+        
         if grid:
             plt.grid()
         
@@ -136,12 +144,22 @@ class LiquidNeurons:
         
         return
 
-    def plot_V_m(self, neuron_ix, file_name = None, grid = False):
+    def plot_V_m(self, neuron_ix, title = "", time_offset = 0.0,
+                 xticks = None, yticks = None, file_name = None, grid = False):
         
-        times = self.get_meter_data(neuron_ix, "times")
+        times = self.get_meter_data(neuron_ix, "times") + time_offset
         V_m = self.get_meter_data(neuron_ix, "V_m")
         plt.figure()
         plt.plot(times, V_m)
+
+        plt.xlabel("time [ms]")
+        plt.ylabel("membrane voltage [mV]")
+        plt.title(title)
+
+        if xticks is not None:
+            plt.xticks(xticks)
+        if yticks is not None:
+            plt.yticks(yticks)
 
         if grid:
             plt.grid()
@@ -155,7 +173,7 @@ class LiquidNeurons:
         return 
 
             
-    def raster_plot(self, title = "title", file_name = None, **kwargs):
+    def raster_plot(self, title = "", file_name = None, **kwargs):
         
         plot_neurons_activity.from_device(self.detector, title = title, **kwargs)
         

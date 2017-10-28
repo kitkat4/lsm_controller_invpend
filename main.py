@@ -58,6 +58,92 @@ def calc_rms_error_pd_control(controller, input_list, Kp, Kd, print_message = Fa
     return calc_rms_error(desired_output, actual_output)
 
 
+def save_figs(controller, string, suffix = ".eps", readout_and_output_only = True):
+
+    fn_head = output_dir + "/" + experiment_name
+    fn_foot = string + suffix
+
+    sim_time = 250.0
+
+    nest.ResetNetwork()
+    controller.simulate(sim_time, 0.0, 0.0)
+    controller.simulate(sim_time, 0.25, 0.0)
+    controller.simulate(sim_time, 0.5, 0.0)
+    controller.simulate(sim_time, 0.0, 1.0)
+    controller.simulate(sim_time, 0.0, 2.0)
+    controller.simulate(sim_time, -0.5, 2.0)
+    controller.simulate(sim_time, -0.25, 0.0)
+    controller.simulate(sim_time, -0.5, 0.0)
+    controller.simulate(sim_time, 0.0, -1.0)
+    controller.simulate(sim_time, 0.0, -2.0)
+    controller.simulate(sim_time, 0.0, 0.0)
+    xticks_time = [sim_time * i for i in range(12)]
+    yticks_V_m = [-75.0 + 5.0 * i for i in range(6)]
+
+    controller.lsm.output_layer_tau1.plot_V_m(0, xticks = xticks_time, yticks = yticks_V_m,
+                                              time_offset = -controller.total_sim_time + sim_time * 11,
+                                              file_name = fn_head  + "_out_tau1_V_m_" + fn_foot)
+    controller.lsm.output_layer_tau2.plot_V_m(0, xticks = xticks_time, yticks = yticks_V_m,
+                                              time_offset = -controller.total_sim_time + sim_time * 11,
+                                              file_name = fn_head  + "_out_tau2_V_m_" + fn_foot)
+    controller.lsm.readout_layer_tau1.raster_plot(xticks = xticks_time,
+                                                  yticks = [1, len(controller.lsm.readout_layer_tau1.neurons)] if len(controller.lsm.readout_layer_tau1.neurons) >= 2 else [],
+                                                  ylabel = "neuron ID" if len(controller.lsm.readout_layer_tau1.neurons) >= 2 else "",
+                                                  xticks_hist = xticks_time,
+                                                  gid_offset = -controller.lsm.readout_layer_tau1.neurons[0],
+                                                  time_offset = -controller.total_sim_time + sim_time * 11,
+                                                  hist_binwidth = 50.0,
+                                                  file_name = fn_head + "_read_tau1_" + fn_foot)
+    controller.lsm.readout_layer_tau2.raster_plot(xticks = xticks_time,
+                                                  yticks = [1, len(controller.lsm.readout_layer_tau2.neurons)] if len(controller.lsm.readout_layer_tau2.neurons) >= 2 else [],
+                                                  ylabel = "neuron ID" if len(controller.lsm.readout_layer_tau2.neurons) >= 2 else "",
+                                                  xticks_hist = xticks_time,
+                                                  gid_offset = -controller.lsm.readout_layer_tau2.neurons[0],
+                                                  time_offset = -controller.total_sim_time + sim_time * 11,
+                                                  hist_binwidth = 50.0,
+                                                  file_name = fn_head + "_read_tau2_" + fn_foot)
+
+    if not readout_and_output_only:
+        controller.lsm.liquid_neurons.raster_plot(xticks = xticks_time,
+                                                  yticks = [1, len(controller.lsm.liquid_neurons.neurons)] if len(controller.lsm.liquid_neurons.neurons) >= 2 else [],
+                                                  ylabel = "neuron ID" if len(controller.lsm.liquid_neurons.neurons) >= 2 else "",
+                                                  xticks_hist = xticks_time,
+                                                  gid_offset = -controller.lsm.liquid_neurons.neurons[0],
+                                                  time_offset = -controller.total_sim_time + sim_time * 11,
+                                                  hist_binwidth = 50.0,
+                                                  file_name = fn_head + "_liquid_" + fn_foot)
+        controller.lsm.input_layer_theta1.raster_plot(xticks = xticks_time,
+                                                      yticks = [1, len(controller.lsm.input_layer_theta1.neurons)] if len(controller.lsm.input_layer_theta1.neurons) >= 2 else [],
+                                                      ylabel = "neuron ID" if len(controller.lsm.input_layer_theta1.neurons) >= 2 else "",
+                                                      xticks_hist = xticks_time,
+                                                      gid_offset = -controller.lsm.input_layer_theta1.neurons[0],
+                                                      time_offset = -controller.total_sim_time + sim_time * 11,
+                                                      hist_binwidth = 50.0,
+                                                      file_name = fn_head+ "_in_theta1_" + fn_foot)
+        controller.lsm.input_layer_theta2.raster_plot(xticks = xticks_time,
+                                                      yticks = [1, len(controller.lsm.input_layer_theta2.neurons)] if len(controller.lsm.input_layer_theta2.neurons) >= 2 else [],
+                                                      ylabel = "neuron ID" if len(controller.lsm.input_layer_theta2.neurons) >= 2 else "",
+                                                      xticks_hist = xticks_time,
+                                                      gid_offset = -controller.lsm.input_layer_theta2.neurons[0],
+                                                      time_offset = -controller.total_sim_time + sim_time * 11,
+                                                      hist_binwidth = 50.0,
+                                                      file_name = fn_head + "_in_theta2_" + fn_foot)
+        controller.lsm.input_layer_theta_dot1.raster_plot(xticks = xticks_time,
+                                                          yticks = [1, len(controller.lsm.input_layer_theta_dot1.neurons)] if len(controller.lsm.input_layer_theta_dot1.neurons) >= 2 else [],
+                                                          ylabel = "neuron ID" if len(controller.lsm.input_layer_theta_dot1.neurons) >= 2 else "",
+                                                          xticks_hist = xticks_time,
+                                                          gid_offset = -controller.lsm.input_layer_theta_dot1.neurons[0],
+                                                          time_offset = -controller.total_sim_time + sim_time * 11,
+                                                          hist_binwidth = 50.0,
+                                                          file_name = fn_head + "_in_theta_dot1_" + fn_foot)
+        controller.lsm.input_layer_theta_dot2.raster_plot(xticks = xticks_time,
+                                                          yticks = [1, len(controller.lsm.input_layer_theta_dot2.neurons)] if len(controller.lsm.input_layer_theta_dot2.neurons) >= 2 else [],
+                                                          ylabel = "neuron ID" if len(controller.lsm.input_layer_theta_dot2.neurons) >= 2 else "",
+                                                          xticks_hist = xticks_time,
+                                                          gid_offset = -controller.lsm.input_layer_theta_dot2.neurons[0],
+                                                          time_offset = -controller.total_sim_time + sim_time * 11,
+                                                          hist_binwidth = 50.0,
+                                                          file_name = fn_head + "_in_theta_dot2_" + fn_foot)
 
 
 
@@ -75,27 +161,6 @@ if __name__ == "__main__":
         print "error: specify output directory as a command line argument."
         sys.exit()
 
-    def save_figs(string, suffix = ".eps", readout_and_output_only = True):
-        
-        nest.ResetNetwork()
-        controller.simulate(400.0, 0.0, 0.0)
-        controller.simulate(400.0, 0.3, 0.0)
-        controller.simulate(400.0, 0.3, 1.0)
-        controller.simulate(400.0, -0.3, 0.0)
-        controller.simulate(400.0, -0.3, -1.0)
-        controller.simulate(400.0, 0.0, 0.0)
-        
-        controller.lsm.output_layer_tau1.plot_V_m(0, file_name = output_dir + "/" + experiment_name  + "_out_tau1_V_m_" + string + suffix)
-        controller.lsm.output_layer_tau2.plot_V_m(0, file_name = output_dir + "/" + experiment_name  + "_out_tau2_V_m_" + string + suffix)
-        controller.lsm.readout_layer_tau1.raster_plot(hist_binwidth = 50.0, file_name = output_dir + "/" + experiment_name + "_read_tau1_" + string + suffix)
-        controller.lsm.readout_layer_tau2.raster_plot(hist_binwidth = 50.0, file_name = output_dir + "/" + experiment_name + "_read_tau2_" + string + suffix)
-        
-        if not readout_and_output_only:
-            controller.lsm.liquid_neurons.raster_plot(hist_binwidth = 50.0, file_name = output_dir + "/" + experiment_name + "_liquid_" + string + suffix)
-            controller.lsm.input_layer_theta1.raster_plot(hist_binwidth = 50.0, file_name = output_dir + "/" + experiment_name + "_in_theta1_" + string + suffix)
-            controller.lsm.input_layer_theta2.raster_plot(hist_binwidth = 50.0, file_name = output_dir + "/" + experiment_name + "_in_theta2_" + string + suffix)
-            controller.lsm.input_layer_theta_dot1.raster_plot(hist_binwidth = 50.0, file_name = output_dir + "/" + experiment_name + "_in_theta_dot1_" + string + suffix)
-            controller.lsm.input_layer_theta_dot2.raster_plot(hist_binwidth = 50.0, file_name = output_dir + "/" + experiment_name + "_in_theta_dot2_" + string + suffix)
         
     controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
                                               input_neurons_theta_dot_size = 10,
@@ -127,7 +192,7 @@ if __name__ == "__main__":
     print "min and max theta:     ", min_theta, max_theta
     print "min and max theta_dot: ", min_theta_dot, max_theta_dot
 
-    save_figs("after_0th_training", readout_and_output_only = False)
+    save_figs(controller, "after_0th_training", readout_and_output_only = False)
     
 
     pend = inverted_pendulum.InvertedPendulum(mass = 1.0,
@@ -189,7 +254,7 @@ if __name__ == "__main__":
             sys.stdout.flush()
             sys.stdout.write("training took " + str(time_net_training) + " [s] (net)\n")
             # controller.save(output_dir + "/" + experiment_name + "_after_" + str(count2) + "th_training.yaml")
-            save_figs("after_" + str(count2) + "th_training")
+            save_figs(controller, "after_" + str(count2) + "th_training")
             
 
         count2 += 1

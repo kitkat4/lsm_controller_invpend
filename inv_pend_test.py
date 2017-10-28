@@ -11,6 +11,7 @@ import time
 if __name__ == "__main__":
 
     yaml_path = sys.argv[1]
+    filter_size = float(sys.argv[2])
     
     # pend = ivtpnd.InvertedPendulum(mass = 60.0,
     #                                length = 1.7,
@@ -32,7 +33,7 @@ if __name__ == "__main__":
     for t in range(5000):
         theta = pend.theta
         theta_dot = pend.theta_dot
-        controller.simulate(1.0, theta, theta_dot, 50.0) # こっちは単位が[ms]
+        controller.simulate(1.0, theta, theta_dot, filter_size) # こっちは単位が[ms]
         torque = controller.get_tau()
         # if t == 2500:
         #     controller.lsm.output_layer_tau1.plot_V_m(0)

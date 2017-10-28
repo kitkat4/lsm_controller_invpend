@@ -141,7 +141,7 @@ def from_file_numpy(fname, **kwargs):
     return from_data(data, **kwargs)
 
 
-def from_device(detec, plot_lid=False, **kwargs):
+def from_device(detec, plot_lid=False,  **kwargs):
     """
     Plot raster from a spike detector.
 
@@ -176,12 +176,12 @@ def from_device(detec, plot_lid=False, **kwargs):
         if "title" not in kwargs:
             kwargs["title"] = "Raster plot from device '%i'" % detec[0]
 
-        if nest.GetStatus(detec)[0]["time_in_steps"]:
-            xlabel = "Steps"
-        else:
-            xlabel = "Time (ms)"
+        # if nest.GetStatus(detec)[0]["time_in_steps"]:
+        #     xlabel = "Steps"
+        # else:
+        #     xlabel = "Time (ms)"
 
-        return _make_plot(ts, ts, gids, gids, xlabel=xlabel, **kwargs)
+        return _make_plot(ts, ts, gids, gids, **kwargs)
 
     elif nest.GetStatus(detec, "to_file")[0]:
         fname = nest.GetStatus(detec, "filenames")[0]
@@ -198,6 +198,8 @@ def _from_memory(detec):
 
 
 def _make_plot(ts, ts1, gids, neurons, hist=True, hist_binwidth=5.0,
+               xticks = None, yticks = None, xticks_hist = None, yticks_hist = None,
+               ylabel = None, gid_offset = 0, time_offset = 0,
                grayscale=False, title=None, xlabel=None, markersize = 0.5, marker = '_'):
     """Generic plotting routine.
 
@@ -225,7 +227,7 @@ def _make_plot(ts, ts1, gids, neurons, hist=True, hist_binwidth=5.0,
     xlabel : str, optional
         Label for x-axis
     """
-    plt.figure()
+    plt.figure(figsize = (8,9) if hist else (8,6))
 
     if grayscale:
         color_marker = marker + "k"
@@ -237,38 +239,52 @@ def _make_plot(ts, ts1, gids, neurons, hist=True, hist_binwidth=5.0,
     color_edge = "black"
 
     if xlabel is None:
-        xlabel = "Time (ms)"
+        xlabel = "time [ms]"
 
-    ylabel = "Neuron ID"
+    ylabel = "neuron ID" if ylabel is None else ylabel
 
     if hist:
-        ax1 = plt.axes([0.1, 0.3, 0.85, 0.6])
-        plotid = plt.plot(ts1, gids, color_marker, markersize = markersize)
+        ax1 = plt.axes([0.1, 0.4, 0.85, 0.5])
+        plotid = plt.plot(ts1 + time_offset, gids + gid_offset, color_marker, markersize = markersize)
         plt.ylabel(ylabel)
-        plt.xticks([])
+        plt.xlabel(xlabel)
+        if xticks is not None:
+            plt.xticks(xticks)
+        if yticks is not None:
+            plt.yticks(yticks)
+        
         xlim = plt.xlim()
 
-        plt.axes([0.1, 0.1, 0.85, 0.17])
+        plt.axes([0.1, 0.1, 0.85, 0.25])
         t_bins = numpy.arange(
-            numpy.amin(ts), numpy.amax(ts),
+            numpy.amin(ts + time_offset), numpy.amax(ts + time_offset),
             float(hist_binwidth)
         )
-        n, bins = _histogram(ts, bins=t_bins)
+        n, bins = _histogram(ts + time_offset, bins=t_bins)
         num_neurons = len(numpy.unique(neurons))
         heights = 1000 * n / (hist_binwidth * num_neurons)
 
         plt.bar(t_bins, heights, width=hist_binwidth, color=color_bar,
                   edgecolor=color_edge)
-        plt.yticks([
-            int(x) for x in
-            numpy.linspace(0.0, int(max(heights) * 1.1) + 5, 4)
-        ])
-        plt.ylabel("Rate (Hz)")
+        if xticks_hist is not None:
+            plt.xticks(xticks_hist)
+        if yticks_hist is not None:
+            plt.yticks(yticks_hist)
+        else:
+            plt.yticks([
+                int(x) for x in
+                numpy.linspace(0.0, int(max(heights) * 1.1) + 5, 4)
+            ])
+        plt.ylabel("rate [Hz]")
         plt.xlabel(xlabel)
         plt.xlim(xlim)
         plt.axes(ax1)
     else:
-        plotid = plt.plot(ts1, gids, color_marker, markersize = markersize)
+        plotid = plt.plot(ts1 + time_offset, gids + gid_offset, color_marker, markersize = markersize)
+        if xticks is not None:
+            plt.xticks(xticks)
+        if yticks is not None:
+            plt.yticks(yticks)
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
 
