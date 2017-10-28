@@ -133,6 +133,39 @@ class LiquidNeurons:
                         target_neuron_layer.presynaptic_neurons[t_ix].append(s_ix)
 
 
+    # connect at the prob of a * exp(-(z_coordinate_of_source_neuron - c) / b)
+    def connect2neuron_layer_prob_z(self,
+                                    target_neuron_layer,
+                                    a,
+                                    b,
+                                    c,
+                                    inhibitory_connection_ratio,
+                                    weight_min,
+                                    weight_max,
+                                    delay_min,
+                                    delay_max):
+
+        target_neuron_layer.connected_liquid = self
+        
+        for ns in self.neurons:
+            for nt in target_neuron_layer.neurons:
+
+                ns_pos = self.position[self.neurons.index(ns)]
+                
+                if random.random() < a * math.exp(-(ns_pos[2] - c) / b):
+                    sign = -1 if random.random() < inhibitory_connection_ratio else 1
+                    w = random.uniform(weight_min, weight_max) * sign
+                    d = random.uniform(delay_min, delay_max)
+                    nest.Connect([ns], [nt], {"rule": "one_to_one"},
+                                 {"model": "static_synapse", "weight": w, "delay": d})
+                    
+                    # populate target_neuron_layer.presynaptic_neurons
+                    s_ix = self.neurons.index(ns)
+                    t_ix = target_neuron_layer.neurons.index(nt)
+                    if s_ix not in target_neuron_layer.presynaptic_neurons[t_ix]:
+                        target_neuron_layer.presynaptic_neurons[t_ix].append(s_ix)
+
+
 
     def get_meter_data(self, neuron_ix, key):
         
