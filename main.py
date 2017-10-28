@@ -166,9 +166,9 @@ if __name__ == "__main__":
     # sys.stdout.write("copying scripts from " + os.path.dirname(__file__) + " to " + output_dir)
     # os.system("cp " + os.path.dirname(__file__) + "/* " + output_dir)
         
-    controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
-                                              input_neurons_theta_dot_size = 10,
-                                              liquid_neurons_size = 100,
+    controller = lsm_controller.LsmController(input_neurons_theta_size = 1,
+                                              input_neurons_theta_dot_size = 1,
+                                              liquid_neurons_size = 300,
                                               readout_neurons_tau1_size = 1,
                                               readout_neurons_tau2_size = 1,
                                               output_layer_weight = 250.0,

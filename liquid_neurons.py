@@ -14,13 +14,8 @@ class LiquidNeurons:
     
     def __init__(self,
                  neuron_size,
-                 connection_ratio,
                  inhibitory_connection_ratio,
-                 neuron_model,
-                 weight_min,
-                 weight_max,
-                 delay_min,
-                 delay_max):
+                 neuron_model):
 
         self.neuron_model = neuron_model
 
@@ -29,23 +24,12 @@ class LiquidNeurons:
         self.detector = nest.Create("spike_detector", params = {"withgid": True, "withtime": True})
         self.meter = nest.Create("multimeter", params = {"withtime":True, "record_from":["V_m"]})
 
-
+    
         
         for i in range(neuron_size): # connect one-to-one
             nest.Connect([self.neurons[i]], self.detector) 
             nest.Connect(self.meter, [self.neurons[i]])
             
-        for ns in self.neurons:
-            for nt in self.neurons:
-                if ns == nt:    # no autapses 
-                    pass
-                elif random.random() < connection_ratio:
-                    sign = -1 if random.random() < inhibitory_connection_ratio else 1
-                    w = random.uniform(weight_min, weight_max) * sign
-                    d = random.uniform(delay_min, delay_max)
-                    
-                    nest.Connect([ns], [nt], {"rule": "one_to_one"},
-                                 {"model": "static_synapse", "weight": w, "delay": d})
 
     # 古いニューロンはどっかいく 消せるなら消したいけど...
     def replace_neurons(self, neuron_size, neuron_model):
@@ -65,15 +49,34 @@ class LiquidNeurons:
             nest.Connect([self.neurons[i]], self.detector)
             nest.Connect(self.meter, [self.neurons[i]])
 
+    def connect_random(self,
+                       connection_ratio,
+                       weight_min,
+                       weight_max,
+                       delay_min,
+                       delay_max):
+
+        for ns in self.neurons:
+            for nt in self.neurons:
+                if ns == nt:    # no autapses 
+                    pass
+                elif random.random() < connection_ratio:
+                    sign = -1 if random.random() < inhibitory_connection_ratio else 1
+                    w = random.uniform(weight_min, weight_max) * sign
+                    d = random.uniform(delay_min, delay_max)
                     
-    def connect(self,
-                target_neuron_layer,
-                connection_ratio,
-                inhibitory_connection_ratio,
-                weight_min,
-                weight_max,
-                delay_min,
-                delay_max):
+                    nest.Connect([ns], [nt], {"rule": "one_to_one"},
+                                 {"model": "static_synapse", "weight": w, "delay": d})
+        
+                    
+    def connect2neuron_layer(self,
+                             target_neuron_layer,
+                             connection_ratio,
+                             inhibitory_connection_ratio,
+                             weight_min,
+                             weight_max,
+                             delay_min,
+                             delay_max):
 
         target_neuron_layer.connected_liquid = self
         
@@ -91,6 +94,8 @@ class LiquidNeurons:
                     t_ix = target_neuron_layer.neurons.index(nt)
                     if s_ix not in target_neuron_layer.presynaptic_neurons[t_ix]:
                         target_neuron_layer.presynaptic_neurons[t_ix].append(s_ix)
+
+
 
     def get_meter_data(self, neuron_ix, key):
         
