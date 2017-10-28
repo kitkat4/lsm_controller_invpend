@@ -9,16 +9,27 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 import random
+import math
 
 class LiquidNeurons:
     
     def __init__(self,
                  neuron_size,
-                 neuron_model):
+                 neuron_model,
+                 x_min = 0.0,
+                 x_max = 0.0,
+                 y_min = 0.0,
+                 y_max = 0.0,
+                 z_min = 0.0,
+                 z_max = 0.0):
 
         self.neuron_model = neuron_model
 
         self.neurons = nest.Create(self.neuron_model, neuron_size)
+
+        self.position = [(random.random() * (x_max - x_min) + x_min,
+                          random.random() * (y_max - y_min) + y_min,
+                          random.random() * (z_max - z_min) + z_min) for gid in self.neurons]
 
         self.detector = nest.Create("spike_detector", params = {"withgid": True, "withtime": True})
         self.meter = nest.Create("multimeter", params = {"withtime":True, "record_from":["V_m"]})
@@ -28,7 +39,7 @@ class LiquidNeurons:
         for i in range(neuron_size): # connect one-to-one
             nest.Connect([self.neurons[i]], self.detector) 
             nest.Connect(self.meter, [self.neurons[i]])
-            
+
 
     # 古いニューロンはどっかいく 消せるなら消したいけど...
     def replace_neurons(self, neuron_size, neuron_model):
@@ -67,7 +78,33 @@ class LiquidNeurons:
                     
                     nest.Connect([ns], [nt], {"rule": "one_to_one"},
                                  {"model": "static_synapse", "weight": w, "delay": d})
-        
+
+
+    # connect neurons at the probability of a * exp(-distance / b)
+    def connect_exp_prob_dist(self, a, b,
+                              inhibitory_connection_ratio,
+                              weight_min,
+                              weight_max,
+                              delay_min,
+                              delay_max):
+
+        for ns in self.neurons:
+            for nt in self.neurons:
+
+                ns_pos = self.position[self.neurons.index(ns)]
+                nt_pos = self.position[self.neurons.index(nt)]
+                dist = math.sqrt((ns_pos[0] - nt_pos[0])**2 + (ns_pos[1] - nt_pos[1])**2 + (ns_pos[2] - nt_pos[2])**2)
+                
+                if ns == nt:    # no autapses 
+                    pass
+                elif random.random() < a * math.exp(-dist / b):
+                    sign = -1 if random.random() < inhibitory_connection_ratio else 1
+                    w = random.uniform(weight_min, weight_max) * sign
+                    d = random.uniform(delay_min, delay_max)
+                    
+                    nest.Connect([ns], [nt], {"rule": "one_to_one"},
+                                 {"model": "static_synapse", "weight": w, "delay": d})
+
                     
     def connect2neuron_layer(self,
                              target_neuron_layer,

@@ -32,14 +32,27 @@ class Lsm:
                                                                tau_m = float(10**100))
         
         self.liquid_neurons = liquid_neurons.LiquidNeurons(neuron_size = liquid_neurons_size,
-                                                           neuron_model = "iaf_psc_alpha")
-        self.liquid_neurons.connect_random(connection_ratio = 0.1,
-                                           inhibitory_connection_ratio = 0.3,
-                                           weight_min = 50.0,
-                                           weight_max = 150.0,
-                                           delay_min = 0.5,
-                                           delay_max = 4.0)
-                                                           
+                                                           neuron_model = "iaf_psc_alpha",
+                                                           x_min = 0.0,
+                                                           x_max = 1.0,
+                                                           y_min = 0.0,
+                                                           y_max = 1.0,
+                                                           z_min = 0.0,
+                                                           z_max = 1.0)
+        # self.liquid_neurons.connect_random(connection_ratio = 0.1,
+        #                                    inhibitory_connection_ratio = 0.3,
+        #                                    weight_min = 50.0,
+        #                                    weight_max = 150.0,
+        #                                    delay_min = 0.5,
+        #                                    delay_max = 4.0)
+        self.liquid_neurons.connect_exp_prob_dist(a = 0.8, b = 0.3,
+                                                  inhibitory_connection_ratio = 0.3,
+                                                  weight_min = 50.0,
+                                                  weight_max = 150.0,
+                                                  delay_min = 0.5,
+                                                  delay_max = 4.0)
+
+        
         
         self.readout_layer_tau1 = neuron_layer.NeuronLayer(readout_neurons_tau1_size)
         self.readout_layer_tau2 = neuron_layer.NeuronLayer(readout_neurons_tau2_size)
