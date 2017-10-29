@@ -28,12 +28,12 @@ class Lsm:
         in_w_max = 1500.0
 
         liquid_a = 1.0
-        liquid_b = 0.10
+        liquid_b = 0.15
         liquid_w_min = 100.0
         liquid_w_max = 200.0
 
-        read_a = 0.9
-        read_b = 0.4
+        read_a = 1.0
+        read_b = 0.5
         read_w_min = 100.0
         read_w_max = 200.0
 
