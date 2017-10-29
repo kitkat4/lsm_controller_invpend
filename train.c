@@ -1331,9 +1331,6 @@ static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_dou
 /* ObjectToMemviewSlice.proto */
 static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_int(PyObject *);
 
-/* ObjectToMemviewSlice.proto */
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dsds_int(PyObject *);
-
 /* MemviewDtypeToObject.proto */
 static CYTHON_INLINE PyObject *__pyx_memview_get_double(const char *itemp);
 static CYTHON_INLINE int __pyx_memview_set_double(const char *itemp, PyObject *obj);
@@ -1657,7 +1654,7 @@ static PyObject *__pyx_kp_s_unable_to_allocate_shape_and_str;
 static PyObject *__pyx_n_s_unpack;
 static PyObject *__pyx_n_s_weight;
 static PyObject *__pyx_pf_5train_resume(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_input_spike_train, __Pyx_memviewslice __pyx_v_output_spike_train, __Pyx_memviewslice __pyx_v_desire_spike_train, double __pyx_v_a, double __pyx_v_A_positive, double __pyx_v_A_negative, double __pyx_v_tau); /* proto */
-static PyObject *__pyx_pf_5train_2train(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_tau_error, double __pyx_v_learning_ratio, double __pyx_v_momentum_learning_ratio, double __pyx_v_tolerance, double __pyx_v_filter_size, __Pyx_memviewslice __pyx_v_self_neurons, __Pyx_memviewslice __pyx_v_presynaptic_neurons, PyObject *__pyx_v_previous_delta_w, PyObject *__pyx_v_connected_liquid); /* proto */
+static PyObject *__pyx_pf_5train_2train(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_tau_error, double __pyx_v_learning_ratio, double __pyx_v_momentum_learning_ratio, double __pyx_v_tolerance, double __pyx_v_filter_size, __Pyx_memviewslice __pyx_v_self_neurons, PyObject *__pyx_v_presynaptic_neurons, PyObject *__pyx_v_previous_delta_w, PyObject *__pyx_v_connected_liquid); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_array___pyx_pf_15View_dot_MemoryView_5array_4__dealloc__(struct __pyx_array_obj *__pyx_v_self); /* proto */
@@ -2642,7 +2639,7 @@ static PyObject *__pyx_pf_5train_resume(CYTHON_UNUSED PyObject *__pyx_self, __Py
 /* "train.pyx":43
  * 
  * 
- * def train(double[:] tau_error, double learning_ratio, double momentum_learning_ratio, double tolerance, double filter_size, int[:] self_neurons, int[:, :] presynaptic_neurons, previous_delta_w, connected_liquid):             # <<<<<<<<<<<<<<
+ * def train(double[:] tau_error, double learning_ratio, double momentum_learning_ratio, double tolerance, double filter_size, int[:] self_neurons, presynaptic_neurons, previous_delta_w, connected_liquid):             # <<<<<<<<<<<<<<
  * 
  *     cdef int neuron_ix, pre_ix, spike_num, pre_n, neuron_num
  */
@@ -2657,7 +2654,7 @@ static PyObject *__pyx_pw_5train_3train(PyObject *__pyx_self, PyObject *__pyx_ar
   double __pyx_v_tolerance;
   double __pyx_v_filter_size;
   __Pyx_memviewslice __pyx_v_self_neurons = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_v_presynaptic_neurons = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_v_presynaptic_neurons = 0;
   PyObject *__pyx_v_previous_delta_w = 0;
   PyObject *__pyx_v_connected_liquid = 0;
   PyObject *__pyx_r = 0;
@@ -2750,7 +2747,7 @@ static PyObject *__pyx_pw_5train_3train(PyObject *__pyx_self, PyObject *__pyx_ar
     __pyx_v_tolerance = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_tolerance == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L3_error)
     __pyx_v_filter_size = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_filter_size == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L3_error)
     __pyx_v_self_neurons = __Pyx_PyObject_to_MemoryviewSlice_ds_int(values[5]); if (unlikely(!__pyx_v_self_neurons.memview)) __PYX_ERR(0, 43, __pyx_L3_error)
-    __pyx_v_presynaptic_neurons = __Pyx_PyObject_to_MemoryviewSlice_dsds_int(values[6]); if (unlikely(!__pyx_v_presynaptic_neurons.memview)) __PYX_ERR(0, 43, __pyx_L3_error)
+    __pyx_v_presynaptic_neurons = values[6];
     __pyx_v_previous_delta_w = values[7];
     __pyx_v_connected_liquid = values[8];
   }
@@ -2769,7 +2766,7 @@ static PyObject *__pyx_pw_5train_3train(PyObject *__pyx_self, PyObject *__pyx_ar
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5train_2train(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_tau_error, double __pyx_v_learning_ratio, double __pyx_v_momentum_learning_ratio, double __pyx_v_tolerance, double __pyx_v_filter_size, __Pyx_memviewslice __pyx_v_self_neurons, __Pyx_memviewslice __pyx_v_presynaptic_neurons, PyObject *__pyx_v_previous_delta_w, PyObject *__pyx_v_connected_liquid) {
+static PyObject *__pyx_pf_5train_2train(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_tau_error, double __pyx_v_learning_ratio, double __pyx_v_momentum_learning_ratio, double __pyx_v_tolerance, double __pyx_v_filter_size, __Pyx_memviewslice __pyx_v_self_neurons, PyObject *__pyx_v_presynaptic_neurons, PyObject *__pyx_v_previous_delta_w, PyObject *__pyx_v_connected_liquid) {
   int __pyx_v_neuron_ix;
   int __pyx_v_pre_ix;
   int __pyx_v_spike_num;
@@ -2792,19 +2789,18 @@ static PyObject *__pyx_pf_5train_2train(CYTHON_UNUSED PyObject *__pyx_self, __Py
   int __pyx_t_7;
   int __pyx_t_8;
   Py_ssize_t __pyx_t_9;
-  __Pyx_memviewslice __pyx_t_10 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  PyObject *__pyx_t_11 = NULL;
-  PyObject *(*__pyx_t_12)(PyObject *);
+  PyObject *__pyx_t_10 = NULL;
+  PyObject *(*__pyx_t_11)(PyObject *);
+  PyObject *__pyx_t_12 = NULL;
   PyObject *__pyx_t_13 = NULL;
   PyObject *__pyx_t_14 = NULL;
   PyObject *__pyx_t_15 = NULL;
   PyObject *__pyx_t_16 = NULL;
-  PyObject *__pyx_t_17 = NULL;
-  Py_ssize_t __pyx_t_18;
-  double __pyx_t_19;
-  Py_ssize_t __pyx_t_20;
-  double __pyx_t_21;
-  Py_ssize_t __pyx_t_22;
+  Py_ssize_t __pyx_t_17;
+  double __pyx_t_18;
+  Py_ssize_t __pyx_t_19;
+  double __pyx_t_20;
+  Py_ssize_t __pyx_t_21;
   __Pyx_RefNannySetupContext("train", 0);
 
   /* "train.pyx":48
@@ -2888,61 +2884,38 @@ static PyObject *__pyx_pf_5train_2train(CYTHON_UNUSED PyObject *__pyx_self, __Py
  *                 spike_num = connected_liquid.num_of_spikes(pre_ix, filter_size)
  *                 pre_n = connected_liquid.neurons[pre_ix]
  */
-      __pyx_t_10.data = __pyx_v_presynaptic_neurons.data;
-      __pyx_t_10.memview = __pyx_v_presynaptic_neurons.memview;
-      __PYX_INC_MEMVIEW(&__pyx_t_10, 0);
-      {
-    Py_ssize_t __pyx_tmp_idx = __pyx_v_neuron_ix;
-    Py_ssize_t __pyx_tmp_shape = __pyx_v_presynaptic_neurons.shape[0];
-    Py_ssize_t __pyx_tmp_stride = __pyx_v_presynaptic_neurons.strides[0];
-    if (1 && (__pyx_tmp_idx < 0))
-        __pyx_tmp_idx += __pyx_tmp_shape;
-    if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
-        PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(0, 54, __pyx_L1_error)
-    }
-        __pyx_t_10.data += __pyx_tmp_idx * __pyx_tmp_stride;
-}
-
-__pyx_t_10.shape[0] = __pyx_v_presynaptic_neurons.shape[1];
-__pyx_t_10.strides[0] = __pyx_v_presynaptic_neurons.strides[1];
-    __pyx_t_10.suboffsets[0] = -1;
-
-__pyx_t_1 = __pyx_memoryview_fromslice(__pyx_t_10, 1, (PyObject *(*)(char *)) __pyx_memview_get_int, (int (*)(char *, PyObject *)) __pyx_memview_set_int, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_presynaptic_neurons, __pyx_v_neuron_ix, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __PYX_XDEC_MEMVIEW(&__pyx_t_10, 1);
-      __pyx_t_10.memview = NULL;
-      __pyx_t_10.data = NULL;
       if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
-        __pyx_t_11 = __pyx_t_1; __Pyx_INCREF(__pyx_t_11); __pyx_t_2 = 0;
-        __pyx_t_12 = NULL;
+        __pyx_t_10 = __pyx_t_1; __Pyx_INCREF(__pyx_t_10); __pyx_t_2 = 0;
+        __pyx_t_11 = NULL;
       } else {
-        __pyx_t_2 = -1; __pyx_t_11 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 54, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_11);
-        __pyx_t_12 = Py_TYPE(__pyx_t_11)->tp_iternext; if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 54, __pyx_L1_error)
+        __pyx_t_2 = -1; __pyx_t_10 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 54, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_10);
+        __pyx_t_11 = Py_TYPE(__pyx_t_10)->tp_iternext; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 54, __pyx_L1_error)
       }
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       for (;;) {
-        if (likely(!__pyx_t_12)) {
-          if (likely(PyList_CheckExact(__pyx_t_11))) {
-            if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_11)) break;
+        if (likely(!__pyx_t_11)) {
+          if (likely(PyList_CheckExact(__pyx_t_10))) {
+            if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_10)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_1 = PyList_GET_ITEM(__pyx_t_11, __pyx_t_2); __Pyx_INCREF(__pyx_t_1); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 54, __pyx_L1_error)
+            __pyx_t_1 = PyList_GET_ITEM(__pyx_t_10, __pyx_t_2); __Pyx_INCREF(__pyx_t_1); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 54, __pyx_L1_error)
             #else
-            __pyx_t_1 = PySequence_ITEM(__pyx_t_11, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
+            __pyx_t_1 = PySequence_ITEM(__pyx_t_10, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_1);
             #endif
           } else {
-            if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_11)) break;
+            if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_10)) break;
             #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_11, __pyx_t_2); __Pyx_INCREF(__pyx_t_1); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 54, __pyx_L1_error)
+            __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_10, __pyx_t_2); __Pyx_INCREF(__pyx_t_1); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 54, __pyx_L1_error)
             #else
-            __pyx_t_1 = PySequence_ITEM(__pyx_t_11, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
+            __pyx_t_1 = PySequence_ITEM(__pyx_t_10, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_1);
             #endif
           }
         } else {
-          __pyx_t_1 = __pyx_t_12(__pyx_t_11);
+          __pyx_t_1 = __pyx_t_11(__pyx_t_10);
           if (unlikely(!__pyx_t_1)) {
             PyObject* exc_type = PyErr_Occurred();
             if (exc_type) {
@@ -2964,61 +2937,61 @@ __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_t_10, 1, (PyObject *(*)(char *)) __
  *                 pre_n = connected_liquid.neurons[pre_ix]
  *                 conn = nest.GetConnections(source = [pre_n], target = [self_neurons[neuron_ix]])
  */
-        __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_connected_liquid, __pyx_n_s_num_of_spikes); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 55, __pyx_L1_error)
+        __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_v_connected_liquid, __pyx_n_s_num_of_spikes); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 55, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_12);
+        __pyx_t_13 = __Pyx_PyInt_From_int(__pyx_v_pre_ix); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 55, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_13);
-        __pyx_t_14 = __Pyx_PyInt_From_int(__pyx_v_pre_ix); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 55, __pyx_L1_error)
+        __pyx_t_14 = PyFloat_FromDouble(__pyx_v_filter_size); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 55, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_14);
-        __pyx_t_15 = PyFloat_FromDouble(__pyx_v_filter_size); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 55, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
-        __pyx_t_16 = NULL;
+        __pyx_t_15 = NULL;
         __pyx_t_7 = 0;
-        if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
-          __pyx_t_16 = PyMethod_GET_SELF(__pyx_t_13);
-          if (likely(__pyx_t_16)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
-            __Pyx_INCREF(__pyx_t_16);
+        if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_12))) {
+          __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_12);
+          if (likely(__pyx_t_15)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_12);
+            __Pyx_INCREF(__pyx_t_15);
             __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_13, function);
+            __Pyx_DECREF_SET(__pyx_t_12, function);
             __pyx_t_7 = 1;
           }
         }
         #if CYTHON_FAST_PYCALL
-        if (PyFunction_Check(__pyx_t_13)) {
-          PyObject *__pyx_temp[3] = {__pyx_t_16, __pyx_t_14, __pyx_t_15};
-          __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_13, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
-          __Pyx_XDECREF(__pyx_t_16); __pyx_t_16 = 0;
+        if (PyFunction_Check(__pyx_t_12)) {
+          PyObject *__pyx_temp[3] = {__pyx_t_15, __pyx_t_13, __pyx_t_14};
+          __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_12, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
           __Pyx_GOTREF(__pyx_t_1);
+          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
           __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
         } else
         #endif
         #if CYTHON_FAST_PYCCALL
-        if (__Pyx_PyFastCFunction_Check(__pyx_t_13)) {
-          PyObject *__pyx_temp[3] = {__pyx_t_16, __pyx_t_14, __pyx_t_15};
-          __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_13, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
-          __Pyx_XDECREF(__pyx_t_16); __pyx_t_16 = 0;
+        if (__Pyx_PyFastCFunction_Check(__pyx_t_12)) {
+          PyObject *__pyx_temp[3] = {__pyx_t_15, __pyx_t_13, __pyx_t_14};
+          __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_12, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
           __Pyx_GOTREF(__pyx_t_1);
+          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
           __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
         } else
         #endif
         {
-          __pyx_t_17 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 55, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_17);
-          if (__pyx_t_16) {
-            __Pyx_GIVEREF(__pyx_t_16); PyTuple_SET_ITEM(__pyx_t_17, 0, __pyx_t_16); __pyx_t_16 = NULL;
+          __pyx_t_16 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 55, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_16);
+          if (__pyx_t_15) {
+            __Pyx_GIVEREF(__pyx_t_15); PyTuple_SET_ITEM(__pyx_t_16, 0, __pyx_t_15); __pyx_t_15 = NULL;
           }
+          __Pyx_GIVEREF(__pyx_t_13);
+          PyTuple_SET_ITEM(__pyx_t_16, 0+__pyx_t_7, __pyx_t_13);
           __Pyx_GIVEREF(__pyx_t_14);
-          PyTuple_SET_ITEM(__pyx_t_17, 0+__pyx_t_7, __pyx_t_14);
-          __Pyx_GIVEREF(__pyx_t_15);
-          PyTuple_SET_ITEM(__pyx_t_17, 1+__pyx_t_7, __pyx_t_15);
+          PyTuple_SET_ITEM(__pyx_t_16, 1+__pyx_t_7, __pyx_t_14);
+          __pyx_t_13 = 0;
           __pyx_t_14 = 0;
-          __pyx_t_15 = 0;
-          __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_t_17, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+          __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_16, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
-          __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
+          __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
         }
-        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
         __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 55, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __pyx_v_spike_num = __pyx_t_7;
@@ -3032,11 +3005,11 @@ __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_t_10, 1, (PyObject *(*)(char *)) __
  */
         __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_connected_liquid, __pyx_n_s_neurons); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 56, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_13 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_pre_ix, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 56, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_13);
+        __pyx_t_12 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_pre_ix, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 56, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_12);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_13); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 56, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+        __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_12); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 56, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
         __pyx_v_pre_n = __pyx_t_7;
 
         /* "train.pyx":57
@@ -3046,47 +3019,47 @@ __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_t_10, 1, (PyObject *(*)(char *)) __
  *                 present_weight = nest.GetStatus(conn)[0]["weight"]
  *                 tmp_delta_w1 = (learning_ratio * abs(tau_error[neuron_ix]) * spike_num * 1000.0 / filter_size) * (-1 if tau_error[neuron_ix] > tolerance else 1)
  */
-        __pyx_t_13 = __Pyx_GetModuleGlobalName(__pyx_n_s_nest); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 57, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_13);
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_13, __pyx_n_s_GetConnections); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L1_error)
+        __pyx_t_12 = __Pyx_GetModuleGlobalName(__pyx_n_s_nest); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 57, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_12);
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_GetConnections); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-        __pyx_t_13 = PyDict_New(); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 57, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_13);
-        __pyx_t_17 = __Pyx_PyInt_From_int(__pyx_v_pre_n); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 57, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_17);
-        __pyx_t_15 = PyList_New(1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 57, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
-        __Pyx_GIVEREF(__pyx_t_17);
-        PyList_SET_ITEM(__pyx_t_15, 0, __pyx_t_17);
-        __pyx_t_17 = 0;
-        if (PyDict_SetItem(__pyx_t_13, __pyx_n_s_source, __pyx_t_15) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-        __pyx_t_18 = __pyx_v_neuron_ix;
+        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+        __pyx_t_12 = PyDict_New(); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 57, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_12);
+        __pyx_t_16 = __Pyx_PyInt_From_int(__pyx_v_pre_n); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 57, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+        __pyx_t_14 = PyList_New(1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 57, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_14);
+        __Pyx_GIVEREF(__pyx_t_16);
+        PyList_SET_ITEM(__pyx_t_14, 0, __pyx_t_16);
+        __pyx_t_16 = 0;
+        if (PyDict_SetItem(__pyx_t_12, __pyx_n_s_source, __pyx_t_14) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+        __pyx_t_17 = __pyx_v_neuron_ix;
         __pyx_t_7 = -1;
-        if (__pyx_t_18 < 0) {
-          __pyx_t_18 += __pyx_v_self_neurons.shape[0];
-          if (unlikely(__pyx_t_18 < 0)) __pyx_t_7 = 0;
-        } else if (unlikely(__pyx_t_18 >= __pyx_v_self_neurons.shape[0])) __pyx_t_7 = 0;
+        if (__pyx_t_17 < 0) {
+          __pyx_t_17 += __pyx_v_self_neurons.shape[0];
+          if (unlikely(__pyx_t_17 < 0)) __pyx_t_7 = 0;
+        } else if (unlikely(__pyx_t_17 >= __pyx_v_self_neurons.shape[0])) __pyx_t_7 = 0;
         if (unlikely(__pyx_t_7 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_7);
           __PYX_ERR(0, 57, __pyx_L1_error)
         }
-        __pyx_t_15 = __Pyx_PyInt_From_int((*((int *) ( /* dim=0 */ (__pyx_v_self_neurons.data + __pyx_t_18 * __pyx_v_self_neurons.strides[0]) )))); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 57, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
-        __pyx_t_17 = PyList_New(1); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 57, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_17);
-        __Pyx_GIVEREF(__pyx_t_15);
-        PyList_SET_ITEM(__pyx_t_17, 0, __pyx_t_15);
-        __pyx_t_15 = 0;
-        if (PyDict_SetItem(__pyx_t_13, __pyx_n_s_target, __pyx_t_17) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
-        __pyx_t_17 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_13); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 57, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_17);
+        __pyx_t_14 = __Pyx_PyInt_From_int((*((int *) ( /* dim=0 */ (__pyx_v_self_neurons.data + __pyx_t_17 * __pyx_v_self_neurons.strides[0]) )))); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 57, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_14);
+        __pyx_t_16 = PyList_New(1); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 57, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+        __Pyx_GIVEREF(__pyx_t_14);
+        PyList_SET_ITEM(__pyx_t_16, 0, __pyx_t_14);
+        __pyx_t_14 = 0;
+        if (PyDict_SetItem(__pyx_t_12, __pyx_n_s_target, __pyx_t_16) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+        __pyx_t_16 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_12); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 57, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-        __Pyx_XDECREF_SET(__pyx_v_conn, __pyx_t_17);
-        __pyx_t_17 = 0;
+        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+        __Pyx_XDECREF_SET(__pyx_v_conn, __pyx_t_16);
+        __pyx_t_16 = 0;
 
         /* "train.pyx":58
  *                 pre_n = connected_liquid.neurons[pre_ix]
@@ -3095,63 +3068,63 @@ __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_t_10, 1, (PyObject *(*)(char *)) __
  *                 tmp_delta_w1 = (learning_ratio * abs(tau_error[neuron_ix]) * spike_num * 1000.0 / filter_size) * (-1 if tau_error[neuron_ix] > tolerance else 1)
  *                 tmp_delta_w2 = momentum_learning_ratio * (previous_delta_w[(neuron_ix, pre_ix)] if (neuron_ix, pre_ix) in previous_delta_w else 0)
  */
-        __pyx_t_13 = __Pyx_GetModuleGlobalName(__pyx_n_s_nest); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 58, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_13);
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_13, __pyx_n_s_GetStatus); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
+        __pyx_t_12 = __Pyx_GetModuleGlobalName(__pyx_n_s_nest); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 58, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_12);
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_GetStatus); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-        __pyx_t_13 = NULL;
+        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+        __pyx_t_12 = NULL;
         if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
-          __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_1);
-          if (likely(__pyx_t_13)) {
+          __pyx_t_12 = PyMethod_GET_SELF(__pyx_t_1);
+          if (likely(__pyx_t_12)) {
             PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-            __Pyx_INCREF(__pyx_t_13);
+            __Pyx_INCREF(__pyx_t_12);
             __Pyx_INCREF(function);
             __Pyx_DECREF_SET(__pyx_t_1, function);
           }
         }
-        if (!__pyx_t_13) {
-          __pyx_t_17 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_conn); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 58, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_17);
+        if (!__pyx_t_12) {
+          __pyx_t_16 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_conn); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 58, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_16);
         } else {
           #if CYTHON_FAST_PYCALL
           if (PyFunction_Check(__pyx_t_1)) {
-            PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_v_conn};
-            __pyx_t_17 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 58, __pyx_L1_error)
-            __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __Pyx_GOTREF(__pyx_t_17);
+            PyObject *__pyx_temp[2] = {__pyx_t_12, __pyx_v_conn};
+            __pyx_t_16 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 58, __pyx_L1_error)
+            __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
+            __Pyx_GOTREF(__pyx_t_16);
           } else
           #endif
           #if CYTHON_FAST_PYCCALL
           if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
-            PyObject *__pyx_temp[2] = {__pyx_t_13, __pyx_v_conn};
-            __pyx_t_17 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 58, __pyx_L1_error)
-            __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-            __Pyx_GOTREF(__pyx_t_17);
+            PyObject *__pyx_temp[2] = {__pyx_t_12, __pyx_v_conn};
+            __pyx_t_16 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 58, __pyx_L1_error)
+            __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
+            __Pyx_GOTREF(__pyx_t_16);
           } else
           #endif
           {
-            __pyx_t_15 = PyTuple_New(1+1); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 58, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_15);
-            __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_13); __pyx_t_13 = NULL;
+            __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 58, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_14);
+            __Pyx_GIVEREF(__pyx_t_12); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_12); __pyx_t_12 = NULL;
             __Pyx_INCREF(__pyx_v_conn);
             __Pyx_GIVEREF(__pyx_v_conn);
-            PyTuple_SET_ITEM(__pyx_t_15, 0+1, __pyx_v_conn);
-            __pyx_t_17 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_15, NULL); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 58, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_17);
-            __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
+            PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_v_conn);
+            __pyx_t_16 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_14, NULL); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 58, __pyx_L1_error)
+            __Pyx_GOTREF(__pyx_t_16);
+            __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
           }
         }
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_17, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_16, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
-        __pyx_t_17 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_weight); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 58, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_17);
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+        __pyx_t_16 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_weight); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 58, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_19 = __pyx_PyFloat_AsDouble(__pyx_t_17); if (unlikely((__pyx_t_19 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 58, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
-        __pyx_v_present_weight = __pyx_t_19;
+        __pyx_t_18 = __pyx_PyFloat_AsDouble(__pyx_t_16); if (unlikely((__pyx_t_18 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 58, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+        __pyx_v_present_weight = __pyx_t_18;
 
         /* "train.pyx":59
  *                 conn = nest.GetConnections(source = [pre_n], target = [self_neurons[neuron_ix]])
@@ -3160,37 +3133,37 @@ __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_t_10, 1, (PyObject *(*)(char *)) __
  *                 tmp_delta_w2 = momentum_learning_ratio * (previous_delta_w[(neuron_ix, pre_ix)] if (neuron_ix, pre_ix) in previous_delta_w else 0)
  *                 new_weight = present_weight + tmp_delta_w1 + tmp_delta_w2
  */
-        __pyx_t_20 = __pyx_v_neuron_ix;
+        __pyx_t_19 = __pyx_v_neuron_ix;
         __pyx_t_7 = -1;
-        if (__pyx_t_20 < 0) {
-          __pyx_t_20 += __pyx_v_tau_error.shape[0];
-          if (unlikely(__pyx_t_20 < 0)) __pyx_t_7 = 0;
-        } else if (unlikely(__pyx_t_20 >= __pyx_v_tau_error.shape[0])) __pyx_t_7 = 0;
+        if (__pyx_t_19 < 0) {
+          __pyx_t_19 += __pyx_v_tau_error.shape[0];
+          if (unlikely(__pyx_t_19 < 0)) __pyx_t_7 = 0;
+        } else if (unlikely(__pyx_t_19 >= __pyx_v_tau_error.shape[0])) __pyx_t_7 = 0;
         if (unlikely(__pyx_t_7 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_7);
           __PYX_ERR(0, 59, __pyx_L1_error)
         }
-        __pyx_t_19 = (((__pyx_v_learning_ratio * fabs((*((double *) ( /* dim=0 */ (__pyx_v_tau_error.data + __pyx_t_20 * __pyx_v_tau_error.strides[0]) ))))) * __pyx_v_spike_num) * 1000.0);
+        __pyx_t_18 = (((__pyx_v_learning_ratio * fabs((*((double *) ( /* dim=0 */ (__pyx_v_tau_error.data + __pyx_t_19 * __pyx_v_tau_error.strides[0]) ))))) * __pyx_v_spike_num) * 1000.0);
         if (unlikely(__pyx_v_filter_size == 0)) {
           PyErr_SetString(PyExc_ZeroDivisionError, "float division");
           __PYX_ERR(0, 59, __pyx_L1_error)
         }
-        __pyx_t_22 = __pyx_v_neuron_ix;
+        __pyx_t_21 = __pyx_v_neuron_ix;
         __pyx_t_7 = -1;
-        if (__pyx_t_22 < 0) {
-          __pyx_t_22 += __pyx_v_tau_error.shape[0];
-          if (unlikely(__pyx_t_22 < 0)) __pyx_t_7 = 0;
-        } else if (unlikely(__pyx_t_22 >= __pyx_v_tau_error.shape[0])) __pyx_t_7 = 0;
+        if (__pyx_t_21 < 0) {
+          __pyx_t_21 += __pyx_v_tau_error.shape[0];
+          if (unlikely(__pyx_t_21 < 0)) __pyx_t_7 = 0;
+        } else if (unlikely(__pyx_t_21 >= __pyx_v_tau_error.shape[0])) __pyx_t_7 = 0;
         if (unlikely(__pyx_t_7 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_7);
           __PYX_ERR(0, 59, __pyx_L1_error)
         }
-        if ((((*((double *) ( /* dim=0 */ (__pyx_v_tau_error.data + __pyx_t_22 * __pyx_v_tau_error.strides[0]) ))) > __pyx_v_tolerance) != 0)) {
-          __pyx_t_21 = -1.0;
+        if ((((*((double *) ( /* dim=0 */ (__pyx_v_tau_error.data + __pyx_t_21 * __pyx_v_tau_error.strides[0]) ))) > __pyx_v_tolerance) != 0)) {
+          __pyx_t_20 = -1.0;
         } else {
-          __pyx_t_21 = 1.0;
+          __pyx_t_20 = 1.0;
         }
-        __pyx_v_tmp_delta_w1 = ((__pyx_t_19 / __pyx_v_filter_size) * __pyx_t_21);
+        __pyx_v_tmp_delta_w1 = ((__pyx_t_18 / __pyx_v_filter_size) * __pyx_t_20);
 
         /* "train.pyx":60
  *                 present_weight = nest.GetStatus(conn)[0]["weight"]
@@ -3199,51 +3172,51 @@ __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_t_10, 1, (PyObject *(*)(char *)) __
  *                 new_weight = present_weight + tmp_delta_w1 + tmp_delta_w2
  *                 nest.SetStatus(conn, {"weight": new_weight})
  */
-        __pyx_t_17 = PyFloat_FromDouble(__pyx_v_momentum_learning_ratio); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 60, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_17);
-        __pyx_t_15 = __Pyx_PyInt_From_int(__pyx_v_neuron_ix); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 60, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
-        __pyx_t_13 = __Pyx_PyInt_From_int(__pyx_v_pre_ix); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 60, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_13);
-        __pyx_t_14 = PyTuple_New(2); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 60, __pyx_L1_error)
+        __pyx_t_16 = PyFloat_FromDouble(__pyx_v_momentum_learning_ratio); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 60, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+        __pyx_t_14 = __Pyx_PyInt_From_int(__pyx_v_neuron_ix); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 60, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_14);
-        __Pyx_GIVEREF(__pyx_t_15);
-        PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_15);
-        __Pyx_GIVEREF(__pyx_t_13);
-        PyTuple_SET_ITEM(__pyx_t_14, 1, __pyx_t_13);
-        __pyx_t_15 = 0;
-        __pyx_t_13 = 0;
-        __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_t_14, __pyx_v_previous_delta_w, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 60, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+        __pyx_t_12 = __Pyx_PyInt_From_int(__pyx_v_pre_ix); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 60, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_12);
+        __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 60, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_13);
+        __Pyx_GIVEREF(__pyx_t_14);
+        PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_14);
+        __Pyx_GIVEREF(__pyx_t_12);
+        PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_t_12);
+        __pyx_t_14 = 0;
+        __pyx_t_12 = 0;
+        __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_t_13, __pyx_v_previous_delta_w, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 60, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
         if ((__pyx_t_5 != 0)) {
-          __pyx_t_14 = __Pyx_PyInt_From_int(__pyx_v_neuron_ix); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 60, __pyx_L1_error)
+          __pyx_t_13 = __Pyx_PyInt_From_int(__pyx_v_neuron_ix); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 60, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_13);
+          __pyx_t_12 = __Pyx_PyInt_From_int(__pyx_v_pre_ix); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 60, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_12);
+          __pyx_t_14 = PyTuple_New(2); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 60, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_14);
-          __pyx_t_13 = __Pyx_PyInt_From_int(__pyx_v_pre_ix); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 60, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_13);
-          __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 60, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_15);
-          __Pyx_GIVEREF(__pyx_t_14);
-          PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_14);
           __Pyx_GIVEREF(__pyx_t_13);
-          PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_t_13);
-          __pyx_t_14 = 0;
+          PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_13);
+          __Pyx_GIVEREF(__pyx_t_12);
+          PyTuple_SET_ITEM(__pyx_t_14, 1, __pyx_t_12);
           __pyx_t_13 = 0;
-          __pyx_t_13 = PyObject_GetItem(__pyx_v_previous_delta_w, __pyx_t_15); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 60, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_13);
-          __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __pyx_t_1 = __pyx_t_13;
-          __pyx_t_13 = 0;
+          __pyx_t_12 = 0;
+          __pyx_t_12 = PyObject_GetItem(__pyx_v_previous_delta_w, __pyx_t_14); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 60, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_12);
+          __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+          __pyx_t_1 = __pyx_t_12;
+          __pyx_t_12 = 0;
         } else {
           __Pyx_INCREF(__pyx_int_0);
           __pyx_t_1 = __pyx_int_0;
         }
-        __pyx_t_13 = PyNumber_Multiply(__pyx_t_17, __pyx_t_1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 60, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_13);
-        __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
+        __pyx_t_12 = PyNumber_Multiply(__pyx_t_16, __pyx_t_1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 60, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_12);
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_21 = __pyx_PyFloat_AsDouble(__pyx_t_13); if (unlikely((__pyx_t_21 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 60, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-        __pyx_v_tmp_delta_w2 = __pyx_t_21;
+        __pyx_t_20 = __pyx_PyFloat_AsDouble(__pyx_t_12); if (unlikely((__pyx_t_20 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 60, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+        __pyx_v_tmp_delta_w2 = __pyx_t_20;
 
         /* "train.pyx":61
  *                 tmp_delta_w1 = (learning_ratio * abs(tau_error[neuron_ix]) * spike_num * 1000.0 / filter_size) * (-1 if tau_error[neuron_ix] > tolerance else 1)
@@ -3263,63 +3236,63 @@ __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_t_10, 1, (PyObject *(*)(char *)) __
  */
         __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_nest); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_17 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_SetStatus); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 62, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_17);
+        __pyx_t_16 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_SetStatus); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 62, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_15 = PyFloat_FromDouble(__pyx_v_new_weight); if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 62, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_15);
-        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_weight, __pyx_t_15) < 0) __PYX_ERR(0, 62, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-        __pyx_t_15 = NULL;
+        __pyx_t_14 = PyFloat_FromDouble(__pyx_v_new_weight); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 62, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_14);
+        if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_weight, __pyx_t_14) < 0) __PYX_ERR(0, 62, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+        __pyx_t_14 = NULL;
         __pyx_t_7 = 0;
-        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_17))) {
-          __pyx_t_15 = PyMethod_GET_SELF(__pyx_t_17);
-          if (likely(__pyx_t_15)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_17);
-            __Pyx_INCREF(__pyx_t_15);
+        if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_16))) {
+          __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_16);
+          if (likely(__pyx_t_14)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_16);
+            __Pyx_INCREF(__pyx_t_14);
             __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_17, function);
+            __Pyx_DECREF_SET(__pyx_t_16, function);
             __pyx_t_7 = 1;
           }
         }
         #if CYTHON_FAST_PYCALL
-        if (PyFunction_Check(__pyx_t_17)) {
-          PyObject *__pyx_temp[3] = {__pyx_t_15, __pyx_v_conn, __pyx_t_1};
-          __pyx_t_13 = __Pyx_PyFunction_FastCall(__pyx_t_17, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 62, __pyx_L1_error)
-          __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __Pyx_GOTREF(__pyx_t_13);
+        if (PyFunction_Check(__pyx_t_16)) {
+          PyObject *__pyx_temp[3] = {__pyx_t_14, __pyx_v_conn, __pyx_t_1};
+          __pyx_t_12 = __Pyx_PyFunction_FastCall(__pyx_t_16, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 62, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+          __Pyx_GOTREF(__pyx_t_12);
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         } else
         #endif
         #if CYTHON_FAST_PYCCALL
-        if (__Pyx_PyFastCFunction_Check(__pyx_t_17)) {
-          PyObject *__pyx_temp[3] = {__pyx_t_15, __pyx_v_conn, __pyx_t_1};
-          __pyx_t_13 = __Pyx_PyCFunction_FastCall(__pyx_t_17, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 62, __pyx_L1_error)
-          __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-          __Pyx_GOTREF(__pyx_t_13);
+        if (__Pyx_PyFastCFunction_Check(__pyx_t_16)) {
+          PyObject *__pyx_temp[3] = {__pyx_t_14, __pyx_v_conn, __pyx_t_1};
+          __pyx_t_12 = __Pyx_PyCFunction_FastCall(__pyx_t_16, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 62, __pyx_L1_error)
+          __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+          __Pyx_GOTREF(__pyx_t_12);
           __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         } else
         #endif
         {
-          __pyx_t_14 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 62, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_14);
-          if (__pyx_t_15) {
-            __Pyx_GIVEREF(__pyx_t_15); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_15); __pyx_t_15 = NULL;
+          __pyx_t_13 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 62, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_13);
+          if (__pyx_t_14) {
+            __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_14); __pyx_t_14 = NULL;
           }
           __Pyx_INCREF(__pyx_v_conn);
           __Pyx_GIVEREF(__pyx_v_conn);
-          PyTuple_SET_ITEM(__pyx_t_14, 0+__pyx_t_7, __pyx_v_conn);
+          PyTuple_SET_ITEM(__pyx_t_13, 0+__pyx_t_7, __pyx_v_conn);
           __Pyx_GIVEREF(__pyx_t_1);
-          PyTuple_SET_ITEM(__pyx_t_14, 1+__pyx_t_7, __pyx_t_1);
+          PyTuple_SET_ITEM(__pyx_t_13, 1+__pyx_t_7, __pyx_t_1);
           __pyx_t_1 = 0;
-          __pyx_t_13 = __Pyx_PyObject_Call(__pyx_t_17, __pyx_t_14, NULL); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 62, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_13);
-          __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+          __pyx_t_12 = __Pyx_PyObject_Call(__pyx_t_16, __pyx_t_13, NULL); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 62, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_12);
+          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
         }
-        __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
-        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+        __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
+        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
         /* "train.pyx":63
  *                 new_weight = present_weight + tmp_delta_w1 + tmp_delta_w2
@@ -3328,23 +3301,23 @@ __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_t_10, 1, (PyObject *(*)(char *)) __
  *                 # sys.stdout.write(str(present_weight) + " -> " + str(new_weight) + " (" + str(new_weight - present_weight) + ")\n")
  * 
  */
-        __pyx_t_13 = PyFloat_FromDouble((__pyx_v_new_weight - __pyx_v_present_weight)); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 63, __pyx_L1_error)
+        __pyx_t_12 = PyFloat_FromDouble((__pyx_v_new_weight - __pyx_v_present_weight)); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 63, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_12);
+        __pyx_t_16 = __Pyx_PyInt_From_int(__pyx_v_neuron_ix); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 63, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_16);
+        __pyx_t_13 = __Pyx_PyInt_From_int(__pyx_v_pre_ix); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 63, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_13);
-        __pyx_t_17 = __Pyx_PyInt_From_int(__pyx_v_neuron_ix); if (unlikely(!__pyx_t_17)) __PYX_ERR(0, 63, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_17);
-        __pyx_t_14 = __Pyx_PyInt_From_int(__pyx_v_pre_ix); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 63, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_14);
         __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_GIVEREF(__pyx_t_17);
-        PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_17);
-        __Pyx_GIVEREF(__pyx_t_14);
-        PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_14);
-        __pyx_t_17 = 0;
-        __pyx_t_14 = 0;
-        if (unlikely(PyDict_SetItem(__pyx_v_delta_w, __pyx_t_1, __pyx_t_13) < 0)) __PYX_ERR(0, 63, __pyx_L1_error)
+        __Pyx_GIVEREF(__pyx_t_16);
+        PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_16);
+        __Pyx_GIVEREF(__pyx_t_13);
+        PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_13);
+        __pyx_t_16 = 0;
+        __pyx_t_13 = 0;
+        if (unlikely(PyDict_SetItem(__pyx_v_delta_w, __pyx_t_1, __pyx_t_12) < 0)) __PYX_ERR(0, 63, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
 
         /* "train.pyx":54
  *     for neuron_ix in range(neuron_num):
@@ -3354,7 +3327,7 @@ __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_t_10, 1, (PyObject *(*)(char *)) __
  *                 pre_n = connected_liquid.neurons[pre_ix]
  */
       }
-      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
       /* "train.pyx":53
  * 
@@ -3381,7 +3354,7 @@ __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_t_10, 1, (PyObject *(*)(char *)) __
   /* "train.pyx":43
  * 
  * 
- * def train(double[:] tau_error, double learning_ratio, double momentum_learning_ratio, double tolerance, double filter_size, int[:] self_neurons, int[:, :] presynaptic_neurons, previous_delta_w, connected_liquid):             # <<<<<<<<<<<<<<
+ * def train(double[:] tau_error, double learning_ratio, double momentum_learning_ratio, double tolerance, double filter_size, int[:] self_neurons, presynaptic_neurons, previous_delta_w, connected_liquid):             # <<<<<<<<<<<<<<
  * 
  *     cdef int neuron_ix, pre_ix, spike_num, pre_n, neuron_num
  */
@@ -3389,13 +3362,12 @@ __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_t_10, 1, (PyObject *(*)(char *)) __
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_10, 1);
-  __Pyx_XDECREF(__pyx_t_11);
+  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_12);
   __Pyx_XDECREF(__pyx_t_13);
   __Pyx_XDECREF(__pyx_t_14);
   __Pyx_XDECREF(__pyx_t_15);
   __Pyx_XDECREF(__pyx_t_16);
-  __Pyx_XDECREF(__pyx_t_17);
   __Pyx_AddTraceback("train.train", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -3403,7 +3375,6 @@ __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_t_10, 1, (PyObject *(*)(char *)) __
   __Pyx_XDECREF(__pyx_v_conn);
   __PYX_XDEC_MEMVIEW(&__pyx_v_tau_error, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_v_self_neurons, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_v_presynaptic_neurons, 1);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -16364,7 +16335,7 @@ static int __Pyx_InitCachedConstants(void) {
   /* "train.pyx":43
  * 
  * 
- * def train(double[:] tau_error, double learning_ratio, double momentum_learning_ratio, double tolerance, double filter_size, int[:] self_neurons, int[:, :] presynaptic_neurons, previous_delta_w, connected_liquid):             # <<<<<<<<<<<<<<
+ * def train(double[:] tau_error, double learning_ratio, double momentum_learning_ratio, double tolerance, double filter_size, int[:] self_neurons, presynaptic_neurons, previous_delta_w, connected_liquid):             # <<<<<<<<<<<<<<
  * 
  *     cdef int neuron_ix, pre_ix, spike_num, pre_n, neuron_num
  */
@@ -16618,7 +16589,7 @@ PyMODINIT_FUNC PyInit_train(void)
   /* "train.pyx":43
  * 
  * 
- * def train(double[:] tau_error, double learning_ratio, double momentum_learning_ratio, double tolerance, double filter_size, int[:] self_neurons, int[:, :] presynaptic_neurons, previous_delta_w, connected_liquid):             # <<<<<<<<<<<<<<
+ * def train(double[:] tau_error, double learning_ratio, double momentum_learning_ratio, double tolerance, double filter_size, int[:] self_neurons, presynaptic_neurons, previous_delta_w, connected_liquid):             # <<<<<<<<<<<<<<
  * 
  *     cdef int neuron_ix, pre_ix, spike_num, pre_n, neuron_num
  */
@@ -19305,29 +19276,6 @@ __pyx_fail:
     }
     retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, 0,
                                                  PyBUF_RECORDS, 1,
-                                                 &__Pyx_TypeInfo_int, stack,
-                                                 &result, obj);
-    if (unlikely(retcode == -1))
-        goto __pyx_fail;
-    return result;
-__pyx_fail:
-    result.memview = NULL;
-    result.data = NULL;
-    return result;
-}
-
-/* ObjectToMemviewSlice */
-          static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dsds_int(PyObject *obj) {
-    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
-    __Pyx_BufFmt_StackElem stack[1];
-    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED) };
-    int retcode;
-    if (obj == Py_None) {
-        result.memview = (struct __pyx_memoryview_obj *) Py_None;
-        return result;
-    }
-    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, 0,
-                                                 PyBUF_RECORDS, 2,
                                                  &__Pyx_TypeInfo_int, stack,
                                                  &result, obj);
     if (unlikely(retcode == -1))

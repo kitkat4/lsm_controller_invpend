@@ -40,7 +40,7 @@ def resume(double[:] input_spike_train, double[:] output_spike_train, double[:] 
     return delta_w
 
 
-def train(double[:] tau_error, double learning_ratio, double momentum_learning_ratio, double tolerance, double filter_size, int[:] self_neurons, int[:, :] presynaptic_neurons, previous_delta_w, connected_liquid):
+def train(double[:] tau_error, double learning_ratio, double momentum_learning_ratio, double tolerance, double filter_size, int[:] self_neurons, presynaptic_neurons, previous_delta_w, connected_liquid):
 
     cdef int neuron_ix, pre_ix, spike_num, pre_n, neuron_num
     cdef double present_weight, tmp_delta_w1, tmp_delta_w2, new_weight

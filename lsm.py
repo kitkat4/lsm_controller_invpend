@@ -24,12 +24,13 @@ class Lsm:
 
 
         in_a = 1.0
-        in_b = 0.1
-        in_w_min = 500.0
-        in_w_max = 1000.0
+        in_b = 0.05
+        in_w_min = 100.0
+        in_w_max = 200.0
 
-        liquid_a = 1.0
-        liquid_b = 0.1
+        # liquid_a = 1.0
+        liquid_a = 0.0
+        liquid_b = 0.06
         liquid_w_min = 100.0
         liquid_w_max = 200.0
 

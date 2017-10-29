@@ -66,15 +66,15 @@ class LsmController:
         st_tau1_ref = self._conv_tau2spike_train(tau1_ref, sim_time)
         st_tau2_ref = self._conv_tau2spike_train(tau2_ref, sim_time)
 
-        self.lsm.train(i_theta1,
-                       i_theta2,
-                       i_theta_dot1,
-                       i_theta_dot2,
-                       st_tau1_ref,
-                       st_tau2_ref,
-                       update_num = update_num,
-                       sim_time = sim_time,
-                       print_message = print_message)
+        self.lsm.train_resume(i_theta1,
+                              i_theta2,
+                              i_theta_dot1,
+                              i_theta_dot2,
+                              st_tau1_ref,
+                              st_tau2_ref,
+                              update_num = update_num,
+                              sim_time = sim_time,
+                              print_message = print_message)
         
         self.total_sim_time += sim_time * update_num
 
