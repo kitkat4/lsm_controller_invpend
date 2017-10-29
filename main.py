@@ -150,31 +150,7 @@ def save_figs(controller, string, suffix = ".eps", readout_and_output_only = Tru
                                                           file_name = fn_head + "_in_theta_dot2_" + fn_foot)
 
 
-
-if __name__ == "__main__":
-
-    time_main_start = time.time()
-    
-    if len(sys.argv) == 3:
-        output_dir = sys.argv[1]
-        experiment_name = sys.argv[2]
-    elif len(sys.argv) == 2:
-        output_dir = sys.argv[1]
-        experiment_name = "experiment"
-    else:
-        print "error: specify output directory as a command line argument."
-        sys.exit()
-
-    # sys.stdout.write("copying scripts from " + os.path.dirname(__file__) + " to " + output_dir)
-    # os.system("cp " + os.path.dirname(__file__) + "/* " + output_dir)
-        
-    controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
-                                              input_neurons_theta_dot_size = 10,
-                                              liquid_neurons_size = 1000,
-                                              readout_neurons_tau1_size = 10,
-                                              readout_neurons_tau2_size = 10,
-                                              output_layer_weight = 250.0,
-                                              thread_num = multiprocessing.cpu_count())
+def print_neuron_and_connection_params(controller):
 
     conns_input_theta1_to_liquid = len(nest.GetConnections(source = controller.lsm.input_layer_theta1.neurons, target = controller.lsm.liquid_neurons.neurons))
     conns_input_theta2_to_liquid = len(nest.GetConnections(source = controller.lsm.input_layer_theta2.neurons, target = controller.lsm.liquid_neurons.neurons))
@@ -203,10 +179,42 @@ if __name__ == "__main__":
     sys.stdout.write("\n")
     sys.stdout.flush()
 
+
+
+
+
+
+
+############################################################################
+
+        
+if __name__ == "__main__":
+
+    time_main_start = time.time()
+    
+    if len(sys.argv) == 3:
+        output_dir = sys.argv[1]
+        experiment_name = sys.argv[2]
+    elif len(sys.argv) == 2:
+        output_dir = sys.argv[1]
+        experiment_name = "experiment"
+    else:
+        print "error: specify output directory as a command line argument."
+        sys.exit()
+
+    controller = lsm_controller.LsmController(input_neurons_theta_size = 100,
+                                              input_neurons_theta_dot_size = 100,
+                                              liquid_neurons_size = 1000,
+                                              readout_neurons_tau1_size = 100,
+                                              readout_neurons_tau2_size = 100,
+                                              output_layer_weight = 250.0,
+                                              thread_num = multiprocessing.cpu_count())
+    
+
+    print_neuron_and_connection_params(controller)
+    
     max_torque = 20.0
     min_torque = -20.0
-    # max_torque = 10.0
-    # min_torque = -10.0
     Kp = 40.0
     Kd = 9.0
     N_x = 5
@@ -225,19 +233,12 @@ if __name__ == "__main__":
 
     save_figs(controller, "after_0th_training", readout_and_output_only = False)
     
-
-    pend = inverted_pendulum.InvertedPendulum(mass = 1.0,
-                                              length = 1.0,
-                                              theta_0 = 1.0,
-                                              theta_dot_0 = 0.0)
-
-    
     test_data = [(x, y) for x in np.linspace(min_theta + (max_theta - min_theta)/(N_x + 1), max_theta - (max_theta - min_theta)/(N_x + 1), N_x) for y in np.linspace(min_theta_dot + (max_theta_dot - min_theta_dot)/(N_y + 1), max_theta_dot - (max_theta_dot - min_theta_dot)/(N_y + 1), N_y)]
         
     controller.save(output_dir + "/" + experiment_name + "_after_0th_training.yaml")
 
     time_calc_rms_error_pd_control_start = time.time()
-    rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd)
+    rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd, True)
     time_calc_rms_error_pd_control_stop = time.time()
     print "RMS error after 0th training: ", rms_error
 
@@ -252,15 +253,8 @@ if __name__ == "__main__":
         theta_train = random.random() * (max_theta - min_theta) + min_theta
         theta_dot_train = random.random() * (max_theta_dot - min_theta_dot) + min_theta_dot
         tau_ref = -Kp * theta_train - Kd * theta_dot_train
-        # controller.train_resume(theta = theta_train,
-        #                         theta_dot = theta_dot_train,
-        #                         tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
-        #                         tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
-        #                         update_num = 1,  
-        #                         sim_time = 200.0,
-        #                         print_message = False)
         tmp_time = time.time()
-        # lr = 0.01 if count2 <= 25000 else 0.001#0.01 #if count2 < 5000 else 0.001
+
         lr = 0.003
         controller.train(theta = theta_train,
                          theta_dot = theta_dot_train,
@@ -274,21 +268,20 @@ if __name__ == "__main__":
                          filter_size = 100.0)
         time_net_training += time.time() - tmp_time
 
-        # sys.stdout.write("train (" + str(theta_train) + ", " + str(theta_dot_train) + ")\n")
         if count2 == 20:
             save_figs(controller, "after_" + str(count2) + "th_training")
 
         
-        if count2 % 20 == 0:
+        # if count2 % 20 == 0 and count2 <= 200:
 
-            controller.save(output_dir + "/" + experiment_name + "_after_" + str(count2) + "th_training.yaml")
+        #     controller.save(output_dir + "/" + experiment_name + "_after_" + str(count2) + "th_training.yaml")
         
-        if count2 % 200 == 0:
+        if count2 % 100 == 0:
             rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd, True)
             sys.stdout.write("RMS error after " + str(count2) + "th training: " + str(rms_error) + "\n")
             sys.stdout.flush()
             sys.stdout.write("training took " + str(time_net_training) + " [s] (net)\n")
-            # controller.save(output_dir + "/" + experiment_name + "_after_" + str(count2) + "th_training.yaml")
+            controller.save(output_dir + "/" + experiment_name + "_after_" + str(count2) + "th_training.yaml")
             save_figs(controller, "after_" + str(count2) + "th_training")
             sys.stdout.flush()
             
@@ -303,53 +296,13 @@ if __name__ == "__main__":
     print "RMS error after training: ", rms_error
 
 
-    # result1_prev = np.zeros(2000)
-    # result2_prev = np.zeros(2000)
-    # result1 = np.zeros(2000)
-    # result2 = np.zeros(2000)
-    
-
-    # for i in range(2000):
-
-    #     controller.simulate(1.0, 1.0, 0.0)
-    #     result1_prev[i] = controller.tau1
-    #     result2_prev[i] = controller.tau2
-    
-
-    # time_training_start = time.time()
-    # controller.train(1.0, 0.0, 40.0, 0.0, 30, 1000.0)
-    # time_training_stop = time.time()
-
-    
-    # for i in range(2000):
-
-    #     # theta = pend.theta
-    #     # theta_dot = pend.theta_dot
-    #     controller.simulate(1.0, 1.0, 0.0)
-    #     result1[i] = controller.tau1
-    #     result2[i] = controller.tau2
-    #     # pend.simulate_one_step(controller.get_tau(), 0.001)
-
-    # print "mean output before training: ", result1_prev.mean() - result2_prev.mean()
-    # print "mean output after  training: ", result1.mean() - result2.mean()
-
-
-    # plt.figure()
-    # plt.plot(result1_prev, 'b.')
-    # plt.plot(result1, 'r.')
-    # plt.title("tau1")
-    # plt.figure()
-    # plt.plot(result2_prev, 'b.')
-    # plt.plot(result2, 'r.')
-    # plt.title("tau2")
-
-    # plt.show()
-    
-
-##########################################
     
     time_main_stop = time.time()
     # sys.stdout.write("calling calc_rms_error_pd_control once took " + str(time_calc_rms_error_pd_control_stop - time_calc_rms_error_pd_control_start) + " [s]\n")
     sys.stdout.write("training took " + str(time_training_stop - time_training_start) + " [s]\n")
     sys.stdout.write("training took " + str(time_net_training) + " [s] (net)\n")
     sys.stdout.write("main took " + str(time_main_stop - time_main_start) + " [s]\n")
+
+
+    
+############################################################################

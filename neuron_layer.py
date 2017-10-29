@@ -39,7 +39,7 @@ class NeuronLayer:
         self.presynaptic_neurons = [[] for n in self.neurons] # list of list
         self.connected_liquid = None
 
-        self.previous_delta_w = {}
+        self.previous_delta_w = [np.zeros(1) for n in self.neurons]
 
         for i in range(neuron_size):
             nest.Connect([self.neurons[i]], self.detector)
@@ -95,9 +95,11 @@ class NeuronLayer:
                                   delay_max):
 
         for ns in self.neurons:
+
+            ns_pos = self.position[self.neurons.index(ns)]
+            
             for nt in target_liquid_neurons.neurons:
 
-                ns_pos = self.position[self.neurons.index(ns)]
                 nt_pos = target_liquid_neurons.position[target_liquid_neurons.neurons.index(nt)]
                 dist = abs(ns_pos[2] - nt_pos[2])
                 
@@ -121,9 +123,11 @@ class NeuronLayer:
                                      delay_max):
 
         for ns in self.neurons:
-            for nt in target_liquid_neurons.neurons:
 
-                ns_pos = self.position[self.neurons.index(ns)]
+            ns_pos = self.position[self.neurons.index(ns)]
+            
+            for nt in target_liquid_neurons.neurons:
+                
                 nt_pos = target_liquid_neurons.position[target_liquid_neurons.neurons.index(nt)]
                 dist = math.sqrt((ns_pos[0] - nt_pos[0])**2 + (ns_pos[1] - nt_pos[1])**2 + (ns_pos[2] - nt_pos[2])**2)
                 
@@ -203,9 +207,16 @@ class NeuronLayer:
         #             delta_w[(neuron_ix, pre_ix)] = new_weight - present_weight
         #             # sys.stdout.write(str(present_weight) + " -> " + str(new_weight) + " (" + str(new_weight - present_weight) + ")\n")
 
-        delta_w = train.train(tau_error, learning_ratio, momentum_learning_ratio, tolerance, filter_size, np.array(self.neurons, dtype = np.int32), np.array(self.presynaptic_neurons, dtype = np.int32), self.previous_delta_w, self.connected_liquid)
+        # delta_w = train.train(tau_error, learning_ratio, momentum_learning_ratio, tolerance, filter_size, np.array(self.neurons, dtype = np.int32), np.array(self.presynaptic_neurons, dtype = np.int32), self.previous_delta_w, self.connected_liquid)
+
+
+        # nest.GetConnectionsをjoblibの中で呼ぶと鬼のように遅くなったので先にまとめて呼んでおく
+        conns = [(nest.GetConnections(source = list(np.array(self.connected_liquid.neurons)[self.presynaptic_neurons[ix]]), target = [self.neurons[ix]]) if len(self.presynaptic_neurons[ix]) > 0 else ()) for ix in range(len(self.neurons))]
+
+        delta_w = joblib.Parallel(n_jobs = -1)(joblib.delayed(train.train)(tau_error[ix], learning_ratio, momentum_learning_ratio, tolerance, filter_size, self.neurons[ix], np.array(self.presynaptic_neurons[ix], dtype = np.int32), conns[ix], np.array(self.previous_delta_w[ix], dtype = np.float64), self.connected_liquid) for ix in range(len(self.neurons)))
 
         self.previous_delta_w = delta_w
+
 
     def set_input_current(self, current):
         

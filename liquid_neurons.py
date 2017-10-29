@@ -90,9 +90,12 @@ class LiquidNeurons:
                               delay_max):
 
         for ns in self.neurons:
+
+            ns_pos = self.position[self.neurons.index(ns)]
+            
             for nt in self.neurons:
 
-                ns_pos = self.position[self.neurons.index(ns)]
+                
                 nt_pos = self.position[self.neurons.index(nt)]
                 dist = math.sqrt((ns_pos[0] - nt_pos[0])**2 + (ns_pos[1] - nt_pos[1])**2 + (ns_pos[2] - nt_pos[2])**2)
                 
@@ -133,24 +136,61 @@ class LiquidNeurons:
                     if s_ix not in target_neuron_layer.presynaptic_neurons[t_ix]:
                         target_neuron_layer.presynaptic_neurons[t_ix].append(s_ix)
 
+    # connect at the prob of a * exp(-distance / b)
+    def connect2neuron_layer_prob_exp_dist(self,
+                                           target_neuron_layer,
+                                           a,
+                                           b,
+                                           inhibitory_connection_ratio,
+                                           weight_min,
+                                           weight_max,
+                                           delay_min,
+                                           delay_max):
+        
+        target_neuron_layer.connected_liquid = self
+        
+        for ns in self.neurons:
 
+            ns_pos = self.position[self.neurons.index(ns)]
+            
+            for nt in target_neuron_layer.neurons:
+
+                nt_pos = target_neuron_layer.position[target_neuron_layer.neurons.index(nt)]
+                dist = math.sqrt((ns_pos[0] - nt_pos[0])**2 + (ns_pos[1] - nt_pos[1])**2 + (ns_pos[2] - nt_pos[2])**2)
+                
+                if random.random() < a * math.exp(- dist/ b):
+                    sign = -1 if random.random() < inhibitory_connection_ratio else 1
+                    w = random.uniform(weight_min, weight_max) * sign
+                    d = random.uniform(delay_min, delay_max)
+                    nest.Connect([ns], [nt], {"rule": "one_to_one"},
+                                 {"model": "static_synapse", "weight": w, "delay": d})
+                    
+                    # populate target_neuron_layer.presynaptic_neurons
+                    s_ix = self.neurons.index(ns)
+                    t_ix = target_neuron_layer.neurons.index(nt)
+                    if s_ix not in target_neuron_layer.presynaptic_neurons[t_ix]:
+                        target_neuron_layer.presynaptic_neurons[t_ix].append(s_ix)
+
+                        
     # connect at the prob of a * exp(-(z_distance / b)
     def connect2neuron_layer_prob_exp_z(self,
-                                    target_neuron_layer,
-                                    a,
-                                    b,
-                                    inhibitory_connection_ratio,
-                                    weight_min,
-                                    weight_max,
-                                    delay_min,
-                                    delay_max):
+                                        target_neuron_layer,
+                                        a,
+                                        b,
+                                        inhibitory_connection_ratio,
+                                        weight_min,
+                                        weight_max,
+                                        delay_min,
+                                        delay_max):
 
         target_neuron_layer.connected_liquid = self
         
         for ns in self.neurons:
-            for nt in target_neuron_layer.neurons:
 
-                ns_pos = self.position[self.neurons.index(ns)]
+            ns_pos = self.position[self.neurons.index(ns)]
+            
+            for nt in target_neuron_layer.neurons:
+                
                 nt_pos = target_neuron_layer.position[target_neuron_layer.neurons.index(nt)]
                 dist = abs(ns_pos[2] - nt_pos[2])
                 
