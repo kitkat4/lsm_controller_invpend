@@ -198,12 +198,16 @@ class NeuronLayer:
                 
     def train(self, tau_error, learning_ratio, momentum_learning_ratio, tolerance, filter_size):
 
-        delta_w = joblib.Parallel(n_jobs = -1)(joblib.delayed(train.train)(tau_error[ix], learning_ratio, momentum_learning_ratio, tolerance, filter_size, self.neurons[ix], np.array(self.presynaptic_neurons[ix], dtype = np.int32), self.conns[ix], np.array(self.previous_delta_w[ix], dtype = np.float64), self.connected_liquid) for ix in range(len(self.neurons)))
+        results = joblib.Parallel(n_jobs = -1)(joblib.delayed(train.train)(tau_error[ix], learning_ratio, momentum_learning_ratio, tolerance, filter_size, self.neurons[ix], np.array(self.presynaptic_neurons[ix], dtype = np.int32), self.conns[ix], self.previous_delta_w[ix], self.connected_liquid) for ix in range(len(self.neurons)))
 
-        print [np.linalg.norm(l) for l in delta_w]
-
-        self.previous_delta_w = delta_w
         
+        for ix in range(len(self.neurons)):
+            if len(results[ix][0]) > 0:
+                nest.SetStatus(self.conns[ix], [{"weight": nw} for nw in results[ix][0]])
+            self.previous_delta_w[ix] = results[ix][1]
+        
+        print np.linalg.norm([np.linalg.norm(l) for l in self.previous_delta_w])
+
 
     def set_input_current(self, current):
         

@@ -74,28 +74,33 @@ def train(double tau_error, double learning_ratio, double momentum_learning_rati
     cdef int pre_ix, i
     
     if len(previous_delta_w) < len(presynaptic_neurons):
-        previous_delta_w = np.zeros(len(presynaptic_neurons))
+        previous_delta_w_tmp = np.zeros(len(presynaptic_neurons))
+    else:
+        previous_delta_w_tmp = np.array(previous_delta_w)
 
     delta_w = np.zeros(len(presynaptic_neurons))
 
     if len(conns) == 0:
         return delta_w
 
+    present_weights = np.array(nest.GetStatus(conns, keys = "weight"))
+    new_weights = present_weights.copy()
+    
     if tau_error > tolerance or tau_error < -tolerance:
         
-        present_weights = np.array(nest.GetStatus(conns, keys = "weight"))
-        new_weights = np.zeros(len(present_weights), dtype = np.float64)
+        
         spike_nums = np.zeros(len(present_weights), dtype = np.int64)
         for i, pre_ix in enumerate(presynaptic_neurons):
             spike_nums[i] = connected_liquid.num_of_spikes(pre_ix, filter_size)
             
         tmp_delta_w1 = (learning_ratio * abs(tau_error) * spike_nums * 1000.0 / filter_size) * (-1 if tau_error > tolerance else 1)
-        tmp_delta_w2 = momentum_learning_ratio * previous_delta_w 
+        tmp_delta_w2 = momentum_learning_ratio * previous_delta_w_tmp
         new_weights = present_weights + tmp_delta_w1 + tmp_delta_w2
-        nest.SetStatus(conns, [{"weight": nw} for nw in new_weights])
+        # nest.SetStatus(conns, [{"weight": nw} for nw in new_weights])
         delta_w = new_weights - present_weights
+        # previous_delta_w = delta_w
         # sys.stdout.write(str(present_weight) + " -> " + str(new_weight) + " (" + str(new_weight - present_weight) + ")\n")
 
-    return delta_w
+    return new_weights, delta_w
 
     

@@ -36,19 +36,28 @@ def main():
         print "error: specify output directory as a command line argument."
         sys.exit()
 
-    controller = lsm_controller.LsmController(input_neurons_theta_size = 100,
-                                              input_neurons_theta_dot_size = 100,
-                                              liquid_neurons_size = 10,
-                                              readout_neurons_tau1_size = 100,
-                                              readout_neurons_tau2_size = 100,
+    # controller = lsm_controller.LsmController(input_neurons_theta_size = 100,
+    #                                           input_neurons_theta_dot_size = 100,
+    #                                           liquid_neurons_size = 1000,
+    #                                           readout_neurons_tau1_size = 100,
+    #                                           readout_neurons_tau2_size = 100,
+    #                                           output_layer_weight = 250.0,
+    #                                           thread_num = multiprocessing.cpu_count())
+    controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
+                                              input_neurons_theta_dot_size = 10,
+                                              liquid_neurons_size = 100,
+                                              readout_neurons_tau1_size = 3,
+                                              readout_neurons_tau2_size = 3,
                                               output_layer_weight = 250.0,
                                               thread_num = multiprocessing.cpu_count())
 
 
     print_neuron_and_connection_params(controller)
 
-    max_torque = 20.0
-    min_torque = -20.0
+    # max_torque = 20.0
+    # min_torque = -20.0
+    max_torque = 3.0
+    min_torque = -3.0
     Kp = 40.0
     Kd = 9.0
     N_x = 5
