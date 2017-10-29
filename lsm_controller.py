@@ -114,7 +114,7 @@ class LsmController:
         i_theta2 = self._conv_freq2current(f_theta2)
         i_theta_dot1 = self._conv_freq2current(f_theta_dot1)
         i_theta_dot2 = self._conv_freq2current(f_theta_dot2)
-        
+
         self.lsm.simulate(sim_time, i_theta1, i_theta2, i_theta_dot1, i_theta_dot2)
 
         (tau1_voltage, tau2_voltage) = self.lsm.get_mean_membrane_voltage(filter_size)

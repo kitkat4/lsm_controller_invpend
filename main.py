@@ -38,15 +38,15 @@ def main():
 
     controller = lsm_controller.LsmController(input_neurons_theta_size = 100,
                                               input_neurons_theta_dot_size = 100,
-                                              liquid_neurons_size = 1000,
+                                              liquid_neurons_size = 10,
                                               readout_neurons_tau1_size = 100,
                                               readout_neurons_tau2_size = 100,
                                               output_layer_weight = 250.0,
                                               thread_num = multiprocessing.cpu_count())
-    
+
 
     print_neuron_and_connection_params(controller)
-    
+
     max_torque = 20.0
     min_torque = -20.0
     Kp = 40.0
@@ -66,7 +66,7 @@ def main():
     print "min and max theta_dot: ", min_theta_dot, max_theta_dot
 
     save_figs(controller, "after_0th_training", output_dir, experiment_name, readout_and_output_only = False)
-    
+
     test_data = [(x, y) for x in np.linspace(min_theta + (max_theta - min_theta)/(N_x + 1), max_theta - (max_theta - min_theta)/(N_x + 1), N_x) for y in np.linspace(min_theta_dot + (max_theta_dot - min_theta_dot)/(N_y + 1), max_theta_dot - (max_theta_dot - min_theta_dot)/(N_y + 1), N_y)]
         
     controller.save(output_dir + "/" + experiment_name + "_after_0th_training.yaml")
@@ -186,6 +186,7 @@ def calc_rms_error_pd_control(controller, input_list, Kp, Kd, print_message = Fa
 
 def save_figs(controller, string, output_dir, experiment_name, suffix = ".eps", readout_and_output_only = True):
 
+
     fn_head = output_dir + "/" + experiment_name
     fn_foot = string + suffix
 
@@ -214,6 +215,7 @@ def save_figs(controller, string, output_dir, experiment_name, suffix = ".eps", 
     controller.lsm.output_layer_tau2.plot_V_m(0, xticks = xticks_time, yticks = yticks_V_m,
                                               time_offset = -controller.total_sim_time + sim_time * sim_n,
                                               file_name = fn_head  + "_out_tau2_V_m_" + fn_foot)
+
     controller.lsm.readout_layer_tau1.raster_plot(xticks = xticks_time,
                                                   yticks = [1, len(controller.lsm.readout_layer_tau1.neurons)] if len(controller.lsm.readout_layer_tau1.neurons) >= 2 else [],
                                                   ylabel = "neuron ID" if len(controller.lsm.readout_layer_tau1.neurons) >= 2 else "",
@@ -222,6 +224,7 @@ def save_figs(controller, string, output_dir, experiment_name, suffix = ".eps", 
                                                   time_offset = -controller.total_sim_time + sim_time * sim_n,
                                                   hist_binwidth = 50.0,
                                                   file_name = fn_head + "_read_tau1_" + fn_foot)
+
     controller.lsm.readout_layer_tau2.raster_plot(xticks = xticks_time,
                                                   yticks = [1, len(controller.lsm.readout_layer_tau2.neurons)] if len(controller.lsm.readout_layer_tau2.neurons) >= 2 else [],
                                                   ylabel = "neuron ID" if len(controller.lsm.readout_layer_tau2.neurons) >= 2 else "",
@@ -274,6 +277,8 @@ def save_figs(controller, string, output_dir, experiment_name, suffix = ".eps", 
                                                           file_name = fn_head + "_in_theta_dot2_" + fn_foot)
 
 
+
+
 def print_neuron_and_connection_params(controller):
 
     conns_input_theta1_to_liquid = len(nest.GetConnections(source = controller.lsm.input_layer_theta1.neurons, target = controller.lsm.liquid_neurons.neurons))
@@ -302,8 +307,6 @@ def print_neuron_and_connection_params(controller):
     sys.stdout.write("\n    total                     : " + str(conns_input_theta1_to_liquid + conns_input_theta2_to_liquid + conns_input_theta_dot1_to_liquid + conns_input_theta_dot2_to_liquid + conns_inside_liquid + conns_liquid_to_read_tau1 + conns_liquid_to_read_tau2))
     sys.stdout.write("\n")
     sys.stdout.flush()
-
-
 
 if __name__ == "__main__":
     main()

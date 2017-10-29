@@ -200,7 +200,7 @@ class NeuronLayer:
 
         delta_w = joblib.Parallel(n_jobs = -1)(joblib.delayed(train.train)(tau_error[ix], learning_ratio, momentum_learning_ratio, tolerance, filter_size, self.neurons[ix], np.array(self.presynaptic_neurons[ix], dtype = np.int32), self.conns[ix], np.array(self.previous_delta_w[ix], dtype = np.float64), self.connected_liquid) for ix in range(len(self.neurons)))
 
-        # print [np.linalg.norm(l) for l in delta_w]
+        print [np.linalg.norm(l) for l in delta_w]
 
         self.previous_delta_w = delta_w
         
@@ -239,18 +239,21 @@ class NeuronLayer:
         voltages = self.get_meter_data(None, "V_m")
         senders = self.get_meter_data(None, "senders")
         times = self.get_meter_data(None, "times")
-
+        
         thresh = times[-1] - filter_size
 
         # 要らない過去のデータを捨てる
         voltages = voltages[np.where(times >= thresh)]
         senders = senders[np.where(times >= thresh)]
 
-        for n in self.neurons:
+        result_list = np.zeros(len(self.neurons))
+        
+        for ix, n in enumerate(self.neurons):
             result_list[ix] = voltages[np.where(senders == n)].mean()
+
         # lambda式だとcan't pickle function objectsてエラーでた
         # result_list = joblib.Parallel(n_jobs = -1)(joblib.delayed(_calc_mean_membrane_voltage)(voltages, senders, n) for n in self.neurons)
-        
+
         return np.array(result_list)
 
     # neuron_ix is the index of the self.neurons i.e. [0, len(self.neurons) - 1]
