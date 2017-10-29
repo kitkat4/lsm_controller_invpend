@@ -168,9 +168,9 @@ if __name__ == "__main__":
     # sys.stdout.write("copying scripts from " + os.path.dirname(__file__) + " to " + output_dir)
     # os.system("cp " + os.path.dirname(__file__) + "/* " + output_dir)
         
-    controller = lsm_controller.LsmController(input_neurons_theta_size = 1,
-                                              input_neurons_theta_dot_size = 1,
-                                              liquid_neurons_size = 400,
+    controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
+                                              input_neurons_theta_dot_size = 10,
+                                              liquid_neurons_size = 1000,
                                               readout_neurons_tau1_size = 1,
                                               readout_neurons_tau2_size = 1,
                                               output_layer_weight = 250.0,
@@ -275,7 +275,10 @@ if __name__ == "__main__":
         time_net_training += time.time() - tmp_time
 
         # sys.stdout.write("train (" + str(theta_train) + ", " + str(theta_dot_train) + ")\n")
+        if count2 == 20:
+            save_figs(controller, "after_" + str(count2) + "th_training")
 
+        
         if count2 % 20 == 0:
 
             controller.save(output_dir + "/" + experiment_name + "_after_" + str(count2) + "th_training.yaml")

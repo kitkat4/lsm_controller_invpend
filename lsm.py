@@ -2,6 +2,7 @@
 
 import neuron_layer
 import liquid_neurons
+
 import nest
 import numpy as np
 
@@ -22,22 +23,22 @@ class Lsm:
                  print_messages = True):
 
 
-        in_a = 0.8
-        in_b = 0.15
+        in_a = 1.0
+        in_b = 0.1
         in_w_min = 500.0
-        in_w_max = 1500.0
+        in_w_max = 1000.0
 
         liquid_a = 1.0
-        liquid_b = 0.15
+        liquid_b = 0.1
         liquid_w_min = 100.0
         liquid_w_max = 200.0
 
         read_a = 1.0
-        read_b = 0.5
+        read_b = 0.3
         read_w_min = 100.0
         read_w_max = 200.0
 
-        inhibitory = 0.25
+        inhibitory = 0.3
 
         if print_messages:
             sys.stdout.write("\nparams for connecting neurons:")
@@ -583,6 +584,7 @@ class Lsm:
 
         # rule
         data_dict[name]["rule"] = "no rules found"
+
 
 
         
