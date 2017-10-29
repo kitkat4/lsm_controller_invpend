@@ -130,11 +130,12 @@ class LiquidNeurons:
                     nest.Connect([ns], [nt], {"rule": "one_to_one"},
                                  {"model": "static_synapse", "weight": w, "delay": d})
                     
-                    # populate target_neuron_layer.presynaptic_neurons
+                    # populate presynaptic_neurons and conns
                     s_ix = self.neurons.index(ns)
                     t_ix = target_neuron_layer.neurons.index(nt)
                     if s_ix not in target_neuron_layer.presynaptic_neurons[t_ix]:
                         target_neuron_layer.presynaptic_neurons[t_ix].append(s_ix)
+                        target_neuron_layer.conns[t_ix].append(nest.GetConnections(source = [ns], target = [nt])[0])
 
     # connect at the prob of a * exp(-distance / b)
     def connect2neuron_layer_prob_exp_dist(self,
@@ -165,11 +166,12 @@ class LiquidNeurons:
                     nest.Connect([ns], [nt], {"rule": "one_to_one"},
                                  {"model": "static_synapse", "weight": w, "delay": d})
                     
-                    # populate target_neuron_layer.presynaptic_neurons
+                    # populate presynaptic_neurons and conns
                     s_ix = self.neurons.index(ns)
                     t_ix = target_neuron_layer.neurons.index(nt)
                     if s_ix not in target_neuron_layer.presynaptic_neurons[t_ix]:
                         target_neuron_layer.presynaptic_neurons[t_ix].append(s_ix)
+                        target_neuron_layer.conns[t_ix].append(nest.GetConnections(source = [ns], target = [nt])[0])
 
                         
     # connect at the prob of a * exp(-(z_distance / b)
@@ -201,11 +203,12 @@ class LiquidNeurons:
                     nest.Connect([ns], [nt], {"rule": "one_to_one"},
                                  {"model": "static_synapse", "weight": w, "delay": d})
                     
-                    # populate target_neuron_layer.presynaptic_neurons
+                    # populate presynaptic_neurons and conns
                     s_ix = self.neurons.index(ns)
                     t_ix = target_neuron_layer.neurons.index(nt)
                     if s_ix not in target_neuron_layer.presynaptic_neurons[t_ix]:
                         target_neuron_layer.presynaptic_neurons[t_ix].append(s_ix)
+                        target_neuron_layer.conns[t_ix].append(nest.GetConnections(source = [ns], target = [nt])[0])
 
 
 

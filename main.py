@@ -18,6 +18,130 @@ import time
 import os
 
 
+
+############################################################################
+
+        
+
+def main():
+    time_main_start = time.time()
+    
+    if len(sys.argv) == 3:
+        output_dir = sys.argv[1]
+        experiment_name = sys.argv[2]
+    elif len(sys.argv) == 2:
+        output_dir = sys.argv[1]
+        experiment_name = "experiment"
+    else:
+        print "error: specify output directory as a command line argument."
+        sys.exit()
+
+    controller = lsm_controller.LsmController(input_neurons_theta_size = 100,
+                                              input_neurons_theta_dot_size = 100,
+                                              liquid_neurons_size = 1000,
+                                              readout_neurons_tau1_size = 100,
+                                              readout_neurons_tau2_size = 100,
+                                              output_layer_weight = 250.0,
+                                              thread_num = multiprocessing.cpu_count())
+    
+
+    print_neuron_and_connection_params(controller)
+    
+    max_torque = 20.0
+    min_torque = -20.0
+    Kp = 40.0
+    Kd = 9.0
+    N_x = 5
+    N_y = 5
+
+    
+    min_theta = -max_torque/(2*Kp)
+    max_theta = -min_torque/(2*Kp)
+    min_theta_dot = -max_torque/(2*Kd)
+    max_theta_dot = -min_torque/(2*Kd)
+
+    print "cpu count: ", multiprocessing.cpu_count()
+    print "Kp and Kd:", Kp, Kd
+    print "min and max theta:     ", min_theta, max_theta
+    print "min and max theta_dot: ", min_theta_dot, max_theta_dot
+
+    save_figs(controller, "after_0th_training", output_dir, experiment_name, readout_and_output_only = False)
+    
+    test_data = [(x, y) for x in np.linspace(min_theta + (max_theta - min_theta)/(N_x + 1), max_theta - (max_theta - min_theta)/(N_x + 1), N_x) for y in np.linspace(min_theta_dot + (max_theta_dot - min_theta_dot)/(N_y + 1), max_theta_dot - (max_theta_dot - min_theta_dot)/(N_y + 1), N_y)]
+        
+    controller.save(output_dir + "/" + experiment_name + "_after_0th_training.yaml")
+
+    time_calc_rms_error_pd_control_start = time.time()
+    rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd, True)
+    time_calc_rms_error_pd_control_stop = time.time()
+    print "RMS error after 0th training: ", rms_error
+
+        
+    # training
+    time_training_start = time.time()
+    time_net_training = 0.0
+    count2 = 1
+    for i in range(50000):
+
+        
+        theta_train = random.random() * (max_theta - min_theta) + min_theta
+        theta_dot_train = random.random() * (max_theta_dot - min_theta_dot) + min_theta_dot
+        tau_ref = -Kp * theta_train - Kd * theta_dot_train
+        tmp_time = time.time()
+
+        lr = 0.003
+        controller.train(theta = theta_train,
+                         theta_dot = theta_dot_train,
+                         tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
+                         tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
+                         learning_ratio = lr,
+                         momentum_learning_ratio = lr * 0.0,
+                         tau1_tolerance = 0.3,
+                         tau2_tolerance = 0.3,
+                         sim_time = 200.0,
+                         filter_size = 100.0)
+        time_net_training += time.time() - tmp_time
+
+        if count2 == 20:
+            save_figs(controller, "after_" + str(count2) + "th_training", output_dir, experiment_name)
+
+        
+        # if count2 % 20 == 0 and count2 <= 200:
+
+        #     controller.save(output_dir + "/" + experiment_name + "_after_" + str(count2) + "th_training.yaml")
+        
+        if count2 % 100 == 0:
+            rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd, True)
+            sys.stdout.write("RMS error after " + str(count2) + "th training: " + str(rms_error) + "\n")
+            sys.stdout.flush()
+            sys.stdout.write("training took " + str(time_net_training) + " [s] (net)\n")
+            controller.save(output_dir + "/" + experiment_name + "_after_" + str(count2) + "th_training.yaml")
+            save_figs(controller, "after_" + str(count2) + "th_training", output_dir, experiment_name)
+            sys.stdout.flush()
+            
+
+        count2 += 1
+        
+    time_training_stop = time.time()
+            
+    controller.save(output_dir + "/" + experiment_name + "_after.yaml")
+    
+    rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd)
+    print "RMS error after training: ", rms_error
+
+
+    
+    time_main_stop = time.time()
+    # sys.stdout.write("calling calc_rms_error_pd_control once took " + str(time_calc_rms_error_pd_control_stop - time_calc_rms_error_pd_control_start) + " [s]\n")
+    sys.stdout.write("training took " + str(time_training_stop - time_training_start) + " [s]\n")
+    sys.stdout.write("training took " + str(time_net_training) + " [s] (net)\n")
+    sys.stdout.write("main took " + str(time_main_stop - time_main_start) + " [s]\n")
+
+
+    
+############################################################################
+
+
 def calc_rms_error(desired_output, actual_output):
 
     if len(desired_output) != len(actual_output):
@@ -60,7 +184,7 @@ def calc_rms_error_pd_control(controller, input_list, Kp, Kd, print_message = Fa
     return calc_rms_error(desired_output, actual_output)
 
 
-def save_figs(controller, string, suffix = ".eps", readout_and_output_only = True):
+def save_figs(controller, string, output_dir, experiment_name, suffix = ".eps", readout_and_output_only = True):
 
     fn_head = output_dir + "/" + experiment_name
     fn_foot = string + suffix
@@ -181,128 +305,7 @@ def print_neuron_and_connection_params(controller):
 
 
 
-
-
-
-
-############################################################################
-
-        
 if __name__ == "__main__":
-
-    time_main_start = time.time()
-    
-    if len(sys.argv) == 3:
-        output_dir = sys.argv[1]
-        experiment_name = sys.argv[2]
-    elif len(sys.argv) == 2:
-        output_dir = sys.argv[1]
-        experiment_name = "experiment"
-    else:
-        print "error: specify output directory as a command line argument."
-        sys.exit()
-
-    controller = lsm_controller.LsmController(input_neurons_theta_size = 100,
-                                              input_neurons_theta_dot_size = 100,
-                                              liquid_neurons_size = 1000,
-                                              readout_neurons_tau1_size = 100,
-                                              readout_neurons_tau2_size = 100,
-                                              output_layer_weight = 250.0,
-                                              thread_num = multiprocessing.cpu_count())
-    
-
-    print_neuron_and_connection_params(controller)
-    
-    max_torque = 20.0
-    min_torque = -20.0
-    Kp = 40.0
-    Kd = 9.0
-    N_x = 5
-    N_y = 5
-
-    
-    min_theta = -max_torque/(2*Kp)
-    max_theta = -min_torque/(2*Kp)
-    min_theta_dot = -max_torque/(2*Kd)
-    max_theta_dot = -min_torque/(2*Kd)
-
-    print "cpu count: ", multiprocessing.cpu_count()
-    print "Kp and Kd:", Kp, Kd
-    print "min and max theta:     ", min_theta, max_theta
-    print "min and max theta_dot: ", min_theta_dot, max_theta_dot
-
-    save_figs(controller, "after_0th_training", readout_and_output_only = False)
-    
-    test_data = [(x, y) for x in np.linspace(min_theta + (max_theta - min_theta)/(N_x + 1), max_theta - (max_theta - min_theta)/(N_x + 1), N_x) for y in np.linspace(min_theta_dot + (max_theta_dot - min_theta_dot)/(N_y + 1), max_theta_dot - (max_theta_dot - min_theta_dot)/(N_y + 1), N_y)]
-        
-    controller.save(output_dir + "/" + experiment_name + "_after_0th_training.yaml")
-
-    time_calc_rms_error_pd_control_start = time.time()
-    rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd, True)
-    time_calc_rms_error_pd_control_stop = time.time()
-    print "RMS error after 0th training: ", rms_error
-
-        
-    # training
-    time_training_start = time.time()
-    time_net_training = 0.0
-    count2 = 1
-    for i in range(50000):
-
-        
-        theta_train = random.random() * (max_theta - min_theta) + min_theta
-        theta_dot_train = random.random() * (max_theta_dot - min_theta_dot) + min_theta_dot
-        tau_ref = -Kp * theta_train - Kd * theta_dot_train
-        tmp_time = time.time()
-
-        lr = 0.003
-        controller.train(theta = theta_train,
-                         theta_dot = theta_dot_train,
-                         tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
-                         tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
-                         learning_ratio = lr,
-                         momentum_learning_ratio = lr * 0.0,
-                         tau1_tolerance = 0.3,
-                         tau2_tolerance = 0.3,
-                         sim_time = 200.0,
-                         filter_size = 100.0)
-        time_net_training += time.time() - tmp_time
-
-        if count2 == 20:
-            save_figs(controller, "after_" + str(count2) + "th_training")
-
-        
-        # if count2 % 20 == 0 and count2 <= 200:
-
-        #     controller.save(output_dir + "/" + experiment_name + "_after_" + str(count2) + "th_training.yaml")
-        
-        if count2 % 100 == 0:
-            rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd, True)
-            sys.stdout.write("RMS error after " + str(count2) + "th training: " + str(rms_error) + "\n")
-            sys.stdout.flush()
-            sys.stdout.write("training took " + str(time_net_training) + " [s] (net)\n")
-            controller.save(output_dir + "/" + experiment_name + "_after_" + str(count2) + "th_training.yaml")
-            save_figs(controller, "after_" + str(count2) + "th_training")
-            sys.stdout.flush()
-            
-
-        count2 += 1
-        
-    time_training_stop = time.time()
-            
-    controller.save(output_dir + "/" + experiment_name + "_after.yaml")
-    
-    rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd)
-    print "RMS error after training: ", rms_error
+    main()
 
 
-    
-    time_main_stop = time.time()
-    # sys.stdout.write("calling calc_rms_error_pd_control once took " + str(time_calc_rms_error_pd_control_stop - time_calc_rms_error_pd_control_start) + " [s]\n")
-    sys.stdout.write("training took " + str(time_training_stop - time_training_start) + " [s]\n")
-    sys.stdout.write("training took " + str(time_net_training) + " [s] (net)\n")
-    sys.stdout.write("main took " + str(time_main_stop - time_main_start) + " [s]\n")
-
-
-    
-############################################################################

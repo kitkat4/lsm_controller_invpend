@@ -13,6 +13,10 @@ import random
 import math
 import sys
 
+
+def _calc_mean_membrane_voltage(v, s, n):
+    return v[np.where(s == n)].mean()
+
 class NeuronLayer:
 
     def __init__(self, neuron_size, V_th = -55.0, tau_m = 10.0, neuron_model = "iaf_psc_alpha",
@@ -37,6 +41,7 @@ class NeuronLayer:
 
         # used only in readout layer. 
         self.presynaptic_neurons = [[] for n in self.neurons] # list of list
+        self.conns = [[] for n in self.neurons] # list of list
         self.connected_liquid = None
 
         self.previous_delta_w = [np.zeros(1) for n in self.neurons]
@@ -57,6 +62,10 @@ class NeuronLayer:
         self.neurons = nest.Create(neuron_model, neuron_size)
         self.detector = nest.Create("spike_detector", params = {"withgid": True, "withtime": True})
         self.meter = nest.Create("multimeter", params = {"withtime":True, "record_from":["V_m"]})
+
+        self.presynaptic_neurons = [[] for n in self.neurons] # list of list
+        self.conns = [[] for n in self.neurons] # list of list
+        self.connected_liquid = None
 
         self.position = [None for n in self.neurons]
 
@@ -189,34 +198,12 @@ class NeuronLayer:
                 
     def train(self, tau_error, learning_ratio, momentum_learning_ratio, tolerance, filter_size):
 
-        # print tau_error
+        delta_w = joblib.Parallel(n_jobs = -1)(joblib.delayed(train.train)(tau_error[ix], learning_ratio, momentum_learning_ratio, tolerance, filter_size, self.neurons[ix], np.array(self.presynaptic_neurons[ix], dtype = np.int32), self.conns[ix], np.array(self.previous_delta_w[ix], dtype = np.float64), self.connected_liquid) for ix in range(len(self.neurons)))
 
-        # delta_w = {}
-        
-        # for neuron_ix in range(len(self.neurons)):
-        #     if tau_error[neuron_ix] > tolerance or tau_error[neuron_ix] < -tolerance:
-        #         for pre_ix in self.presynaptic_neurons[neuron_ix]:
-        #             spike_num = self.connected_liquid.num_of_spikes(pre_ix, filter_size)
-        #             pre_n = self.connected_liquid.neurons[pre_ix]
-        #             conn = nest.GetConnections(source = [pre_n], target = [self.neurons[neuron_ix]])
-        #             present_weight = nest.GetStatus(conn)[0]["weight"]
-        #             tmp_delta_w1 = (learning_ratio * abs(tau_error[neuron_ix]) * spike_num * 1000.0 / filter_size) * (-1 if tau_error[neuron_ix] > tolerance else 1)
-        #             tmp_delta_w2 = momentum_learning_ratio * (self.previous_delta_w[(neuron_ix, pre_ix)] if (neuron_ix, pre_ix) in self.previous_delta_w else 0)
-        #             new_weight = present_weight + tmp_delta_w1 + tmp_delta_w2
-        #             nest.SetStatus(conn, {"weight": new_weight})
-        #             delta_w[(neuron_ix, pre_ix)] = new_weight - present_weight
-        #             # sys.stdout.write(str(present_weight) + " -> " + str(new_weight) + " (" + str(new_weight - present_weight) + ")\n")
-
-        # delta_w = train.train(tau_error, learning_ratio, momentum_learning_ratio, tolerance, filter_size, np.array(self.neurons, dtype = np.int32), np.array(self.presynaptic_neurons, dtype = np.int32), self.previous_delta_w, self.connected_liquid)
-
-
-        # nest.GetConnectionsをjoblibの中で呼ぶと鬼のように遅くなったので先にまとめて呼んでおく
-        conns = [(nest.GetConnections(source = list(np.array(self.connected_liquid.neurons)[self.presynaptic_neurons[ix]]), target = [self.neurons[ix]]) if len(self.presynaptic_neurons[ix]) > 0 else ()) for ix in range(len(self.neurons))]
-
-        delta_w = joblib.Parallel(n_jobs = -1)(joblib.delayed(train.train)(tau_error[ix], learning_ratio, momentum_learning_ratio, tolerance, filter_size, self.neurons[ix], np.array(self.presynaptic_neurons[ix], dtype = np.int32), conns[ix], np.array(self.previous_delta_w[ix], dtype = np.float64), self.connected_liquid) for ix in range(len(self.neurons)))
+        # print [np.linalg.norm(l) for l in delta_w]
 
         self.previous_delta_w = delta_w
-
+        
 
     def set_input_current(self, current):
         
@@ -249,28 +236,22 @@ class NeuronLayer:
     # filter_size [ms]
     def get_mean_membrane_voltage(self, filter_size):
 
-        result_list = np.zeros(len(self.neurons))
+        voltages = self.get_meter_data(None, "V_m")
+        senders = self.get_meter_data(None, "senders")
+        times = self.get_meter_data(None, "times")
+
+        thresh = times[-1] - filter_size
+
+        # 要らない過去のデータを捨てる
+        voltages = voltages[np.where(times >= thresh)]
+        senders = senders[np.where(times >= thresh)]
+
+        for n in self.neurons:
+            result_list[ix] = voltages[np.where(senders == n)].mean()
+        # lambda式だとcan't pickle function objectsてエラーでた
+        # result_list = joblib.Parallel(n_jobs = -1)(joblib.delayed(_calc_mean_membrane_voltage)(voltages, senders, n) for n in self.neurons)
         
-        for ix in range(len(self.neurons)):
-            voltages = self.get_meter_data(ix, "V_m")
-            times = self.get_meter_data(ix, "times")
-
-            if len(times) == 0:
-                result_list[ix] = 0.0
-                continue
-        
-            # 後ろのfilter_size[ms]の結果だけ取り出して平均を返せば良い
-            thresh = times[-1] - filter_size
-            size = 0
-            for i in range(len(times)):
-                if times[-i-1] >= thresh:
-                    size += 1
-                else:
-                    break
-
-            result_list[ix] = float(sum(voltages[-size:])) / size
-
-        return result_list
+        return np.array(result_list)
 
     # neuron_ix is the index of the self.neurons i.e. [0, len(self.neurons) - 1]
     def plot_spikes(self, neuron_ix, xticks = None, yticks = None, file_name = None, markersize = 0.5, marker = '_', grid = False):
