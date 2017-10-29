@@ -214,14 +214,20 @@ class LiquidNeurons:
         key_all = nest.GetStatus(self.meter, keys = "events")[0][key]
         senders_all = nest.GetStatus(self.meter, keys = "events")[0]["senders"]
 
-        return key_all[np.where(senders_all == self.neurons[neuron_ix])]
+        if neuron_ix is not None:
+            return key_all[np.where(senders_all == self.neurons[neuron_ix])]
+        else:
+            return key_all
 
     def get_detector_data(self, neuron_ix, key):
         
         key_all = nest.GetStatus(self.detector, keys = "events")[0][key]
         senders_all = nest.GetStatus(self.detector, keys = "events")[0]["senders"]
 
-        return key_all[np.where(senders_all == self.neurons[neuron_ix])]
+        if neuron_ix is not None:
+            return key_all[np.where(senders_all == self.neurons[neuron_ix])]
+        else:
+            return key_all
 
                     
 
