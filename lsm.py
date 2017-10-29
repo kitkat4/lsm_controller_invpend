@@ -18,23 +18,44 @@ class Lsm:
                  liquid_neurons_size,
                  readout_neurons_tau1_size,
                  readout_neurons_tau2_size,
-                 output_layer_weight):
+                 output_layer_weight,
+                 print_messages = True):
 
 
-        in_a = 0.9
-        in_b = 0.2
+        in_a = 0.8
+        in_b = 0.15
         in_w_min = 500.0
         in_w_max = 1500.0
 
-        liquid_a = 0.8
-        liquid_b = 0.2
+        liquid_a = 1.0
+        liquid_b = 0.10
         liquid_w_min = 100.0
         liquid_w_max = 200.0
 
         read_a = 0.9
-        read_b = 0.2
-        read_w_min = 50.0
-        read_w_max = 150.0
+        read_b = 0.4
+        read_w_min = 100.0
+        read_w_max = 200.0
+
+        inhibitory = 0.25
+
+        if print_messages:
+            sys.stdout.write("\nparams for connecting neurons:")
+            sys.stdout.write("\n    in_a        : " + str(in_a))
+            sys.stdout.write("\n    in_b        : " + str(in_b))
+            sys.stdout.write("\n    in_w_min    : " + str(in_w_min))
+            sys.stdout.write("\n    in_w_max    : " + str(in_w_max))
+            sys.stdout.write("\n    liquid_a    : " + str(liquid_a))
+            sys.stdout.write("\n    liquid_b    : " + str(liquid_b))
+            sys.stdout.write("\n    liquid_w_min: " + str(liquid_w_min))
+            sys.stdout.write("\n    liquid_w_max: " + str(liquid_w_max))
+            sys.stdout.write("\n    read_a      : " + str(read_a))
+            sys.stdout.write("\n    read_b      : " + str(read_b))
+            sys.stdout.write("\n    read_w_min  : " + str(read_w_min))
+            sys.stdout.write("\n    read_w_max  : " + str(read_w_max))
+            sys.stdout.write("\n    inhibitory  : " + str(inhibitory))
+            sys.stdout.write("\n")
+            sys.stdout.flush()
 
         # create neurons
         self.input_layer_theta1 = neuron_layer.NeuronLayer(input_neurons_theta_size,
@@ -86,7 +107,7 @@ class Lsm:
         #                                    delay_min = 0.5,
         #                                    delay_max = 4.0)
         self.liquid_neurons.connect_prob_exp_dist(a = liquid_a, b = liquid_b,
-                                                  inhibitory_connection_ratio = 0.3,
+                                                  inhibitory_connection_ratio = inhibitory,
                                                   weight_min = liquid_w_min,
                                                   weight_max = liquid_w_max,
                                                   delay_min = 0.5,
@@ -160,7 +181,7 @@ class Lsm:
         self.input_layer_theta1.connect2liquid_prob_exp_z(target_liquid_neurons = self.liquid_neurons,
                                                           a = in_a,
                                                           b = in_b,
-                                                          inhibitory_connection_ratio = 0.3,
+                                                          inhibitory_connection_ratio = inhibitory,
                                                           weight_min = in_w_min,
                                                           weight_max = in_w_max,
                                                           delay_min = 0.5,
@@ -168,7 +189,7 @@ class Lsm:
         self.input_layer_theta2.connect2liquid_prob_exp_z(target_liquid_neurons = self.liquid_neurons,
                                                           a = in_a,
                                                           b = in_b,
-                                                          inhibitory_connection_ratio = 0.3,
+                                                          inhibitory_connection_ratio = inhibitory,
                                                           weight_min = in_w_min,
                                                           weight_max = in_w_max,
                                                           delay_min = 0.5,
@@ -176,7 +197,7 @@ class Lsm:
         self.input_layer_theta_dot1.connect2liquid_prob_exp_z(target_liquid_neurons = self.liquid_neurons,
                                                               a = in_a,
                                                               b = in_b,
-                                                              inhibitory_connection_ratio = 0.3,
+                                                              inhibitory_connection_ratio = inhibitory,
                                                               weight_min = in_w_min,
                                                               weight_max = in_w_max,
                                                               delay_min = 0.5,
@@ -184,7 +205,7 @@ class Lsm:
         self.input_layer_theta_dot2.connect2liquid_prob_exp_z(target_liquid_neurons = self.liquid_neurons,
                                                               a = in_a,
                                                               b = in_b,
-                                                              inhibitory_connection_ratio = 0.3,
+                                                              inhibitory_connection_ratio = inhibitory,
                                                               weight_min = in_w_min,
                                                               weight_max = in_w_max,
                                                               delay_min = 0.5,
@@ -192,14 +213,14 @@ class Lsm:
         
         # self.liquid_neurons.connect2neuron_layer(target_neuron_layer = self.readout_layer_tau1,
         #                                          connection_ratio = 0.3,
-        #                                          inhibitory_connection_ratio = 0.25,
+        #                                          inhibitory_connection_ratio = inhibitory,
         #                                          weight_min = 50.0,
         #                                          weight_max = 150.0,
         #                                          delay_min = 0.5,
         #                                          delay_max = 4.0)
         # self.liquid_neurons.connect2neuron_layer(target_neuron_layer = self.readout_layer_tau2,
         #                                          connection_ratio = 0.3,
-        #                                          inhibitory_connection_ratio = 0.25,
+        #                                          inhibitory_connection_ratio = inhibitory,
         #                                          weight_min = 50.0,
         #                                          weight_max = 150.0,
         #                                          delay_min = 0.5,
@@ -207,7 +228,7 @@ class Lsm:
         self.liquid_neurons.connect2neuron_layer_prob_exp_z(target_neuron_layer = self.readout_layer_tau1,
                                                             a = read_a,
                                                             b = read_b,
-                                                            inhibitory_connection_ratio = 0.25,
+                                                            inhibitory_connection_ratio = inhibitory,
                                                             weight_min = read_w_min,
                                                             weight_max = read_w_max,
                                                             delay_min = 0.5,
@@ -215,7 +236,7 @@ class Lsm:
         self.liquid_neurons.connect2neuron_layer_prob_exp_z(target_neuron_layer = self.readout_layer_tau2,
                                                             a = read_a,
                                                             b = read_b,
-                                                            inhibitory_connection_ratio = 0.25,
+                                                            inhibitory_connection_ratio = inhibitory,
                                                             weight_min = read_w_min,
                                                             weight_max = read_w_max,
                                                             delay_min = 0.5,

@@ -29,7 +29,6 @@ class LsmController:
         nest.SetKernelStatus({"local_num_threads": thread_num if thread_num > 0 else multiprocessing.cpu_count()})
         
         nest.set_verbosity("M_ERROR") # suppress trivial messages
-        sys.stdout.write("Initializing LsmController ... ")
 
         self.total_sim_time = 0.0
         
@@ -44,8 +43,6 @@ class LsmController:
                            readout_neurons_tau1_size,
                            readout_neurons_tau2_size,
                            output_layer_weight = self.output_layer_weight)
-
-        sys.stdout.write("done.\n")
 
     def get_tau(self):
         

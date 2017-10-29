@@ -1,6 +1,6 @@
 # coding: utf-8
 
-import resume
+import train
 import plot_neurons_activity
 
 import nest
@@ -25,8 +25,8 @@ class NeuronLayer:
 
         self.neuron_model = neuron_model
 
-        self.neurons = nest.Create(self.neuron_model, neuron_size,
-                                   params = {"V_th": V_th, "tau_m": tau_m})
+        self.neurons = list(nest.Create(self.neuron_model, neuron_size,
+                                        params = {"V_th": V_th, "tau_m": tau_m}))
 
         self.position = [(random.random() * (x_max - x_min) + x_min,
                           random.random() * (y_max - y_min) + y_min,
@@ -170,7 +170,7 @@ class NeuronLayer:
                                                 target = [self.neurons[i]]))
                 present_weight.append(nest.GetStatus(conn[-1])[0]["weight"])
 
-            delta_w = joblib.Parallel(n_jobs = -1)(joblib.delayed(resume.resume)(input_spike_train[ix],
+            delta_w = joblib.Parallel(n_jobs = -1)(joblib.delayed(train.resume)(input_spike_train[ix],
                                                                                  output_spike_train,
                                                                                  desired_spike_train,
                                                                                  a = 0.0025,
@@ -187,21 +187,23 @@ class NeuronLayer:
 
         # print tau_error
 
-        delta_w = {}
+        # delta_w = {}
         
-        for neuron_ix in range(len(self.neurons)):
-            if tau_error[neuron_ix] > tolerance or tau_error[neuron_ix] < -tolerance:
-                for pre_ix in self.presynaptic_neurons[neuron_ix]:
-                    spike_num = self.connected_liquid.num_of_spikes(pre_ix, filter_size)
-                    pre_n = self.connected_liquid.neurons[pre_ix]
-                    conn = nest.GetConnections(source = [pre_n], target = [self.neurons[neuron_ix]])
-                    present_weight = nest.GetStatus(conn)[0]["weight"]
-                    tmp_delta_w1 = (learning_ratio * abs(tau_error[neuron_ix]) * spike_num * 1000.0 / filter_size) * (-1 if tau_error[neuron_ix] > tolerance else 1)
-                    tmp_delta_w2 = momentum_learning_ratio * (self.previous_delta_w[(neuron_ix, pre_ix)] if (neuron_ix, pre_ix) in self.previous_delta_w else 0)
-                    new_weight = present_weight + tmp_delta_w1 + tmp_delta_w2
-                    nest.SetStatus(conn, {"weight": new_weight})
-                    delta_w[(neuron_ix, pre_ix)] = new_weight - present_weight
-                    # sys.stdout.write(str(present_weight) + " -> " + str(new_weight) + " (" + str(new_weight - present_weight) + ")\n")
+        # for neuron_ix in range(len(self.neurons)):
+        #     if tau_error[neuron_ix] > tolerance or tau_error[neuron_ix] < -tolerance:
+        #         for pre_ix in self.presynaptic_neurons[neuron_ix]:
+        #             spike_num = self.connected_liquid.num_of_spikes(pre_ix, filter_size)
+        #             pre_n = self.connected_liquid.neurons[pre_ix]
+        #             conn = nest.GetConnections(source = [pre_n], target = [self.neurons[neuron_ix]])
+        #             present_weight = nest.GetStatus(conn)[0]["weight"]
+        #             tmp_delta_w1 = (learning_ratio * abs(tau_error[neuron_ix]) * spike_num * 1000.0 / filter_size) * (-1 if tau_error[neuron_ix] > tolerance else 1)
+        #             tmp_delta_w2 = momentum_learning_ratio * (self.previous_delta_w[(neuron_ix, pre_ix)] if (neuron_ix, pre_ix) in self.previous_delta_w else 0)
+        #             new_weight = present_weight + tmp_delta_w1 + tmp_delta_w2
+        #             nest.SetStatus(conn, {"weight": new_weight})
+        #             delta_w[(neuron_ix, pre_ix)] = new_weight - present_weight
+        #             # sys.stdout.write(str(present_weight) + " -> " + str(new_weight) + " (" + str(new_weight - present_weight) + ")\n")
+
+        delta_w = train.train(tau_error, learning_ratio, momentum_learning_ratio, tolerance, filter_size, np.array(self.neurons, dtype = np.int32), np.array(self.presynaptic_neurons, dtype = np.int32), self.previous_delta_w, self.connected_liquid)
 
         self.previous_delta_w = delta_w
 

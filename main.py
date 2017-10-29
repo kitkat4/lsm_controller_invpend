@@ -170,13 +170,38 @@ if __name__ == "__main__":
         
     controller = lsm_controller.LsmController(input_neurons_theta_size = 1,
                                               input_neurons_theta_dot_size = 1,
-                                              liquid_neurons_size = 300,
+                                              liquid_neurons_size = 400,
                                               readout_neurons_tau1_size = 1,
                                               readout_neurons_tau2_size = 1,
                                               output_layer_weight = 250.0,
                                               thread_num = multiprocessing.cpu_count())
 
-    
+    conns_input_theta1_to_liquid = len(nest.GetConnections(source = controller.lsm.input_layer_theta1.neurons, target = controller.lsm.liquid_neurons.neurons))
+    conns_input_theta2_to_liquid = len(nest.GetConnections(source = controller.lsm.input_layer_theta2.neurons, target = controller.lsm.liquid_neurons.neurons))
+    conns_input_theta_dot1_to_liquid = len(nest.GetConnections(source = controller.lsm.input_layer_theta_dot1.neurons, target = controller.lsm.liquid_neurons.neurons))
+    conns_input_theta_dot2_to_liquid = len(nest.GetConnections(source = controller.lsm.input_layer_theta_dot2.neurons, target = controller.lsm.liquid_neurons.neurons))
+    conns_inside_liquid = len(nest.GetConnections(source = controller.lsm.liquid_neurons.neurons, target = controller.lsm.liquid_neurons.neurons))
+    conns_liquid_to_read_tau1 = len(nest.GetConnections(source = controller.lsm.liquid_neurons.neurons, target = controller.lsm.readout_layer_tau1.neurons))
+    conns_liquid_to_read_tau2 = len(nest.GetConnections(source = controller.lsm.liquid_neurons.neurons, target = controller.lsm.readout_layer_tau2.neurons))
+    sys.stdout.write("\nnumber of neurons:")
+    sys.stdout.write("\n    input theta1    : " + str(len(controller.lsm.input_layer_theta1.neurons)))
+    sys.stdout.write("\n    input theta2    : " + str(len(controller.lsm.input_layer_theta2.neurons)))
+    sys.stdout.write("\n    input theta_dot1: " + str(len(controller.lsm.input_layer_theta_dot1.neurons)))
+    sys.stdout.write("\n    input theta_dot2: " + str(len(controller.lsm.input_layer_theta_dot2.neurons)))
+    sys.stdout.write("\n    liquid          : " + str(len(controller.lsm.liquid_neurons.neurons)))
+    sys.stdout.write("\n    readout tau1    : " + str(len(controller.lsm.readout_layer_tau1.neurons)))
+    sys.stdout.write("\n    readout tau2    : " + str(len(controller.lsm.readout_layer_tau2.neurons)))
+    sys.stdout.write("\n\nnumber of connections:")
+    sys.stdout.write("\n    input theta1 to liquid    : " + str(conns_input_theta1_to_liquid))
+    sys.stdout.write("\n    input theta2 to liquid    : " + str(conns_input_theta2_to_liquid))
+    sys.stdout.write("\n    input theta_dot1 to liquid: " + str(conns_input_theta_dot1_to_liquid))
+    sys.stdout.write("\n    input theta_dot2 to liquid: " + str(conns_input_theta_dot2_to_liquid))
+    sys.stdout.write("\n    inside liquid             : " + str(conns_inside_liquid))
+    sys.stdout.write("\n    liquid to readout tau1    : " + str(conns_liquid_to_read_tau1))
+    sys.stdout.write("\n    liquid to readout tau2    : " + str(conns_liquid_to_read_tau2))
+    sys.stdout.write("\n    total                     : " + str(conns_input_theta1_to_liquid + conns_input_theta2_to_liquid + conns_input_theta_dot1_to_liquid + conns_input_theta_dot2_to_liquid + conns_inside_liquid + conns_liquid_to_read_tau1 + conns_liquid_to_read_tau2))
+    sys.stdout.write("\n")
+    sys.stdout.flush()
 
     max_torque = 20.0
     min_torque = -20.0
@@ -235,7 +260,8 @@ if __name__ == "__main__":
         #                         sim_time = 200.0,
         #                         print_message = False)
         tmp_time = time.time()
-        lr = 0.01 if count2 <= 25000 else 0.001#0.01 #if count2 < 5000 else 0.001
+        # lr = 0.01 if count2 <= 25000 else 0.001#0.01 #if count2 < 5000 else 0.001
+        lr = 0.003
         controller.train(theta = theta_train,
                          theta_dot = theta_dot_train,
                          tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
@@ -261,6 +287,7 @@ if __name__ == "__main__":
             sys.stdout.write("training took " + str(time_net_training) + " [s] (net)\n")
             # controller.save(output_dir + "/" + experiment_name + "_after_" + str(count2) + "th_training.yaml")
             save_figs(controller, "after_" + str(count2) + "th_training")
+            sys.stdout.flush()
             
 
         count2 += 1

@@ -270,7 +270,7 @@ def _make_plot(ts, ts1, gids, neurons, hist=True, hist_binwidth=5.0,
             plt.xticks(xticks_hist)
         if yticks_hist is not None:
             plt.yticks(yticks_hist)
-        else:
+        elif len(heights) >= 1:
             plt.yticks([
                 int(x) for x in
                 numpy.linspace(0.0, int(max(heights) * 1.1) + 5, 4)
