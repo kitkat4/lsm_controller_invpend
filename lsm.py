@@ -516,20 +516,16 @@ class Lsm:
         nest.ResetNetwork()        
 
 
-    def train(self, tau1_error, tau2_error, learning_ratio, momentum_learning_ratio,
-              tau1_tolerance, tau2_tolerance, filter_size):
+    def train(self, tau1_error, tau2_error, learning_ratio, momentum_learning_ratio, filter_size):
         
         self.readout_layer_tau1.train(tau1_error,
                                       learning_ratio,
                                       momentum_learning_ratio,
-                                      tau1_tolerance,
                                       filter_size)
         self.readout_layer_tau2.train(tau2_error,
                                       learning_ratio,
                                       momentum_learning_ratio,
-                                      tau2_tolerance,
                                       filter_size)
-
         
 
     def _append_connection_info_to_save(self, data_dict, name, src_layer, dst_layer):

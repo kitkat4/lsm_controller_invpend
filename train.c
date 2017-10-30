@@ -1504,7 +1504,6 @@ static const char __pyx_k_GetStatus[] = "GetStatus";
 static const char __pyx_k_TypeError[] = "TypeError";
 static const char __pyx_k_enumerate[] = "enumerate";
 static const char __pyx_k_tau_error[] = "tau_error";
-static const char __pyx_k_tolerance[] = "tolerance";
 static const char __pyx_k_A_negative[] = "A_negative";
 static const char __pyx_k_A_positive[] = "A_positive";
 static const char __pyx_k_IndexError[] = "IndexError";
@@ -1658,7 +1657,6 @@ static PyObject *__pyx_n_s_tau_error;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_tmp_delta_w1;
 static PyObject *__pyx_n_s_tmp_delta_w2;
-static PyObject *__pyx_n_s_tolerance;
 static PyObject *__pyx_n_s_train;
 static PyObject *__pyx_kp_s_unable_to_allocate_array_data;
 static PyObject *__pyx_kp_s_unable_to_allocate_shape_and_str;
@@ -1666,7 +1664,7 @@ static PyObject *__pyx_n_s_unpack;
 static PyObject *__pyx_n_s_weight;
 static PyObject *__pyx_n_s_zeros;
 static PyObject *__pyx_pf_5train_resume(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_input_spike_train, __Pyx_memviewslice __pyx_v_output_spike_train, __Pyx_memviewslice __pyx_v_desire_spike_train, double __pyx_v_a, double __pyx_v_A_positive, double __pyx_v_A_negative, double __pyx_v_tau); /* proto */
-static PyObject *__pyx_pf_5train_2train(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_tau_error, double __pyx_v_learning_ratio, double __pyx_v_momentum_learning_ratio, double __pyx_v_tolerance, double __pyx_v_filter_size, CYTHON_UNUSED int __pyx_v_target_gid, __Pyx_memviewslice __pyx_v_presynaptic_neurons, PyObject *__pyx_v_conns, PyObject *__pyx_v_previous_delta_w, PyObject *__pyx_v_connected_liquid); /* proto */
+static PyObject *__pyx_pf_5train_2train(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_tau_error, double __pyx_v_learning_ratio, double __pyx_v_momentum_learning_ratio, double __pyx_v_filter_size, CYTHON_UNUSED int __pyx_v_target_gid, __Pyx_memviewslice __pyx_v_presynaptic_neurons, PyObject *__pyx_v_conns, PyObject *__pyx_v_previous_delta_w, PyObject *__pyx_v_connected_liquid); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(struct __pyx_array_obj *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_array___pyx_pf_15View_dot_MemoryView_5array_4__dealloc__(struct __pyx_array_obj *__pyx_v_self); /* proto */
@@ -2652,7 +2650,7 @@ static PyObject *__pyx_pf_5train_resume(CYTHON_UNUSED PyObject *__pyx_self, __Py
 /* "train.pyx":70
  * 
  * 
- * def train(double tau_error, double learning_ratio, double momentum_learning_ratio, double tolerance, double filter_size, int target_gid, int[:] presynaptic_neurons, conns, previous_delta_w, connected_liquid):             # <<<<<<<<<<<<<<
+ * def train(double tau_error, double learning_ratio, double momentum_learning_ratio, double filter_size, int target_gid, int[:] presynaptic_neurons, conns, previous_delta_w, connected_liquid):             # <<<<<<<<<<<<<<
  * 
  * 
  */
@@ -2664,7 +2662,6 @@ static PyObject *__pyx_pw_5train_3train(PyObject *__pyx_self, PyObject *__pyx_ar
   double __pyx_v_tau_error;
   double __pyx_v_learning_ratio;
   double __pyx_v_momentum_learning_ratio;
-  double __pyx_v_tolerance;
   double __pyx_v_filter_size;
   CYTHON_UNUSED int __pyx_v_target_gid;
   __Pyx_memviewslice __pyx_v_presynaptic_neurons = { 0, 0, { 0 }, { 0 }, { 0 } };
@@ -2675,13 +2672,12 @@ static PyObject *__pyx_pw_5train_3train(PyObject *__pyx_self, PyObject *__pyx_ar
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("train (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_tau_error,&__pyx_n_s_learning_ratio,&__pyx_n_s_momentum_learning_ratio,&__pyx_n_s_tolerance,&__pyx_n_s_filter_size,&__pyx_n_s_target_gid,&__pyx_n_s_presynaptic_neurons,&__pyx_n_s_conns,&__pyx_n_s_previous_delta_w,&__pyx_n_s_connected_liquid,0};
-    PyObject* values[10] = {0,0,0,0,0,0,0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_tau_error,&__pyx_n_s_learning_ratio,&__pyx_n_s_momentum_learning_ratio,&__pyx_n_s_filter_size,&__pyx_n_s_target_gid,&__pyx_n_s_presynaptic_neurons,&__pyx_n_s_conns,&__pyx_n_s_previous_delta_w,&__pyx_n_s_connected_liquid,0};
+    PyObject* values[9] = {0,0,0,0,0,0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
-        case 10: values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
         case  9: values[8] = PyTuple_GET_ITEM(__pyx_args, 8);
         case  8: values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
         case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
@@ -2702,53 +2698,48 @@ static PyObject *__pyx_pw_5train_3train(PyObject *__pyx_self, PyObject *__pyx_ar
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_learning_ratio)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("train", 1, 10, 10, 1); __PYX_ERR(0, 70, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("train", 1, 9, 9, 1); __PYX_ERR(0, 70, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_momentum_learning_ratio)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("train", 1, 10, 10, 2); __PYX_ERR(0, 70, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("train", 1, 9, 9, 2); __PYX_ERR(0, 70, __pyx_L3_error)
         }
         case  3:
-        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_tolerance)) != 0)) kw_args--;
+        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_filter_size)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("train", 1, 10, 10, 3); __PYX_ERR(0, 70, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("train", 1, 9, 9, 3); __PYX_ERR(0, 70, __pyx_L3_error)
         }
         case  4:
-        if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_filter_size)) != 0)) kw_args--;
+        if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_target_gid)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("train", 1, 10, 10, 4); __PYX_ERR(0, 70, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("train", 1, 9, 9, 4); __PYX_ERR(0, 70, __pyx_L3_error)
         }
         case  5:
-        if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_target_gid)) != 0)) kw_args--;
+        if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_presynaptic_neurons)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("train", 1, 10, 10, 5); __PYX_ERR(0, 70, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("train", 1, 9, 9, 5); __PYX_ERR(0, 70, __pyx_L3_error)
         }
         case  6:
-        if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_presynaptic_neurons)) != 0)) kw_args--;
+        if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_conns)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("train", 1, 10, 10, 6); __PYX_ERR(0, 70, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("train", 1, 9, 9, 6); __PYX_ERR(0, 70, __pyx_L3_error)
         }
         case  7:
-        if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_conns)) != 0)) kw_args--;
+        if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_previous_delta_w)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("train", 1, 10, 10, 7); __PYX_ERR(0, 70, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("train", 1, 9, 9, 7); __PYX_ERR(0, 70, __pyx_L3_error)
         }
         case  8:
-        if (likely((values[8] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_previous_delta_w)) != 0)) kw_args--;
+        if (likely((values[8] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_connected_liquid)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("train", 1, 10, 10, 8); __PYX_ERR(0, 70, __pyx_L3_error)
-        }
-        case  9:
-        if (likely((values[9] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_connected_liquid)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("train", 1, 10, 10, 9); __PYX_ERR(0, 70, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("train", 1, 9, 9, 8); __PYX_ERR(0, 70, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
         if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "train") < 0)) __PYX_ERR(0, 70, __pyx_L3_error)
       }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 10) {
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 9) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
@@ -2760,35 +2751,33 @@ static PyObject *__pyx_pw_5train_3train(PyObject *__pyx_self, PyObject *__pyx_ar
       values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
       values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
       values[8] = PyTuple_GET_ITEM(__pyx_args, 8);
-      values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
     }
     __pyx_v_tau_error = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_tau_error == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 70, __pyx_L3_error)
     __pyx_v_learning_ratio = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_learning_ratio == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 70, __pyx_L3_error)
     __pyx_v_momentum_learning_ratio = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_momentum_learning_ratio == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 70, __pyx_L3_error)
-    __pyx_v_tolerance = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_tolerance == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 70, __pyx_L3_error)
-    __pyx_v_filter_size = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_filter_size == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 70, __pyx_L3_error)
-    __pyx_v_target_gid = __Pyx_PyInt_As_int(values[5]); if (unlikely((__pyx_v_target_gid == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 70, __pyx_L3_error)
-    __pyx_v_presynaptic_neurons = __Pyx_PyObject_to_MemoryviewSlice_ds_int(values[6]); if (unlikely(!__pyx_v_presynaptic_neurons.memview)) __PYX_ERR(0, 70, __pyx_L3_error)
-    __pyx_v_conns = values[7];
-    __pyx_v_previous_delta_w = values[8];
-    __pyx_v_connected_liquid = values[9];
+    __pyx_v_filter_size = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_filter_size == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 70, __pyx_L3_error)
+    __pyx_v_target_gid = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_target_gid == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 70, __pyx_L3_error)
+    __pyx_v_presynaptic_neurons = __Pyx_PyObject_to_MemoryviewSlice_ds_int(values[5]); if (unlikely(!__pyx_v_presynaptic_neurons.memview)) __PYX_ERR(0, 70, __pyx_L3_error)
+    __pyx_v_conns = values[6];
+    __pyx_v_previous_delta_w = values[7];
+    __pyx_v_connected_liquid = values[8];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("train", 1, 10, 10, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 70, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("train", 1, 9, 9, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 70, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("train.train", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_5train_2train(__pyx_self, __pyx_v_tau_error, __pyx_v_learning_ratio, __pyx_v_momentum_learning_ratio, __pyx_v_tolerance, __pyx_v_filter_size, __pyx_v_target_gid, __pyx_v_presynaptic_neurons, __pyx_v_conns, __pyx_v_previous_delta_w, __pyx_v_connected_liquid);
+  __pyx_r = __pyx_pf_5train_2train(__pyx_self, __pyx_v_tau_error, __pyx_v_learning_ratio, __pyx_v_momentum_learning_ratio, __pyx_v_filter_size, __pyx_v_target_gid, __pyx_v_presynaptic_neurons, __pyx_v_conns, __pyx_v_previous_delta_w, __pyx_v_connected_liquid);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5train_2train(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_tau_error, double __pyx_v_learning_ratio, double __pyx_v_momentum_learning_ratio, double __pyx_v_tolerance, double __pyx_v_filter_size, CYTHON_UNUSED int __pyx_v_target_gid, __Pyx_memviewslice __pyx_v_presynaptic_neurons, PyObject *__pyx_v_conns, PyObject *__pyx_v_previous_delta_w, PyObject *__pyx_v_connected_liquid) {
+static PyObject *__pyx_pf_5train_2train(CYTHON_UNUSED PyObject *__pyx_self, double __pyx_v_tau_error, double __pyx_v_learning_ratio, double __pyx_v_momentum_learning_ratio, double __pyx_v_filter_size, CYTHON_UNUSED int __pyx_v_target_gid, __Pyx_memviewslice __pyx_v_presynaptic_neurons, PyObject *__pyx_v_conns, PyObject *__pyx_v_previous_delta_w, PyObject *__pyx_v_connected_liquid) {
   int __pyx_v_pre_ix;
   int __pyx_v_i;
   PyObject *__pyx_v_previous_delta_w_tmp = NULL;
@@ -2810,10 +2799,9 @@ static PyObject *__pyx_pf_5train_2train(CYTHON_UNUSED PyObject *__pyx_self, doub
   PyObject *__pyx_t_8 = NULL;
   PyObject *__pyx_t_9 = NULL;
   int __pyx_t_10;
-  int __pyx_t_11;
-  PyObject *(*__pyx_t_12)(PyObject *);
-  int __pyx_t_13;
-  PyObject *__pyx_t_14 = NULL;
+  PyObject *(*__pyx_t_11)(PyObject *);
+  int __pyx_t_12;
+  PyObject *__pyx_t_13 = NULL;
   __Pyx_RefNannySetupContext("train", 0);
 
   /* "train.pyx":76
@@ -3152,7 +3140,7 @@ static PyObject *__pyx_pf_5train_2train(CYTHON_UNUSED PyObject *__pyx_self, doub
  *     present_weights = np.array(nest.GetStatus(conns, keys = "weight"))
  *     new_weights = present_weights.copy()             # <<<<<<<<<<<<<<
  * 
- *     if tau_error > tolerance or tau_error < -tolerance:
+ *     spike_nums = np.zeros(len(present_weights), dtype = np.int64)
  */
   __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_v_present_weights, __pyx_n_s_copy); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
@@ -3180,284 +3168,257 @@ static PyObject *__pyx_pf_5train_2train(CYTHON_UNUSED PyObject *__pyx_self, doub
   /* "train.pyx":89
  *     new_weights = present_weights.copy()
  * 
- *     if tau_error > tolerance or tau_error < -tolerance:             # <<<<<<<<<<<<<<
+ *     spike_nums = np.zeros(len(present_weights), dtype = np.int64)             # <<<<<<<<<<<<<<
+ *     for i, pre_ix in enumerate(presynaptic_neurons):
+ *         spike_nums[i] = connected_liquid.num_of_spikes(pre_ix, filter_size)
+ */
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_3 = PyObject_Length(__pyx_v_present_weights); if (unlikely(__pyx_t_3 == -1)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_GIVEREF(__pyx_t_2);
+  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2);
+  __pyx_t_2 = 0;
+  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_9);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_int64); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 89, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 89, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_spike_nums = __pyx_t_6;
+  __pyx_t_6 = 0;
+
+  /* "train.pyx":90
  * 
+ *     spike_nums = np.zeros(len(present_weights), dtype = np.int64)
+ *     for i, pre_ix in enumerate(presynaptic_neurons):             # <<<<<<<<<<<<<<
+ *         spike_nums[i] = connected_liquid.num_of_spikes(pre_ix, filter_size)
  * 
  */
-  __pyx_t_10 = ((__pyx_v_tau_error > __pyx_v_tolerance) != 0);
-  if (!__pyx_t_10) {
+  __pyx_t_10 = 0;
+  __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_presynaptic_neurons, 1, (PyObject *(*)(char *)) __pyx_memview_get_int, (int (*)(char *, PyObject *)) __pyx_memview_set_int, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 90, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  if (likely(PyList_CheckExact(__pyx_t_6)) || PyTuple_CheckExact(__pyx_t_6)) {
+    __pyx_t_2 = __pyx_t_6; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
+    __pyx_t_11 = NULL;
   } else {
-    __pyx_t_4 = __pyx_t_10;
-    goto __pyx_L6_bool_binop_done;
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 90, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_11 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 90, __pyx_L1_error)
   }
-  __pyx_t_10 = ((__pyx_v_tau_error < (-__pyx_v_tolerance)) != 0);
-  __pyx_t_4 = __pyx_t_10;
-  __pyx_L6_bool_binop_done:;
-  if (__pyx_t_4) {
-
-    /* "train.pyx":92
- * 
- * 
- *         spike_nums = np.zeros(len(present_weights), dtype = np.int64)             # <<<<<<<<<<<<<<
- *         for i, pre_ix in enumerate(presynaptic_neurons):
- *             spike_nums[i] = connected_liquid.num_of_spikes(pre_ix, filter_size)
- */
-    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 92, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_3 = PyObject_Length(__pyx_v_present_weights); if (unlikely(__pyx_t_3 == -1)) __PYX_ERR(0, 92, __pyx_L1_error)
-    __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_GIVEREF(__pyx_t_2);
-    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2);
-    __pyx_t_2 = 0;
-    __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 92, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_int64); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 92, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 92, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 92, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_spike_nums = __pyx_t_6;
-    __pyx_t_6 = 0;
-
-    /* "train.pyx":93
- * 
- *         spike_nums = np.zeros(len(present_weights), dtype = np.int64)
- *         for i, pre_ix in enumerate(presynaptic_neurons):             # <<<<<<<<<<<<<<
- *             spike_nums[i] = connected_liquid.num_of_spikes(pre_ix, filter_size)
- * 
- */
-    __pyx_t_11 = 0;
-    __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_presynaptic_neurons, 1, (PyObject *(*)(char *)) __pyx_memview_get_int, (int (*)(char *, PyObject *)) __pyx_memview_set_int, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 93, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    if (likely(PyList_CheckExact(__pyx_t_6)) || PyTuple_CheckExact(__pyx_t_6)) {
-      __pyx_t_2 = __pyx_t_6; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
-      __pyx_t_12 = NULL;
-    } else {
-      __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 93, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_12 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 93, __pyx_L1_error)
-    }
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    for (;;) {
-      if (likely(!__pyx_t_12)) {
-        if (likely(PyList_CheckExact(__pyx_t_2))) {
-          if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
-          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_6 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_6); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 93, __pyx_L1_error)
-          #else
-          __pyx_t_6 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 93, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_6);
-          #endif
-        } else {
-          if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
-          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_6); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 93, __pyx_L1_error)
-          #else
-          __pyx_t_6 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 93, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_6);
-          #endif
-        }
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  for (;;) {
+    if (likely(!__pyx_t_11)) {
+      if (likely(PyList_CheckExact(__pyx_t_2))) {
+        if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_6 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_6); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 90, __pyx_L1_error)
+        #else
+        __pyx_t_6 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 90, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        #endif
       } else {
-        __pyx_t_6 = __pyx_t_12(__pyx_t_2);
-        if (unlikely(!__pyx_t_6)) {
-          PyObject* exc_type = PyErr_Occurred();
-          if (exc_type) {
-            if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 93, __pyx_L1_error)
-          }
-          break;
-        }
+        if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_6); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 90, __pyx_L1_error)
+        #else
+        __pyx_t_6 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 90, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
+        #endif
       }
-      __pyx_t_13 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_13 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 93, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_v_pre_ix = __pyx_t_13;
-      __pyx_v_i = __pyx_t_11;
-      __pyx_t_11 = (__pyx_t_11 + 1);
-
-      /* "train.pyx":94
- *         spike_nums = np.zeros(len(present_weights), dtype = np.int64)
- *         for i, pre_ix in enumerate(presynaptic_neurons):
- *             spike_nums[i] = connected_liquid.num_of_spikes(pre_ix, filter_size)             # <<<<<<<<<<<<<<
- * 
- *         tmp_delta_w1 = (learning_ratio * abs(tau_error) * spike_nums * 1000.0 / filter_size) * (-1 if tau_error > tolerance else 1)
- */
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_connected_liquid, __pyx_n_s_num_of_spikes); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 94, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_pre_ix); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 94, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_9 = PyFloat_FromDouble(__pyx_v_filter_size); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 94, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_8 = NULL;
-      __pyx_t_13 = 0;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-        __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_5);
-        if (likely(__pyx_t_8)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-          __Pyx_INCREF(__pyx_t_8);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_5, function);
-          __pyx_t_13 = 1;
-        }
-      }
-      #if CYTHON_FAST_PYCALL
-      if (PyFunction_Check(__pyx_t_5)) {
-        PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_t_7, __pyx_t_9};
-        __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_13, 2+__pyx_t_13); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 94, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      } else
-      #endif
-      #if CYTHON_FAST_PYCCALL
-      if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
-        PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_t_7, __pyx_t_9};
-        __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_13, 2+__pyx_t_13); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 94, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      } else
-      #endif
-      {
-        __pyx_t_14 = PyTuple_New(2+__pyx_t_13); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 94, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_14);
-        if (__pyx_t_8) {
-          __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_8); __pyx_t_8 = NULL;
-        }
-        __Pyx_GIVEREF(__pyx_t_7);
-        PyTuple_SET_ITEM(__pyx_t_14, 0+__pyx_t_13, __pyx_t_7);
-        __Pyx_GIVEREF(__pyx_t_9);
-        PyTuple_SET_ITEM(__pyx_t_14, 1+__pyx_t_13, __pyx_t_9);
-        __pyx_t_7 = 0;
-        __pyx_t_9 = 0;
-        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_14, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 94, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      }
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(__Pyx_SetItemInt(__pyx_v_spike_nums, __pyx_v_i, __pyx_t_6, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 94, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-
-      /* "train.pyx":93
- * 
- *         spike_nums = np.zeros(len(present_weights), dtype = np.int64)
- *         for i, pre_ix in enumerate(presynaptic_neurons):             # <<<<<<<<<<<<<<
- *             spike_nums[i] = connected_liquid.num_of_spikes(pre_ix, filter_size)
- * 
- */
-    }
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-    /* "train.pyx":96
- *             spike_nums[i] = connected_liquid.num_of_spikes(pre_ix, filter_size)
- * 
- *         tmp_delta_w1 = (learning_ratio * abs(tau_error) * spike_nums * 1000.0 / filter_size) * (-1 if tau_error > tolerance else 1)             # <<<<<<<<<<<<<<
- *         tmp_delta_w2 = momentum_learning_ratio * previous_delta_w_tmp
- *         new_weights = present_weights + tmp_delta_w1 + tmp_delta_w2
- */
-    __pyx_t_2 = PyFloat_FromDouble((__pyx_v_learning_ratio * fabs(__pyx_v_tau_error))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = PyNumber_Multiply(__pyx_t_2, __pyx_v_spike_nums); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 96, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyNumber_Multiply(__pyx_t_6, __pyx_float_1000_0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_filter_size); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 96, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 96, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (((__pyx_v_tau_error > __pyx_v_tolerance) != 0)) {
-      __Pyx_INCREF(__pyx_int_neg_1);
-      __pyx_t_6 = __pyx_int_neg_1;
     } else {
-      __Pyx_INCREF(__pyx_int_1);
-      __pyx_t_6 = __pyx_int_1;
+      __pyx_t_6 = __pyx_t_11(__pyx_t_2);
+      if (unlikely(!__pyx_t_6)) {
+        PyObject* exc_type = PyErr_Occurred();
+        if (exc_type) {
+          if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+          else __PYX_ERR(0, 90, __pyx_L1_error)
+        }
+        break;
+      }
+      __Pyx_GOTREF(__pyx_t_6);
     }
-    __pyx_t_2 = PyNumber_Multiply(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_12 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_12 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 90, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_v_pre_ix = __pyx_t_12;
+    __pyx_v_i = __pyx_t_10;
+    __pyx_t_10 = (__pyx_t_10 + 1);
+
+    /* "train.pyx":91
+ *     spike_nums = np.zeros(len(present_weights), dtype = np.int64)
+ *     for i, pre_ix in enumerate(presynaptic_neurons):
+ *         spike_nums[i] = connected_liquid.num_of_spikes(pre_ix, filter_size)             # <<<<<<<<<<<<<<
+ * 
+ *     tmp_delta_w1 = (learning_ratio * abs(tau_error) * spike_nums * 1000.0 / filter_size) * (-1 if tau_error > 0 else 1)
+ */
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_connected_liquid, __pyx_n_s_num_of_spikes); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 91, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_pre_ix); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 91, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_9 = PyFloat_FromDouble(__pyx_v_filter_size); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 91, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __pyx_t_8 = NULL;
+    __pyx_t_12 = 0;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_5);
+      if (likely(__pyx_t_8)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+        __Pyx_INCREF(__pyx_t_8);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_5, function);
+        __pyx_t_12 = 1;
+      }
+    }
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_5)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_t_7, __pyx_t_9};
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 91, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
+      PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_t_7, __pyx_t_9};
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 91, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_13 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 91, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_13);
+      if (__pyx_t_8) {
+        __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_8); __pyx_t_8 = NULL;
+      }
+      __Pyx_GIVEREF(__pyx_t_7);
+      PyTuple_SET_ITEM(__pyx_t_13, 0+__pyx_t_12, __pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_9);
+      PyTuple_SET_ITEM(__pyx_t_13, 1+__pyx_t_12, __pyx_t_9);
+      __pyx_t_7 = 0;
+      __pyx_t_9 = 0;
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_13, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 91, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (unlikely(__Pyx_SetItemInt(__pyx_v_spike_nums, __pyx_v_i, __pyx_t_6, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 91, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_v_tmp_delta_w1 = __pyx_t_2;
-    __pyx_t_2 = 0;
 
-    /* "train.pyx":97
+    /* "train.pyx":90
  * 
- *         tmp_delta_w1 = (learning_ratio * abs(tau_error) * spike_nums * 1000.0 / filter_size) * (-1 if tau_error > tolerance else 1)
- *         tmp_delta_w2 = momentum_learning_ratio * previous_delta_w_tmp             # <<<<<<<<<<<<<<
- *         new_weights = present_weights + tmp_delta_w1 + tmp_delta_w2
- *         # nest.SetStatus(conns, [{"weight": nw} for nw in new_weights])
- */
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_momentum_learning_ratio); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 97, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = PyNumber_Multiply(__pyx_t_2, __pyx_v_previous_delta_w_tmp); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 97, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_tmp_delta_w2 = __pyx_t_6;
-    __pyx_t_6 = 0;
-
-    /* "train.pyx":98
- *         tmp_delta_w1 = (learning_ratio * abs(tau_error) * spike_nums * 1000.0 / filter_size) * (-1 if tau_error > tolerance else 1)
- *         tmp_delta_w2 = momentum_learning_ratio * previous_delta_w_tmp
- *         new_weights = present_weights + tmp_delta_w1 + tmp_delta_w2             # <<<<<<<<<<<<<<
- *         # nest.SetStatus(conns, [{"weight": nw} for nw in new_weights])
- *         delta_w = new_weights - present_weights
- */
-    __pyx_t_6 = PyNumber_Add(__pyx_v_present_weights, __pyx_v_tmp_delta_w1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 98, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_2 = PyNumber_Add(__pyx_t_6, __pyx_v_tmp_delta_w2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 98, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __Pyx_DECREF_SET(__pyx_v_new_weights, __pyx_t_2);
-    __pyx_t_2 = 0;
-
-    /* "train.pyx":100
- *         new_weights = present_weights + tmp_delta_w1 + tmp_delta_w2
- *         # nest.SetStatus(conns, [{"weight": nw} for nw in new_weights])
- *         delta_w = new_weights - present_weights             # <<<<<<<<<<<<<<
- *         # previous_delta_w = delta_w
- *         # sys.stdout.write(str(present_weight) + " -> " + str(new_weight) + " (" + str(new_weight - present_weight) + ")\n")
- */
-    __pyx_t_2 = PyNumber_Subtract(__pyx_v_new_weights, __pyx_v_present_weights); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 100, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF_SET(__pyx_v_delta_w, __pyx_t_2);
-    __pyx_t_2 = 0;
-
-    /* "train.pyx":89
- *     new_weights = present_weights.copy()
- * 
- *     if tau_error > tolerance or tau_error < -tolerance:             # <<<<<<<<<<<<<<
- * 
+ *     spike_nums = np.zeros(len(present_weights), dtype = np.int64)
+ *     for i, pre_ix in enumerate(presynaptic_neurons):             # <<<<<<<<<<<<<<
+ *         spike_nums[i] = connected_liquid.num_of_spikes(pre_ix, filter_size)
  * 
  */
   }
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "train.pyx":104
- *         # sys.stdout.write(str(present_weight) + " -> " + str(new_weight) + " (" + str(new_weight - present_weight) + ")\n")
+  /* "train.pyx":93
+ *         spike_nums[i] = connected_liquid.num_of_spikes(pre_ix, filter_size)
+ * 
+ *     tmp_delta_w1 = (learning_ratio * abs(tau_error) * spike_nums * 1000.0 / filter_size) * (-1 if tau_error > 0 else 1)             # <<<<<<<<<<<<<<
+ *     tmp_delta_w2 = momentum_learning_ratio * previous_delta_w_tmp
+ *     new_weights = present_weights + tmp_delta_w1 + tmp_delta_w2
+ */
+  __pyx_t_2 = PyFloat_FromDouble((__pyx_v_learning_ratio * fabs(__pyx_v_tau_error))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_6 = PyNumber_Multiply(__pyx_t_2, __pyx_v_spike_nums); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = PyNumber_Multiply(__pyx_t_6, __pyx_float_1000_0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_filter_size); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  if (((__pyx_v_tau_error > 0.0) != 0)) {
+    __Pyx_INCREF(__pyx_int_neg_1);
+    __pyx_t_6 = __pyx_int_neg_1;
+  } else {
+    __Pyx_INCREF(__pyx_int_1);
+    __pyx_t_6 = __pyx_int_1;
+  }
+  __pyx_t_2 = PyNumber_Multiply(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_v_tmp_delta_w1 = __pyx_t_2;
+  __pyx_t_2 = 0;
+
+  /* "train.pyx":94
+ * 
+ *     tmp_delta_w1 = (learning_ratio * abs(tau_error) * spike_nums * 1000.0 / filter_size) * (-1 if tau_error > 0 else 1)
+ *     tmp_delta_w2 = momentum_learning_ratio * previous_delta_w_tmp             # <<<<<<<<<<<<<<
+ *     new_weights = present_weights + tmp_delta_w1 + tmp_delta_w2
+ *     # nest.SetStatus(conns, [{"weight": nw} for nw in new_weights])
+ */
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_momentum_learning_ratio); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_6 = PyNumber_Multiply(__pyx_t_2, __pyx_v_previous_delta_w_tmp); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_v_tmp_delta_w2 = __pyx_t_6;
+  __pyx_t_6 = 0;
+
+  /* "train.pyx":95
+ *     tmp_delta_w1 = (learning_ratio * abs(tau_error) * spike_nums * 1000.0 / filter_size) * (-1 if tau_error > 0 else 1)
+ *     tmp_delta_w2 = momentum_learning_ratio * previous_delta_w_tmp
+ *     new_weights = present_weights + tmp_delta_w1 + tmp_delta_w2             # <<<<<<<<<<<<<<
+ *     # nest.SetStatus(conns, [{"weight": nw} for nw in new_weights])
+ *     delta_w = new_weights - present_weights
+ */
+  __pyx_t_6 = PyNumber_Add(__pyx_v_present_weights, __pyx_v_tmp_delta_w1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 95, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_2 = PyNumber_Add(__pyx_t_6, __pyx_v_tmp_delta_w2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 95, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __Pyx_DECREF_SET(__pyx_v_new_weights, __pyx_t_2);
+  __pyx_t_2 = 0;
+
+  /* "train.pyx":97
+ *     new_weights = present_weights + tmp_delta_w1 + tmp_delta_w2
+ *     # nest.SetStatus(conns, [{"weight": nw} for nw in new_weights])
+ *     delta_w = new_weights - present_weights             # <<<<<<<<<<<<<<
+ *     # previous_delta_w = delta_w
+ *     # sys.stdout.write(str(present_weight) + " -> " + str(new_weight) + " (" + str(new_weight - present_weight) + ")\n")
+ */
+  __pyx_t_2 = PyNumber_Subtract(__pyx_v_new_weights, __pyx_v_present_weights); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 97, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF_SET(__pyx_v_delta_w, __pyx_t_2);
+  __pyx_t_2 = 0;
+
+  /* "train.pyx":101
+ *     # sys.stdout.write(str(present_weight) + " -> " + str(new_weight) + " (" + str(new_weight - present_weight) + ")\n")
  * 
  *     return new_weights, delta_w             # <<<<<<<<<<<<<<
  * 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_new_weights);
   __Pyx_GIVEREF(__pyx_v_new_weights);
@@ -3472,7 +3433,7 @@ static PyObject *__pyx_pf_5train_2train(CYTHON_UNUSED PyObject *__pyx_self, doub
   /* "train.pyx":70
  * 
  * 
- * def train(double tau_error, double learning_ratio, double momentum_learning_ratio, double tolerance, double filter_size, int target_gid, int[:] presynaptic_neurons, conns, previous_delta_w, connected_liquid):             # <<<<<<<<<<<<<<
+ * def train(double tau_error, double learning_ratio, double momentum_learning_ratio, double filter_size, int target_gid, int[:] presynaptic_neurons, conns, previous_delta_w, connected_liquid):             # <<<<<<<<<<<<<<
  * 
  * 
  */
@@ -3485,7 +3446,7 @@ static PyObject *__pyx_pf_5train_2train(CYTHON_UNUSED PyObject *__pyx_self, doub
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_XDECREF(__pyx_t_14);
+  __Pyx_XDECREF(__pyx_t_13);
   __Pyx_AddTraceback("train.train", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -16271,7 +16232,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_tmp_delta_w1, __pyx_k_tmp_delta_w1, sizeof(__pyx_k_tmp_delta_w1), 0, 0, 1, 1},
   {&__pyx_n_s_tmp_delta_w2, __pyx_k_tmp_delta_w2, sizeof(__pyx_k_tmp_delta_w2), 0, 0, 1, 1},
-  {&__pyx_n_s_tolerance, __pyx_k_tolerance, sizeof(__pyx_k_tolerance), 0, 0, 1, 1},
   {&__pyx_n_s_train, __pyx_k_train, sizeof(__pyx_k_train), 0, 0, 1, 1},
   {&__pyx_kp_s_unable_to_allocate_array_data, __pyx_k_unable_to_allocate_array_data, sizeof(__pyx_k_unable_to_allocate_array_data), 0, 0, 1, 0},
   {&__pyx_kp_s_unable_to_allocate_shape_and_str, __pyx_k_unable_to_allocate_shape_and_str, sizeof(__pyx_k_unable_to_allocate_shape_and_str), 0, 0, 1, 0},
@@ -16281,7 +16241,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 90, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(1, 131, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 146, __pyx_L1_error)
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(1, 178, __pyx_L1_error)
@@ -16459,14 +16419,14 @@ static int __Pyx_InitCachedConstants(void) {
   /* "train.pyx":70
  * 
  * 
- * def train(double tau_error, double learning_ratio, double momentum_learning_ratio, double tolerance, double filter_size, int target_gid, int[:] presynaptic_neurons, conns, previous_delta_w, connected_liquid):             # <<<<<<<<<<<<<<
+ * def train(double tau_error, double learning_ratio, double momentum_learning_ratio, double filter_size, int target_gid, int[:] presynaptic_neurons, conns, previous_delta_w, connected_liquid):             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_tuple__17 = PyTuple_Pack(19, __pyx_n_s_tau_error, __pyx_n_s_learning_ratio, __pyx_n_s_momentum_learning_ratio, __pyx_n_s_tolerance, __pyx_n_s_filter_size, __pyx_n_s_target_gid, __pyx_n_s_presynaptic_neurons, __pyx_n_s_conns, __pyx_n_s_previous_delta_w, __pyx_n_s_connected_liquid, __pyx_n_s_pre_ix, __pyx_n_s_i, __pyx_n_s_previous_delta_w_tmp, __pyx_n_s_delta_w, __pyx_n_s_present_weights, __pyx_n_s_new_weights, __pyx_n_s_spike_nums, __pyx_n_s_tmp_delta_w1, __pyx_n_s_tmp_delta_w2); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_tuple__17 = PyTuple_Pack(18, __pyx_n_s_tau_error, __pyx_n_s_learning_ratio, __pyx_n_s_momentum_learning_ratio, __pyx_n_s_filter_size, __pyx_n_s_target_gid, __pyx_n_s_presynaptic_neurons, __pyx_n_s_conns, __pyx_n_s_previous_delta_w, __pyx_n_s_connected_liquid, __pyx_n_s_pre_ix, __pyx_n_s_i, __pyx_n_s_previous_delta_w_tmp, __pyx_n_s_delta_w, __pyx_n_s_present_weights, __pyx_n_s_new_weights, __pyx_n_s_spike_nums, __pyx_n_s_tmp_delta_w1, __pyx_n_s_tmp_delta_w2); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_GIVEREF(__pyx_tuple__17);
-  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(10, 0, 19, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kitajima_workspace_lsm_con, __pyx_n_s_train, 70, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 70, __pyx_L1_error)
+  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(9, 0, 18, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_kitajima_workspace_lsm_con, __pyx_n_s_train, 70, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 70, __pyx_L1_error)
 
   /* "View.MemoryView":282
  *         return self.name
@@ -16726,7 +16686,7 @@ PyMODINIT_FUNC PyInit_train(void)
   /* "train.pyx":70
  * 
  * 
- * def train(double tau_error, double learning_ratio, double momentum_learning_ratio, double tolerance, double filter_size, int target_gid, int[:] presynaptic_neurons, conns, previous_delta_w, connected_liquid):             # <<<<<<<<<<<<<<
+ * def train(double tau_error, double learning_ratio, double momentum_learning_ratio, double filter_size, int target_gid, int[:] presynaptic_neurons, conns, previous_delta_w, connected_liquid):             # <<<<<<<<<<<<<<
  * 
  * 
  */

@@ -80,10 +80,10 @@ class LsmController:
 
     # theta [rad]       
     # The dynamic state of the network will be reset.
-    # 出力がtoleranceを超えて外れるreadout neuronへの接続の重みを，
+    # readout neuronへの接続の重みを，
     # sim_time間のその結合の平均周波数×learning_ratioだけ増減する
     def train(self, theta, theta_dot, tau1_ref, tau2_ref,
-              learning_ratio, momentum_learning_ratio, tau1_tolerance, tau2_tolerance,
+              learning_ratio, momentum_learning_ratio, 
               sim_time, filter_size):
 
         nest.ResetNetwork()
@@ -93,8 +93,7 @@ class LsmController:
         tau1_error = self.tau1 - tau1_ref
         tau2_error = self.tau2 - tau2_ref
 
-        self.lsm.train(tau1_error, tau2_error, learning_ratio, momentum_learning_ratio,
-                       tau1_tolerance, tau2_tolerance, filter_size)
+        self.lsm.train(tau1_error, tau2_error, learning_ratio, momentum_learning_ratio, filter_size)
 
     
         nest.ResetNetwork()

@@ -47,7 +47,8 @@ def main():
     delay = 250.0               # 信号が出力層に達するまでのおおよその遅れ．回路規模によって変える
     train_sim_time = 350.0
     eval_sim_time = 500.0
-
+    tolerance = 0.5
+    max_loop_num = 50000
 
     print_neuron_and_connection_params(controller)
 
@@ -85,23 +86,23 @@ def main():
     time_training_start = time.time()
     time_net_training = 0.0
     count2 = 1
-    for i in range(50000):
-
+    
+    while count2 <= max_loop_num:
         
         theta_train = random.random() * (max_theta - min_theta) + min_theta
         theta_dot_train = random.random() * (max_theta_dot - min_theta_dot) + min_theta_dot
         tau_ref = -Kp * theta_train - Kd * theta_dot_train
         tmp_time = time.time()
 
-        lr = 0.003
+        lr = 0.003 if count2 <= 1000 else 0.0003
         controller.train(theta = theta_train,
                          theta_dot = theta_dot_train,
                          tau1_ref = tau_ref if tau_ref >= 0 else 0.0,
                          tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
                          learning_ratio = lr,
                          momentum_learning_ratio = lr * 0.0,
-                         tau1_tolerance = 0.4,
-                         tau2_tolerance = 0.4,
+                         # tau1_tolerance = 0.4,
+                         # tau2_tolerance = 0.4,
                          sim_time = train_sim_time,
                          filter_size = train_sim_time - delay)
         time_net_training += time.time() - tmp_time
@@ -122,11 +123,17 @@ def main():
             save_figs(controller, "after_" + str(count2) + "th_training", output_dir, experiment_name)
             sys.stdout.flush()
             controller.save(output_dir + "/" + experiment_name + "_after_" + str(count2) + "th_training.yaml")
-            
+            if rms_error <= tolerance:
+                break
 
         count2 += 1
-        
+
     time_training_stop = time.time()
+
+    if count2 < max_loop_num:
+        print "training finished after", count2, "th loop."
+    else:
+        print "training finished because the loop count reached max_loop_num."
             
     controller.save(output_dir + "/" + experiment_name + "_after.yaml")
     
