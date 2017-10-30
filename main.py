@@ -38,9 +38,9 @@ def main():
 
     controller = lsm_controller.LsmController(input_neurons_theta_size = 100,
                                               input_neurons_theta_dot_size = 100,
-                                              liquid_neurons_size = 800,
-                                              readout_neurons_tau1_size = 100,
-                                              readout_neurons_tau2_size = 100,
+                                              liquid_neurons_size = 1000,
+                                              readout_neurons_tau1_size = 1,
+                                              readout_neurons_tau2_size = 1,
                                               output_layer_weight = 250.0,
                                               thread_num = multiprocessing.cpu_count())
 
@@ -239,6 +239,10 @@ def save_figs(controller, string, output_dir, experiment_name, suffix = ".eps", 
                                                   file_name = fn_head + "_read_tau2_" + fn_foot)
 
     if not readout_and_output_only:
+
+        spiked_neurons = set(controller.lsm.liquid_neurons.get_detector_data(None, "senders"))
+        print len(spiked_neurons), "neurons in liquid spiked."
+        
         controller.lsm.liquid_neurons.raster_plot(xticks = xticks_time,
                                                   yticks = [1, len(controller.lsm.liquid_neurons.neurons)] if len(controller.lsm.liquid_neurons.neurons) >= 2 else [],
                                                   ylabel = "neuron ID" if len(controller.lsm.liquid_neurons.neurons) >= 2 else "",

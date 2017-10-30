@@ -24,21 +24,21 @@ class Lsm:
 
         
         in_a = 1.0
-        in_b = 0.1
+        in_b = 0.07
         in_w_min = 100.0
-        in_w_max = 200.0
+        in_w_max = 500.0
 
         liquid_a = 1.0
-        liquid_b = 0.12
-        liquid_w_min = 100.0
-        liquid_w_max = 200.0
+        liquid_b = 0.13
+        liquid_w_min = 50.0
+        liquid_w_max = 100.0
 
-        read_a = 1.0
-        read_b = 0.2
-        read_w_min = 100.0
-        read_w_max = 200.0
+        read_a = 1000.0
+        read_b = 10*100
+        read_w_min = 50.0
+        read_w_max = 100.0
 
-        inhibitory = 0.3
+        inhibitory = 0.25
 
         if print_messages:
             sys.stdout.write("\nparams for connecting neurons:")
@@ -117,19 +117,31 @@ class Lsm:
         
         
         self.readout_layer_tau1 = neuron_layer.NeuronLayer(readout_neurons_tau1_size,
-                                                           x_min = 0.0,
-                                                           x_max = 1.0,
-                                                           y_min = 0.0,
-                                                           y_max = 1.0,
-                                                           z_min = 1.1,
-                                                           z_max = 1.2)
+                                                           x_min = 0.5,
+                                                           x_max = 0.5,
+                                                           y_min = 0.5,
+                                                           y_max = 0.5,
+                                                           z_min = 1.15,
+                                                           z_max = 1.15)
+                                                           # x_min = 0.0,
+                                                           # x_max = 1.0,
+                                                           # y_min = 0.0,
+                                                           # y_max = 1.0,
+                                                           # z_min = 1.1,
+                                                           # z_max = 1.2)
         self.readout_layer_tau2 = neuron_layer.NeuronLayer(readout_neurons_tau2_size,
-                                                           x_min = 0.0,
-                                                           x_max = 1.0,
-                                                           y_min = 0.0,
-                                                           y_max = 1.0,
-                                                           z_min = 1.1,
-                                                           z_max = 1.2)
+                                                           x_min = 0.5,
+                                                           x_max = 0.5,
+                                                           y_min = 0.5,
+                                                           y_max = 0.5,
+                                                           z_min = 1.15,
+                                                           z_max = 1.15)
+                                                           # x_min = 0.0,
+                                                           # x_max = 1.0,
+                                                           # y_min = 0.0,
+                                                           # y_max = 1.0,
+                                                           # z_min = 1.1,
+                                                           # z_max = 1.2)
 
         self.output_layer_tau1 = neuron_layer.NeuronLayer(readout_neurons_tau1_size,
                                                           V_th = float(10**100),
