@@ -22,37 +22,21 @@ class Lsm:
                  output_layer_weight,
                  print_messages = True):
 
-
+        
         in_a = 1.0
-        in_b = 1.0
+        in_b = 0.1
         in_w_min = 100.0
         in_w_max = 200.0
 
-        liquid_a = 0.0
-        liquid_b = 1.0
+        liquid_a = 1.0
+        liquid_b = 0.12
         liquid_w_min = 100.0
         liquid_w_max = 200.0
 
         read_a = 1.0
-        read_b = 1.0
+        read_b = 0.2
         read_w_min = 100.0
         read_w_max = 200.0
-
-        
-        # in_a = 1.0
-        # in_b = 0.1
-        # in_w_min = 100.0
-        # in_w_max = 200.0
-
-        # liquid_a = 1.0
-        # liquid_b = 0.1
-        # liquid_w_min = 100.0
-        # liquid_w_max = 200.0
-
-        # read_a = 1.0
-        # read_b = 0.2
-        # read_w_min = 100.0
-        # read_w_max = 200.0
 
         inhibitory = 0.3
 

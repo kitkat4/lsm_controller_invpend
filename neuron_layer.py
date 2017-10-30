@@ -206,7 +206,7 @@ class NeuronLayer:
                 nest.SetStatus(self.conns[ix], [{"weight": nw} for nw in results[ix][0]])
             self.previous_delta_w[ix] = results[ix][1]
         
-        print np.linalg.norm([np.linalg.norm(l) for l in self.previous_delta_w])
+        # print np.linalg.norm([np.linalg.norm(l) for l in self.previous_delta_w])
 
 
     def set_input_current(self, current):

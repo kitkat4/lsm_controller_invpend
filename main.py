@@ -36,28 +36,23 @@ def main():
         print "error: specify output directory as a command line argument."
         sys.exit()
 
-    # controller = lsm_controller.LsmController(input_neurons_theta_size = 100,
-    #                                           input_neurons_theta_dot_size = 100,
-    #                                           liquid_neurons_size = 1000,
-    #                                           readout_neurons_tau1_size = 100,
-    #                                           readout_neurons_tau2_size = 100,
-    #                                           output_layer_weight = 250.0,
-    #                                           thread_num = multiprocessing.cpu_count())
-    controller = lsm_controller.LsmController(input_neurons_theta_size = 10,
-                                              input_neurons_theta_dot_size = 10,
-                                              liquid_neurons_size = 100,
-                                              readout_neurons_tau1_size = 3,
-                                              readout_neurons_tau2_size = 3,
+    controller = lsm_controller.LsmController(input_neurons_theta_size = 100,
+                                              input_neurons_theta_dot_size = 100,
+                                              liquid_neurons_size = 800,
+                                              readout_neurons_tau1_size = 100,
+                                              readout_neurons_tau2_size = 100,
                                               output_layer_weight = 250.0,
                                               thread_num = multiprocessing.cpu_count())
+
+    delay = 250.0               # 信号が出力層に達するまでのおおよその遅れ．回路規模によって変える
+    train_sim_time = 350.0
+    eval_sim_time = 500.0
 
 
     print_neuron_and_connection_params(controller)
 
-    # max_torque = 20.0
-    # min_torque = -20.0
-    max_torque = 3.0
-    min_torque = -3.0
+    max_torque = 20.0
+    min_torque = -20.0
     Kp = 40.0
     Kd = 9.0
     N_x = 5
@@ -81,7 +76,7 @@ def main():
     controller.save(output_dir + "/" + experiment_name + "_after_0th_training.yaml")
 
     time_calc_rms_error_pd_control_start = time.time()
-    rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd, True)
+    rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd, eval_sim_time, eval_sim_time - delay, True)
     time_calc_rms_error_pd_control_stop = time.time()
     print "RMS error after 0th training: ", rms_error
 
@@ -105,28 +100,28 @@ def main():
                          tau2_ref = -tau_ref if tau_ref < 0 else 0.0,
                          learning_ratio = lr,
                          momentum_learning_ratio = lr * 0.0,
-                         tau1_tolerance = 0.3,
-                         tau2_tolerance = 0.3,
-                         sim_time = 200.0,
-                         filter_size = 100.0)
+                         tau1_tolerance = 0.4,
+                         tau2_tolerance = 0.4,
+                         sim_time = train_sim_time,
+                         filter_size = train_sim_time - delay)
         time_net_training += time.time() - tmp_time
 
-        if count2 == 20:
+        if count2 % 10 == 0 and count2 <= 90:
+            rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd, eval_sim_time, eval_sim_time - delay, True)
+            sys.stdout.write("RMS error after " + str(count2) + "th training: " + str(rms_error) + "\n")
+            sys.stdout.write("training took " + str(time_net_training) + " [s] (net)\n")
+            sys.stdout.flush()
             save_figs(controller, "after_" + str(count2) + "th_training", output_dir, experiment_name)
 
-        
-        # if count2 % 20 == 0 and count2 <= 200:
-
-        #     controller.save(output_dir + "/" + experiment_name + "_after_" + str(count2) + "th_training.yaml")
         
         if count2 % 100 == 0:
-            rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd, True)
+            rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd, eval_sim_time, eval_sim_time - delay, True)
             sys.stdout.write("RMS error after " + str(count2) + "th training: " + str(rms_error) + "\n")
-            sys.stdout.flush()
             sys.stdout.write("training took " + str(time_net_training) + " [s] (net)\n")
-            controller.save(output_dir + "/" + experiment_name + "_after_" + str(count2) + "th_training.yaml")
+            sys.stdout.flush()
             save_figs(controller, "after_" + str(count2) + "th_training", output_dir, experiment_name)
             sys.stdout.flush()
+            controller.save(output_dir + "/" + experiment_name + "_after_" + str(count2) + "th_training.yaml")
             
 
         count2 += 1
@@ -135,13 +130,13 @@ def main():
             
     controller.save(output_dir + "/" + experiment_name + "_after.yaml")
     
-    rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd)
+    rms_error = calc_rms_error_pd_control(controller, test_data, Kp, Kd, eval_sim_time, eval_sim_time - delay, True)
     print "RMS error after training: ", rms_error
 
 
     
     time_main_stop = time.time()
-    # sys.stdout.write("calling calc_rms_error_pd_control once took " + str(time_calc_rms_error_pd_control_stop - time_calc_rms_error_pd_control_start) + " [s]\n")
+    sys.stdout.write("calling calc_rms_error_pd_control once took " + str(time_calc_rms_error_pd_control_stop - time_calc_rms_error_pd_control_start) + " [s]\n")
     sys.stdout.write("training took " + str(time_training_stop - time_training_start) + " [s]\n")
     sys.stdout.write("training took " + str(time_net_training) + " [s] (net)\n")
     sys.stdout.write("main took " + str(time_main_stop - time_main_start) + " [s]\n")
@@ -164,14 +159,14 @@ def calc_rms_error(desired_output, actual_output):
     return math.sqrt(tmp_sum / float(size))
 
 
-def output_with_constant_inputs(controller, theta, theta_dot):
+def output_with_constant_inputs(controller, theta, theta_dot, sim_time, filter_size):
 
-    controller.simulate(500.0, theta, theta_dot, 400.0)
+    controller.simulate(sim_time, theta, theta_dot, filter_size)
     
     return controller.get_tau()
 
 
-def calc_rms_error_pd_control(controller, input_list, Kp, Kd, print_message = False):
+def calc_rms_error_pd_control(controller, input_list, Kp, Kd, sim_time, filter_size, print_message = False):
 
     actual_output = []
     desired_output = []
@@ -182,7 +177,7 @@ def calc_rms_error_pd_control(controller, input_list, Kp, Kd, print_message = Fa
         if print_message:
             sys.stdout.write("calculating RMS error ... " + str(counter) + "/" + str(input_len) + "    \r")
             sys.stdout.flush()
-        actual_output.append(output_with_constant_inputs(controller, itr[0], itr[1]))
+        actual_output.append(output_with_constant_inputs(controller, itr[0], itr[1], sim_time, filter_size))
         desired_output.append(-Kp * itr[0] - Kd * itr[1])
         counter += 1
 
