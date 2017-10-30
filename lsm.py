@@ -100,7 +100,7 @@ class Lsm:
                                                            y_min = 0.0,
                                                            y_max = 1.0,
                                                            z_min = 0.1,
-                                                           z_max = 1.1)
+                                                           z_max = 2.1)
         # self.liquid_neurons.connect_random(connection_ratio = 0.1,
         #                                    inhibitory_connection_ratio = 0.3,
         #                                    weight_min = 50.0,
@@ -121,8 +121,8 @@ class Lsm:
                                                            x_max = 0.5,
                                                            y_min = 0.5,
                                                            y_max = 0.5,
-                                                           z_min = 1.15,
-                                                           z_max = 1.15)
+                                                           z_min = 2.15,
+                                                           z_max = 2.15)
                                                            # x_min = 0.0,
                                                            # x_max = 1.0,
                                                            # y_min = 0.0,
@@ -134,8 +134,8 @@ class Lsm:
                                                            x_max = 0.5,
                                                            y_min = 0.5,
                                                            y_max = 0.5,
-                                                           z_min = 1.15,
-                                                           z_max = 1.15)
+                                                           z_min = 2.15,
+                                                           z_max = 2.15)
                                                            # x_min = 0.0,
                                                            # x_max = 1.0,
                                                            # y_min = 0.0,
@@ -149,16 +149,16 @@ class Lsm:
                                                           x_max = 1.0,
                                                           y_min = 0.0,
                                                           y_max = 1.0,
-                                                          z_min = 1.1,
-                                                          z_max = 1.2)
+                                                          z_min = 2.25,
+                                                          z_max = 2.25)
         self.output_layer_tau2 = neuron_layer.NeuronLayer(readout_neurons_tau1_size,
                                                           V_th = float(10**100),
                                                           x_min = 0.0,
                                                           x_max = 1.0,
                                                           y_min = 0.0,
                                                           y_max = 1.0,
-                                                          z_min = 1.1,
-                                                          z_max = 1.2)
+                                                          z_min = 2.25,
+                                                          z_max = 2.25)
 
         
         # connect layers
