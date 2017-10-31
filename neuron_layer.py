@@ -243,7 +243,10 @@ class NeuronLayer:
         voltages = self.get_meter_data(None, "V_m")
         senders = self.get_meter_data(None, "senders")
         times = self.get_meter_data(None, "times")
-        
+
+        if len(times) == 0:
+            return np.zeros(len(self.neurons)) - 70.0
+            
         thresh = times[-1] - filter_size
 
         # 要らない過去のデータを捨てる
