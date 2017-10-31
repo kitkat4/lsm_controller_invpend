@@ -244,6 +244,7 @@ class NeuronLayer:
         senders = self.get_meter_data(None, "senders")
         times = self.get_meter_data(None, "times")
 
+        
         if len(times) == 0:
             return np.zeros(len(self.neurons)) - 70.0
             
