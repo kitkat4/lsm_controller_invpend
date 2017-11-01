@@ -37,7 +37,7 @@ if __name__ == "__main__":
     theta_goal = 0.0
     theta_dot_goal = 0.0
 
-    for t in range(5000):
+    for t in range(15000):
         theta = pend.theta
         theta_dot = pend.theta_dot
         if controller is not None:
